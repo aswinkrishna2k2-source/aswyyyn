@@ -1,0 +1,257 @@
+Create a premium modern single-page portfolio website for Aswin Krishnan, a Frontend / MERN Stack Developer, using React + Tailwind CSS + Framer Motion (you can also use GSAP, Lenis smooth scrolling, React Three Fiber, and motion libraries for advanced animations).
+
+The website should feel like an interactive storytelling experience, similar to award-winning modern portfolio sites (Awwwards-style).
+
+Tech Stack
+React (Vite)
+Tailwind CSS
+Framer Motion
+GSAP
+Lenis smooth scroll
+React Icons
+Optional: React Three Fiber for subtle 3D effects
+Fully responsive
+Design Direction
+
+Create a dark futuristic premium aesthetic
+
+Theme:
+
+Deep black / charcoal background
+Glassmorphism cards
+Gradient accents (electric blue, violet, cyan)
+Smooth blur transitions
+Floating particles / subtle animated background
+Premium typography
+Scroll-triggered storytelling animations
+
+Feel:
+
+Cinematic
+Minimal but highly interactive
+Smooth transitions between sections
+Immersive and elegant
+Website Flow (Storytelling)
+1. Hero Section (Cinematic Intro)
+
+Full viewport animated hero.
+
+Include:
+
+Large animated text:
+
+"Hi, I'm Aswin"
+Crafting digital experiences that feel alive.
+
+Typewriter rotating text:
+Frontend Developer
+MERN Stack Developer
+React Specialist
+Problem Solver
+
+Right side:
+Large circular/glassmorphism photo placeholder
+
+CTA buttons:
+
+View Projects
+Contact Me
+
+Animations:
+
+Reveal on load
+Parallax mouse movement
+Smooth text stagger animation
+Background particles
+2. About Me (Storytelling Reveal)
+
+Scroll-triggered reveal.
+
+Content:
+
+Bachelor's graduate (2023)
+Frontend Developer
+MERN stack experience
+Passion for building modern interactive products
+Strong focus on clean UI/UX
+Currently building scalable React applications
+
+Add:
+Animated timeline/story cards
+
+3. Skills Section
+
+Interactive animated skill showcase.
+
+Categories:
+
+Frontend
+
+React.js
+Next.js
+JavaScript
+TypeScript
+Tailwind CSS
+HTML5
+CSS3
+Bootstrap
+
+Backend
+
+Node.js
+Express.js
+
+Database
+
+MongoDB
+MySQL
+
+Tools
+
+Git
+Figma
+REST APIs
+
+Animation:
+
+Skills animate into view
+Hover glow effects
+Progress bars / orbit layout
+4. Experience Timeline
+
+Vertical animated timeline.
+
+Include:
+
+Frontend Developer Intern
+Entrix Labs
+
+Junior Developer Intern
+LearnBuds
+
+Show:
+
+Role
+Duration
+Key contributions
+Modern animated connectors
+5. Projects Showcase
+
+Create premium project cards with hover animations.
+
+Projects:
+
+Service Connect
+Booking platform connecting users with service providers.
+
+Garage Fit
+3D vehicle garage fit visualization app.
+
+Gamified LMS
+Interactive MCQ learning platform.
+
+Employee Management System
+Full stack CRUD application.
+
+Website Builder
+Drag-and-drop page builder.
+
+Each card:
+
+Project image placeholder
+Description
+Tech stack tags
+Live demo button
+GitHub button
+Tilt hover effect
+Smooth reveal animation
+6. Journey / Stats Section
+
+Animated counters:
+
+Projects Built
+Technologies Mastered
+Internship Experience
+Learning Hours
+
+Use number animation.
+
+7. Contact Section
+
+Modern glassmorphism contact form.
+
+Include:
+
+Name
+Email
+Message
+
+Social icons:
+
+GitHub
+LinkedIn
+Instagram
+
+Add animated hover effects.
+
+8. Footer
+
+Minimal premium footer with:
+
+"Built with passion by Aswin Krishnan"
+
+Subtle animated line.
+
+Animation Requirements
+
+Use advanced smooth animations:
+
+Scroll-triggered section reveals
+Parallax effects
+Stagger text animation
+Smooth page transitions
+Floating glowing elements
+Magnetic button hover
+Mouse-follow gradient glow
+Section morph transitions
+Smooth Lenis scrolling
+
+Everything should feel polished and fluid.
+
+Code Requirements
+Component-based structure
+Clean reusable React components
+Tailwind utility classes
+Optimized performance
+Modern production-ready code
+Easy to replace photo placeholders later
+
+Generate complete code for the entire portfolio.
+
+src/
+  components/
+    Hero.tsx
+    About.tsx
+    Skills.tsx
+    Experience.tsx
+    Projects.tsx
+    Stats.tsx
+    Contact.tsx
+    Footer.tsx
+    Navbar.tsx
+
+  data/
+    about.ts
+    skills.ts
+    experience.ts
+    projects.ts
+    stats.ts
+    socials.ts
+
+  assets/
+    placeholder-profile.jpg
+
+  hooks/
+  utils/
+
+  App.tsx

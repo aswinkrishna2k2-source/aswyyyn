@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: 239 174 74; /* #efae4a — single source of truth in palette.ts, mirrored here as fallback */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: #1b1b1b;
+    color: #e4e4e4;
+    font-family: 'Fira Code', monospace;
+    font-size: 17px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    cursor: url('/cursor.svg') 4 2, default;
+  }
+
+  a, button, label, select, [role="button"],
+  input[type="submit"], input[type="button"],
+  input[type="checkbox"], input[type="radio"] {
+    cursor: url('/cursor.svg') 4 2, pointer;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.25);
+    color: #e4e4e4;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #1b1b1b; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--accent)); }
+
+  /* Accent colour — driven by --accent CSS variable set in palette.ts */
+  .text-accent   { color: rgb(var(--accent)) !important; }
+  .bg-accent     { background-color: rgb(var(--accent)) !important; }
+  .border-accent { border-color: rgb(var(--accent)) !important; }
+  .text-fg       { color: #e4e4e4; }
+  .text-muted    { color: #abb2bf; }
+  .bg-surface    { background-color: #252526; }
+}
+
+@layer components {
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  /* font-size is set per-component via fontsize.ts */
+  .section-title {
+    font-weight: 700;
+    white-space: nowrap;
+    color: #e4e4e4;
+  }
+
+  .section-line {
+    /* flex: ; */
+    width: 50%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-color: #efae4a;
+     /* background-color: rgba(255, 255, 255, 0.1); */
+  }
+
+  .btn-accent {
+    border: 1px solid rgb(var(--accent));
+    color: rgb(var(--accent));
+    font-size: 0.875rem;
+    padding: 0.5rem 1.25rem;
+    cursor: url('/cursor.svg') 4 2, pointer;
+    display: inline-block;
+    transition: background 0.2s, color 0.2s;
+    font-family: 'Fira Code', monospace;
+    background: transparent;
+  }
+
+  .btn-accent:hover {
+    background: rgb(var(--accent));
+    color: #1b1b1b;
+  }
+
+  .btn-ghost {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #abb2bf;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    cursor: url('/cursor.svg') 4 2, pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    transition: border-color 0.2s, color 0.2s;
+    font-family: 'Fira Code', monospace;
+    background: transparent;
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #e4e4e4;
+  }
+
+  .skill-box {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+  }
+
+  .project-card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.2s;
+  }
+
+  .project-card:hover {
+    border-color: rgb(var(--accent) / 0.35);
+  }
+
+  .dot-grid {
+    display: grid;
+    gap: 8px;
+  }
+
+  .contact-input:focus {
+    border-color: rgb(var(--accent) / 0.6);
+    outline: none;
+  }
+
+  .social-icon:hover {
+    border-color: rgb(var(--accent) / 0.4);
+    color: rgb(var(--accent));
+  }
+}
