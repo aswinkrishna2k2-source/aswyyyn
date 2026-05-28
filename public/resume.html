@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aswin Krishnan — Resume</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Arial, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 52px;
+    }
+
+    /* Print button — hidden when printing */
+    .print-btn {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 28px;
+    }
+    .print-btn button {
+      background: #111;
+      color: #cbff4c;
+      border: none;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .print-btn button:hover { background: #222; }
+
+    /* Header */
+    header {
+      border-top: 3px solid #cbff4c;
+      padding-top: 20px;
+      margin-bottom: 28px;
+    }
+    .name { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; color: #111; }
+    .title { font-size: 14px; color: #444; margin-top: 3px; font-weight: 500; }
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 18px;
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: #555;
+    }
+    .contact a { color: #555; text-decoration: none; }
+
+    /* Sections */
+    section { margin-bottom: 26px; }
+
+    h2 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #111;
+      border-left: 3px solid #cbff4c;
+      padding-left: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* Experience */
+    .exp-item { margin-bottom: 18px; }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .exp-role { font-weight: 700; font-size: 14px; color: #111; }
+    .exp-company { font-weight: 600; color: #333; }
+    .exp-meta { font-size: 12px; color: #666; }
+    .exp-duration {
+      font-size: 12px;
+      color: #555;
+      white-space: nowrap;
+      background: #f5f5f5;
+      padding: 1px 8px;
+    }
+
+    ul { padding-left: 16px; margin-top: 6px; }
+    li { margin-bottom: 3px; color: #444; font-size: 13px; }
+
+    /* Education */
+    .edu-item { margin-bottom: 12px; }
+    .edu-degree { font-weight: 700; font-size: 13.5px; color: #111; }
+    .edu-school { color: #555; font-size: 12.5px; margin-top: 1px; }
+
+    /* Skills */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+    .skill-row { font-size: 13px; color: #333; }
+    .skill-label { font-weight: 600; color: #111; }
+
+    /* Projects */
+    .project-item { margin-bottom: 14px; }
+    .project-header { display: flex; align-items: baseline; gap: 8px; }
+    .project-name { font-weight: 700; font-size: 13.5px; color: #111; }
+    .project-tags { font-size: 11.5px; color: #777; }
+    .project-link { font-size: 12px; color: #555; text-decoration: none; margin-left: auto; white-space: nowrap; }
+    .project-desc { font-size: 13px; color: #444; margin-top: 3px; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid #e8e8e8; margin: 6px 0 20px; }
+
+    @media print {
+      .print-btn { display: none; }
+      .page { padding: 28px 36px; }
+      body { font-size: 12.5px; }
+      .name { font-size: 26px; }
+      @page { margin: 0.4in 0.5in; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="print-btn">
+      <button onclick="window.print()">⬇ Save as PDF</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="name">Aswin Krishnan</div>
+      <div class="title">Full Stack Developer &nbsp;·&nbsp; MERN Stack &nbsp;·&nbsp; React Native</div>
+      <div class="contact">
+        <span>Kollam, Kerala, India</span>
+        <a href="tel:+919037978818">+91 90379 78818</a>
+        <a href="mailto:aswinkrishna2k2@gmail.com">aswinkrishna2k2@gmail.com</a>
+        <a href="https://linkedin.com/in/aswyyyn" target="_blank">linkedin.com/in/aswyyyn</a>
+        <a href="https://github.com/aswin2002" target="_blank">github.com/aswin2002</a>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <section>
+      <h2>Summary</h2>
+      <p style="color:#444; font-size:13px; line-height:1.7;">
+        Full Stack Developer with 2+ years of experience building web and mobile applications
+        using the MERN stack and React Native. Passionate about clean UI, performant code, and
+        shipping products that solve real problems. Currently building cross-platform products
+        at Codeeaq while pursuing an MBA in Business Analytics.
+      </p>
+    </section>
+
+    <hr />
+
+    <!-- Experience -->
+    <section>
+      <h2>Experience</h2>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Full Stack Developer</span>
+            &nbsp;—&nbsp;
+            <span class="exp-company">Codeeaq</span>
+            <div class="exp-meta">Remote &nbsp;·&nbsp; Trivandrum / Dubai</div>
+          </div>
+          <span class="exp-duration">2025 – Present</span>
+        </div>
+        <ul>
+          <li>Building and maintaining full-stack products for global clients</li>
+          <li>Leading frontend architecture with React, TypeScript, and Tailwind CSS</li>
+          <li>Shipping React Native apps to App Store and Google Play</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">Frontend Developer</span>
+            &nbsp;—&nbsp;
+            <span class="exp-company">Entrix Labs</span>
+            <div class="exp-meta">Hybrid &nbsp;·&nbsp; Technopark, Trivandrum</div>
+          </div>
+          <span class="exp-duration">2024 – 2025</span>
+        </div>
+        <ul>
+          <li>Delivered production-ready React UIs from Figma designs</li>
+          <li>Integrated REST APIs and optimised bundle performance</li>
+          <li>Collaborated with design and backend teams in an Agile environment</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div>
+            <span class="exp-role">MERN Stack Intern</span>
+            &nbsp;—&nbsp;
+            <span class="exp-company">Stackup</span>
+            <div class="exp-meta">Onsite &nbsp;·&nbsp; Technopark, Trivandrum</div>
+          </div>
+          <span class="exp-duration">2023 – 2024</span>
+        </div>
+        <ul>
+          <li>Built full-stack features across React, Node.js, and Express</li>
+          <li>Worked with MongoDB for data modelling and REST API development</li>
+          <li>Contributed to live products with real users</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Skills -->
+    <section>
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-row"><span class="skill-label">Frontend:</span> React.js, Next.js, TypeScript, JavaScript</div>
+        <div class="skill-row"><span class="skill-label">Mobile:</span> React Native, Expo</div>
+        <div class="skill-row"><span class="skill-label">Backend:</span> Node.js, Express.js</div>
+        <div class="skill-row"><span class="skill-label">Databases:</span> MongoDB, MySQL</div>
+        <div class="skill-row"><span class="skill-label">Styling:</span> Tailwind CSS, Bootstrap, CSS3</div>
+        <div class="skill-row"><span class="skill-label">Tools:</span> Git, Figma, REST APIs, VS Code</div>
+        <div class="skill-row"><span class="skill-label">Practices:</span> Agile / Scrum, UI/UX Design</div>
+        <div class="skill-row"><span class="skill-label">Other:</span> WordPress, Responsive Design</div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Projects -->
+    <section>
+      <h2>Projects</h2>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-name">ServeSites</span>
+          <span class="project-tags">React · Node.js · MongoDB · Express · Tailwind</span>
+          <a class="project-link" href="https://servesites.com" target="_blank">servesites.com ↗</a>
+        </div>
+        <div class="project-desc">
+          Nonprofit donation platform with branded Generosity Pages and a seamless donor flow built for Codeeaq.
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-name">cResidence</span>
+          <span class="project-tags">React Native · Node.js · MongoDB · Expo</span>
+          <a class="project-link" href="https://apps.apple.com/us/app/cresidence/id6768594817" target="_blank">App Store ↗</a>
+        </div>
+        <div class="project-desc">
+          Mobile residence management system with tenant management, maintenance requests, and payment tracking — live on iOS and Android.
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-name">Gamified LMS</span>
+          <span class="project-tags">React · Node.js · MongoDB · Socket.io</span>
+        </div>
+        <div class="project-desc">
+          MCQ-based learning platform with XP points, leaderboards, and adaptive difficulty.
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-header">
+          <span class="project-name">Website Builder</span>
+          <span class="project-tags">React · TypeScript · DnD Kit · Tailwind</span>
+        </div>
+        <div class="project-desc">
+          Drag-and-drop visual page builder with live preview and clean HTML/CSS export.
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Education -->
+    <section>
+      <h2>Education</h2>
+
+      <div class="edu-item">
+        <div class="edu-degree">MBA in Business Analytics</div>
+        <div class="edu-school">Amrita University &nbsp;·&nbsp; 2026 – Present</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-degree">Bachelor of Arts in English</div>
+        <div class="edu-school">Kerala University &nbsp;·&nbsp; 2020 – 2023</div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

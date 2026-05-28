@@ -8,6 +8,7 @@ export interface Project {
   tags: string[];
   gradient: string;
   liveUrl: string;
+  githubUrl?: string;
   featured?: boolean;
   logo?: string;
   appStoreUrl?: string;
@@ -22,6 +23,7 @@ export const featuredProjects: Project[] = [
     tags: ['React', 'Node.js', 'MongoDB', 'Express', 'Tailwind'],
     gradient: 'from-blue-500/20 to-cyan-500/20',
     liveUrl: 'https://servesites.com/',
+    githubUrl: '#',
     featured: true,
     logo: servesitesLogo,
   },
@@ -32,6 +34,7 @@ export const featuredProjects: Project[] = [
     tags: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
     gradient: 'from-violet-500/20 to-purple-500/20',
     liveUrl: '#',
+    githubUrl: '#',
     featured: true,
     logo: cresidenceLogo,
     appStoreUrl: 'https://apps.apple.com/us/app/cresidence/id6768594817',
@@ -47,6 +50,7 @@ export const otherProjects: Project[] = [
     tags: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
     gradient: 'from-emerald-500/20 to-teal-500/20',
     liveUrl: '#',
+    githubUrl: '#',
   },
   {
     id: 4,
@@ -55,6 +59,7 @@ export const otherProjects: Project[] = [
     tags: ['React', 'Express', 'MySQL', 'JWT'],
     gradient: 'from-orange-500/20 to-amber-500/20',
     liveUrl: '#',
+    githubUrl: '#',
   },
   {
     id: 5,
@@ -63,6 +68,7 @@ export const otherProjects: Project[] = [
     tags: ['React', 'TypeScript', 'DnD Kit', 'Tailwind'],
     gradient: 'from-pink-500/20 to-rose-500/20',
     liveUrl: '#',
+    githubUrl: '#',
   },
   {
     id: 6,
@@ -71,6 +77,7 @@ export const otherProjects: Project[] = [
     tags: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind'],
     gradient: '',
     liveUrl: '#',
+    githubUrl: '#',
   },
   {
     id: 7,
@@ -79,6 +86,7 @@ export const otherProjects: Project[] = [
     tags: ['React', 'Node.js', 'Socket.io', 'Redis'],
     gradient: '',
     liveUrl: '#',
+    githubUrl: '#',
   },
   {
     id: 8,
@@ -87,5 +95,6 @@ export const otherProjects: Project[] = [
     tags: ['React', 'Express', 'MongoDB', 'Chart.js'],
     gradient: '',
     liveUrl: '#',
+    githubUrl: '#',
   },
 ];

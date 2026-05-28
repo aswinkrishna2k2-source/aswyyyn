@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { FiDownload } from 'react-icons/fi';
 import { staggerContainer, slideUp } from '../utils/animations';
 import { font } from "../utils/fontsize";
 
@@ -87,6 +88,14 @@ export default function Hero() {
               >
                 Contact me!!
               </button>
+              <a
+                href="/resume.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn-accent ${font.button} inline-flex items-center gap-2`}
+              >
+                <FiDownload size={15} /> Resume
+              </a>
             </motion.div>
           </motion.div>
 

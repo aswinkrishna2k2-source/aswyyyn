@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiExternalLink, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { SiAppstore, SiGoogleplay } from 'react-icons/si';
 import { featuredProjects, otherProjects, type Project } from '../data/projects';
 import { font } from '../utils/fontsize';
@@ -71,6 +71,11 @@ function FeaturedCard({ project }: { project: Project }) {
         </div>
 
         <div className="flex gap-2 flex-wrap">
+          {project.githubUrl && project.githubUrl !== '#' && (
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className={`btn-ghost ${font.small}`}>
+              <FiGithub size={13} /> GitHub
+            </a>
+          )}
           {project.appStoreUrl && (
             <a href={project.appStoreUrl} target="_blank" rel="noopener noreferrer" className={`btn-ghost ${font.small}`}>
               <SiAppstore size={13} /> App Store
@@ -81,16 +86,10 @@ function FeaturedCard({ project }: { project: Project }) {
               <SiGoogleplay size={13} /> Play Store
             </a>
           )}
-          {!project.appStoreUrl && !project.playStoreUrl && (
-            project.liveUrl !== '#' ? (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={`btn-ghost ${font.small}`}>
-                <FiExternalLink size={13} /> Live
-              </a>
-            ) : (
-              <button className={`btn-ghost ${font.small}`}>
-                <FiExternalLink size={13} /> Live
-              </button>
-            )
+          {!project.appStoreUrl && !project.playStoreUrl && project.liveUrl !== '#' && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={`btn-ghost ${font.small}`}>
+              <FiExternalLink size={13} /> Live
+            </a>
           )}
         </div>
       </div>
@@ -111,7 +110,14 @@ function OtherCard({ project, index }: { project: Project; index: number }) {
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
       whileHover={{ x: 3, transition: { duration: 0.2, ease: 'easeOut' } }}
     >
-      <h4 className={`text-fg font-semibold ${font.cardTitle} mb-1`}>{project.title}</h4>
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <h4 className={`text-fg font-semibold ${font.cardTitle}`}>{project.title}</h4>
+        {project.githubUrl && project.githubUrl !== '#' && (
+          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-accent transition-colors flex-shrink-0" aria-label="GitHub">
+            <FiGithub size={14} />
+          </a>
+        )}
+      </div>
       <p className={`${font.cardTag} text-muted mb-3 leading-relaxed line-clamp-2 flex-1`}>
         {project.description}
       </p>

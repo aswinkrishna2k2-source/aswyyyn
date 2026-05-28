@@ -4,10 +4,14 @@ import { motion } from 'framer-motion';
 import { fadeInLeft, fadeInRight, staggerContainer, slideUp, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
 
+// Get your free access key at https://web3forms.com — enter your email and paste the key here
+const WEB3FORMS_KEY = '1db95c9e-78ff-4c96-bdb1-0fcf91009521';
+
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -16,10 +20,30 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSending(false);
-    setSent(true);
-    setForm({ name: '', email: '', message: '' });
+    setError('');
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Portfolio contact from ${form.name}`,
+          from_name: form.name,
+          ...form,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSent(true);
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputClass =
@@ -164,6 +188,9 @@ export default function Contact() {
                     className={`${inputClass} resize-none`}
                   />
                 </div>
+                {error && (
+                  <p className={`text-red-400 ${font.small}`}>{error}</p>
+                )}
                 <button
                   type="submit"
                   disabled={sending}

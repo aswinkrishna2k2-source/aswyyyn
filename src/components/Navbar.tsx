@@ -4,11 +4,12 @@ import { FiCode } from 'react-icons/fi';
 import { font } from '../utils/fontsize';
 
 const navLinks = [
-  { label: 'home',     href: '#home'     },
-  { label: 'works',    href: '#works'    },
-  { label: 'skills',   href: '#skills'   },
-  { label: 'about-me', href: '#about-me' },
-  { label: 'contact',  href: '#contact'  },
+  { label: 'home',       href: '#home'       },
+  { label: 'works',      href: '#works'      },
+  { label: 'experience', href: '#experience' },
+  { label: 'skills',     href: '#skills'     },
+  { label: 'about-me',   href: '#about-me'   },
+  { label: 'contact',    href: '#contact'    },
 ];
 
 export default function Navbar() {
