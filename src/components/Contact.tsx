@@ -1,5 +1,7 @@
 import { FiGithub, FiLinkedin, FiInstagram, FiMail } from 'react-icons/fi';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { fadeInLeft, fadeInRight, staggerContainer, slideUp, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
 
 export default function Contact() {
@@ -26,27 +28,36 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="section-header">
+        <motion.div
+          className="section-header"
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <h2 className={`section-title ${font.sectionTitle}`}>
             <span className="text-accent">#</span>contact
           </h2>
           <div className="section-line" />
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left */}
-          <div>
-            <p className={`text-fg font-bold ${font.heroRole} mb-3`}>
+          {/* Left — slides in from left */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            <motion.p variants={fadeInLeft} className={`text-fg font-bold ${font.heroRole} mb-3`}>
               Have a project? Let's talk.
-            </p>
-            <p className={`text-muted ${font.contactBody} leading-relaxed mb-8 max-w-sm`}>
+            </motion.p>
+            <motion.p variants={slideUp} className={`text-muted ${font.contactBody} leading-relaxed mb-8 max-w-sm`}>
               I like unique ideas and the kind of problems that don't have obvious answers.
               If you've got something interesting brewing, I'm all ears.
-            </p>
+            </motion.p>
 
-            {/* Contact info boxes */}
-            <div className="space-y-3">
+            <motion.div variants={slideUp} className="space-y-3">
               <div className="border border-white/10 p-4">
                 <p className={`text-muted ${font.contactLabel} mb-2 font-semibold`}>Reach me here</p>
                 <div className="space-y-2">
@@ -67,38 +78,48 @@ export default function Contact() {
                   </a>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Social icons */}
-            <div className="flex gap-4 mt-8">
+            <motion.div variants={slideUp} className="flex gap-4 mt-8">
               {[
                 { icon: FiGithub,    href: 'https://github.com/aswin2002',          label: 'GitHub'    },
                 { icon: FiLinkedin,  href: 'https://www.linkedin.com/in/aswyyyn/',  label: 'LinkedIn'  },
                 { icon: FiInstagram, href: 'https://www.instagram.com/aswyyyn/',    label: 'Instagram' },
               ].map(({ icon: Icon, href, label }) => (
-                <a
+                <motion.a
                   key={label}
                   href={href}
                   aria-label={label}
                   className="social-icon w-9 h-9 border border-white/10 flex items-center justify-center text-muted transition-colors duration-200"
+                  whileHover={{ y: -3, transition: { duration: 0.15 } }}
                 >
                   <Icon size={16} />
-                </a>
+                </motion.a>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          {/* Right — Form */}
-          <div>
+          {/* Right — slides in from right */}
+          <motion.div
+            variants={fadeInRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             {sent ? (
-              <div className="border border-white/10 p-8 text-center">
+              <motion.div
+                className="border border-white/10 p-8 text-center"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+              >
                 <span className="text-accent text-2xl block mb-3">✓</span>
                 <p className={`text-fg font-semibold ${font.body} mb-1`}>Message sent!</p>
                 <p className={`text-muted ${font.small} mb-6`}>I'll get back to you soon.</p>
                 <button onClick={() => setSent(false)} className={`btn-ghost ${font.small}`}>
                   Send another
                 </button>
-              </div>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -152,7 +173,7 @@ export default function Contact() {
                 </button>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

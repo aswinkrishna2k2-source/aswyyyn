@@ -3,7 +3,7 @@
  * Mirror of fontsize.ts but for theme colors.
  */
 export const palette = {
-  accent: '#efae4a',
+  accent: '#cbff4c',
 } as const;
 
 function hexToRgbChannels(hex: string) {

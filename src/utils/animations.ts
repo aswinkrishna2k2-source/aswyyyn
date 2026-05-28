@@ -1,44 +1,43 @@
 import { Variants } from 'framer-motion';
 
-export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 60 },
+export const slideUp: Variants = {
+  hidden: { opacity: 0, y: 32 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
+export const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
 export const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -60 },
+  hidden: { opacity: 0, x: -36 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
 export const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 60 },
+  hidden: { opacity: 0, x: 36 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-};
-
-export const staggerContainer: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
 export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.85 },
+  hidden: { opacity: 0, scale: 0.93 },
   visible: {
     opacity: 1,
     scale: 1,
@@ -46,20 +45,24 @@ export const scaleIn: Variants = {
   },
 };
 
-export const slideInFromBottom: Variants = {
-  hidden: { opacity: 0, y: 100 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
+export const staggerContainer: Variants = {
+  hidden: {},
+  visible: {
     transition: {
-      delay: i * 0.1,
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
     },
-  }),
+  },
 };
 
-export const viewportConfig = {
-  triggerOnce: true,
-  rootMargin: '-80px 0px',
+export const fastStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.05,
+    },
+  },
 };
+
+export const viewport = { once: true, margin: '-80px 0px' };

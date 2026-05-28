@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { staggerContainer, slideUp } from '../utils/animations';
 import { font } from "../utils/fontsize";
 
 function LogoDecor({ size = 114 }: { size?: number }) {
@@ -42,58 +44,64 @@ export default function Hero() {
     <section id="home" className="min-h-screen flex items-center pt-14 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center py-16 lg:py-0 min-h-[calc(100vh-56px)]">
-          {/* Left — Text */}
-          <div>
-            <p className={`text-muted ${font.heroGreeting} mb-4 tracking-wide`}>
-              Hi, I'm —
-            </p>
 
-            <h1 className="font-bold leading-[1.0] mb-6">
+          {/* Left — stagger text in on mount */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.p
+              variants={slideUp}
+              className={`text-muted ${font.heroGreeting} mb-4 tracking-wide`}
+            >
+              Hi, I'm —
+            </motion.p>
+
+            <motion.h1 variants={slideUp} className="font-bold leading-[1.0] mb-6">
               <span className={`block ${font.heroName} text-accent`}>
                 Aswin.
               </span>
-              {/* <span className={`block ${font.heroSurname} text-fg`}>
-                Krishnan.
-              </span> */}
-            </h1>
+            </motion.h1>
 
-            <p className={`text-muted ${font.heroRole} mb-4 font-medium`}>
+            <motion.p
+              variants={slideUp}
+              className={`text-muted ${font.heroRole} mb-4 font-medium`}
+            >
               MERN Stack Engineer · Android/iOS Developer
-            </p>
+            </motion.p>
 
-            <p
+            <motion.p
+              variants={slideUp}
               className={`text-muted/70 ${font.heroBody} leading-relaxed mb-10 max-w-md`}
             >
               I craft web experiences that feel intentional — powered by
               thoughtful design systems, polished interactions, and an unhealthy
               attention to detail.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap items-center gap-5">
+            <motion.div variants={slideUp} className="flex flex-wrap items-center gap-5">
               <button
                 onClick={() => scrollTo("#contact")}
                 className={`btn-accent ${font.button}`}
               >
                 Contact me!!
               </button>
+            </motion.div>
+          </motion.div>
 
-              {/* <div className={`flex items-center gap-2 ${font.badge}`}>
-                <span className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" />
-                <span className="text-muted">Currently working on&nbsp;</span>
-                <span className="text-fg font-semibold">Portfolio</span>
-              </div> */}
-            </div>
-          </div>
-
-          {/* Right — Photo + decorations */}
-          <div className="flex justify-center lg:justify-end">
+          {/* Right — photo slides in from right on mount */}
+          <motion.div
+            className="flex justify-center lg:justify-end"
+            initial={{ opacity: 0, x: 48 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
             <div className="relative ml-14">
-              {/* Logo decor — left side */}
               <div className="absolute z-20" style={{ left: -60, top: 24 }}>
                 <LogoDecor size={104} />
               </div>
 
-              {/* Photo frame — bigger, grayscale */}
               <div className="relative z-10 w-72 h-96 md:w-80 md:h-[28rem] border border-accent/30 overflow-hidden">
                 <img
                   src="/images/aswin_img.jpeg"
@@ -104,7 +112,6 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-accent/5 pointer-events-none" />
               </div>
 
-              {/* Dot grid — right side */}
               <div
                 className="absolute z-20 opacity-50"
                 style={{ right: -36, top: "40%" }}
@@ -112,7 +119,6 @@ export default function Hero() {
                 <DotGrid rows={5} cols={4} />
               </div>
 
-              {/* Badge */}
               <div
                 className={`absolute -bottom-5 -right-5 z-20 bg-surface border border-white/10 px-3 py-2 ${font.badge} whitespace-nowrap`}
               >
@@ -121,7 +127,7 @@ export default function Hero() {
                 <span className="text-accent font-semibold">Codeeaq</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

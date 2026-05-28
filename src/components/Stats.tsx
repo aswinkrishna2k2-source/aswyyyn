@@ -1,10 +1,18 @@
+import { motion } from 'framer-motion';
+import { scaleIn, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
 
 export default function Stats() {
   return (
     <section className="py-16 px-6 lg:px-16 lg:ml-0">
       <div className="max-w-6xl mx-auto">
-        <div className="max-w-2xl mx-auto border border-white/10 p-8 relative">
+        <motion.div
+          className="max-w-2xl mx-auto border border-white/10 p-8 relative"
+          variants={scaleIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <span className="absolute -top-5 left-6 text-5xl text-accent font-serif leading-none select-none">
             "
           </span>
@@ -21,7 +29,7 @@ export default function Stats() {
           <span className="absolute -bottom-5 right-6 text-5xl text-accent font-serif leading-none select-none rotate-180">
             "
           </span>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

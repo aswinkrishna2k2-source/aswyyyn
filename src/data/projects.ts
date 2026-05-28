@@ -64,4 +64,28 @@ export const otherProjects: Project[] = [
     gradient: 'from-pink-500/20 to-rose-500/20',
     liveUrl: '#',
   },
+  {
+    id: 6,
+    title: 'Dev Portfolio CMS',
+    description: 'Headless CMS for managing portfolio content — projects, skills, and experience — with a live-reload preview and one-click Vercel deploy.',
+    tags: ['Next.js', 'Sanity', 'TypeScript', 'Tailwind'],
+    gradient: '',
+    liveUrl: '#',
+  },
+  {
+    id: 7,
+    title: 'Real-time Chat App',
+    description: 'End-to-end encrypted messaging app with rooms, typing indicators, read receipts, and media sharing. Built with Socket.io and Redis pub/sub.',
+    tags: ['React', 'Node.js', 'Socket.io', 'Redis'],
+    gradient: '',
+    liveUrl: '#',
+  },
+  {
+    id: 8,
+    title: 'Expense Tracker',
+    description: 'Personal finance tracker with categorized spending, monthly budget goals, CSV import, and visual breakdowns via Chart.js.',
+    tags: ['React', 'Express', 'MongoDB', 'Chart.js'],
+    gradient: '',
+    liveUrl: '#',
+  },
 ];

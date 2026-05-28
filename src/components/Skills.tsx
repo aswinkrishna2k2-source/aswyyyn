@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { slideUp, fadeInLeft, staggerContainer, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
 
 function DotGrid({ rows = 8, cols = 7 }: { rows?: number; cols?: number }) {
@@ -43,27 +45,47 @@ export default function Skills() {
   return (
     <section id="skills" className="py-20 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto">
-        <div className="section-header">
+        <motion.div
+          className="section-header"
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <h2 className={`section-title ${font.sectionTitle}`}>
             <span className="text-accent">#</span>skills
           </h2>
           <div className="section-line" />
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-[160px_1fr] gap-12 items-start">
           {/* Left decorative column */}
-          <div className="flex flex-row justify-center lg:flex-col lg:justify-start gap-6 lg:gap-8 items-center lg:items-start mb-2 lg:mb-0">
+          <motion.div
+            className="flex flex-row justify-center lg:flex-col lg:justify-start gap-6 lg:gap-8 items-center lg:items-start mb-2 lg:mb-0"
+            variants={fadeInLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             <div className="hidden lg:block"><DotGrid rows={5} cols={5} /></div>
             <LogoDecor />
             <div className="hidden lg:block"><DotGrid rows={4} cols={4} /></div>
-          </div>
+          </motion.div>
 
-          {/* Skill boxes — asymmetric 3-column brick layout */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Skill boxes — stagger in */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             {categories.map((cat) => (
-              <div
+              <motion.div
                 key={cat.title}
                 className={`skill-box ${cat.span === 2 ? 'sm:col-span-2' : ''}`}
+                variants={slideUp}
+                whileHover={{ scale: 1.015, transition: { duration: 0.2, ease: 'easeOut' } }}
               >
                 <h4 className={`text-accent ${font.skillCategory} font-semibold mb-3 pb-2 border-b border-white/10`}>
                   {cat.title}
@@ -71,9 +93,9 @@ export default function Skills() {
                 <p className={`text-muted ${font.skillItem} leading-relaxed`}>
                   {cat.items.join(' / ')}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

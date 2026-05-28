@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { slideUp, fadeInLeft, staggerContainer, viewport } from '../utils/animations';
 import { experiences } from '../data/experience';
 import { font } from '../utils/fontsize';
 
@@ -5,18 +7,32 @@ export default function Experience() {
   return (
     <section id="experience" className="py-20 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto">
-        <div className="section-header">
+        <motion.div
+          className="section-header"
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <h2 className={`section-title ${font.sectionTitle}`}>
             <span className="text-accent">#</span>experience
           </h2>
           <div className="section-line" />
-        </div>
+        </motion.div>
 
-        <div className="space-y-6">
+        <motion.div
+          className="space-y-6"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           {experiences.map((exp, i) => (
-            <div
+            <motion.div
               key={exp.id}
               className="border border-white/10 hover:border-accent/30 transition-colors duration-200 p-7"
+              variants={slideUp}
+              whileHover={{ x: 4, transition: { duration: 0.2, ease: 'easeOut' } }}
             >
               <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
                 <div>
@@ -45,9 +61,9 @@ export default function Experience() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
