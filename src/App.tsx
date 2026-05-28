@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import Navbar from './components/Navbar';
@@ -79,6 +80,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <Analytics />
     </div>
   );
 }
