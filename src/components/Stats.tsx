@@ -4,7 +4,7 @@ import { font } from '../utils/fontsize';
 
 export default function Stats() {
   return (
-    <section className="py-16 px-6 lg:px-16 lg:ml-0">
+    <section className="pb-16 lg:py-16 px-6 lg:px-16 lg:ml-0">
       <div className="max-w-6xl mx-auto">
         <motion.div
           className="max-w-2xl mx-auto border border-white/10 p-8 relative"

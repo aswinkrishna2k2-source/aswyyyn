@@ -44,7 +44,7 @@ export default function Hero() {
   return (
     <section id="home" className="min-h-screen flex items-center pt-14 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center py-16 lg:py-0 min-h-[calc(100vh-56px)]">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center pt-16 lg:py-0 min-h-[calc(100vh-56px)]">
 
           {/* Left — stagger text in on mount */}
           <motion.div
