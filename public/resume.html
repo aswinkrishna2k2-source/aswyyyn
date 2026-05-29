@@ -4,298 +4,754 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aswin Krishnan — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
+    /*
+      Portfolio palette
+      -----------------
+      Background  : #1b1b1b
+      Surface     : #252526
+      Foreground  : #e4e4e4
+      Muted       : #abb2bf
+      Accent      : #cbff4c
+      Border      : rgba(255,255,255,0.08)
+    */
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, Arial, sans-serif;
-      font-size: 13.5px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12.5px;
       line-height: 1.6;
-      color: #111;
-      background: #fff;
+      background: #111;
+      color: #e4e4e4;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .page {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 48px 52px;
-    }
-
-    /* Print button — hidden when printing */
-    .print-btn {
+    /* ── Print bar ── */
+    .print-bar {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 28px;
-    }
-    .print-btn button {
+      align-items: center;
+      padding: 14px 24px;
       background: #111;
-      color: #cbff4c;
-      border: none;
-      padding: 8px 20px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
+      gap: 12px;
+    }
+    .print-bar span {
+      font-size: 11px;
+      color: #555;
       letter-spacing: 0.5px;
     }
-    .print-btn button:hover { background: #222; }
+    .print-bar button {
+      background: transparent;
+      color: #cbff4c;
+      border: 1px solid #cbff4c;
+      padding: 7px 18px;
+      font-size: 11.5px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+    .print-bar button:hover {
+      background: #cbff4c;
+      color: #1b1b1b;
+    }
 
-    /* Header */
+    /* ── Page card ── */
+    .page {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: #1b1b1b;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+    }
+
+    /* ── Header ── */
     header {
+      background: #252526;
+      padding: 36px 44px 30px;
       border-top: 3px solid #cbff4c;
-      padding-top: 20px;
-      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
     }
-    .name { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; color: #111; }
-    .title { font-size: 14px; color: #444; margin-top: 3px; font-weight: 500; }
-    .contact {
+    .header-left .name {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #e4e4e4;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .header-left .role {
+      font-size: 13px;
+      font-weight: 500;
+      color: #cbff4c;
+      letter-spacing: 0.5px;
+    }
+    .header-right {
       display: flex;
-      flex-wrap: wrap;
-      gap: 4px 18px;
-      margin-top: 10px;
-      font-size: 12.5px;
-      color: #555;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
     }
-    .contact a { color: #555; text-decoration: none; }
+    .header-right a,
+    .header-right span {
+      font-size: 11.5px;
+      color: #abb2bf;
+      text-decoration: none;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-right a:hover { color: #cbff4c; }
+    .header-right .dot {
+      width: 4px;
+      height: 4px;
+      background: #cbff4c;
+      display: inline-block;
+      flex-shrink: 0;
+    }
 
-    /* Sections */
-    section { margin-bottom: 26px; }
+    /* ── Two-column body ── */
+    .body {
+      display: grid;
+      grid-template-columns: 30% 70%;
+      grid-template-areas: "sidebar main";
+    }
 
-    h2 {
-      font-size: 11px;
+    /* ── Left sidebar ── */
+    .sidebar {
+      grid-area: sidebar;
+      background: #212122;
+      padding: 32px 24px;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .sidebar .s-section { margin-bottom: 30px; }
+
+    .sidebar h2 {
+      font-size: 9.5px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #111;
-      border-left: 3px solid #cbff4c;
-      padding-left: 8px;
+      letter-spacing: 3px;
+      color: #cbff4c;
       margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(203,255,76,0.2);
+    }
+
+    /* Skills */
+    .skill-block { margin-bottom: 11px; }
+    .skill-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #e4e4e4;
+      margin-bottom: 3px;
+    }
+    .skill-value {
+      font-size: 11.5px;
+      color: #abb2bf;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    /* Education */
+    .edu-block { margin-bottom: 16px; }
+    .edu-degree {
+      font-size: 12px;
+      font-weight: 700;
+      color: #e4e4e4;
+      line-height: 1.4;
+    }
+    .edu-school {
+      font-size: 11px;
+      color: #abb2bf;
+      margin-top: 3px;
+    }
+    .edu-year {
+      font-size: 10.5px;
+      color: #cbff4c;
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* Contact sidebar */
+    .contact-block { margin-bottom: 9px; }
+    .contact-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #555;
+      margin-bottom: 1px;
+    }
+    .contact-val {
+      font-size: 11.5px;
+      color: #abb2bf;
+      word-break: break-all;
+    }
+    .contact-val a { color: #abb2bf; text-decoration: none; }
+    .contact-val a:hover { color: #cbff4c; }
+
+    /* ── Right main ── */
+    .main {
+      grid-area: main;
+      padding: 32px 36px;
+      background: #1b1b1b;
+    }
+
+    .main .m-section { margin-bottom: 28px; }
+
+    .main h2 {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #cbff4c;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .main h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* Summary */
+    .summary-text {
+      font-size: 12.5px;
+      color: #abb2bf;
+      line-height: 1.8;
+      font-weight: 400;
     }
 
     /* Experience */
-    .exp-item { margin-bottom: 18px; }
-    .exp-header {
+    .exp-item {
+      margin-bottom: 22px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .exp-top {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 4px;
     }
-    .exp-role { font-weight: 700; font-size: 14px; color: #111; }
-    .exp-company { font-weight: 600; color: #333; }
-    .exp-meta { font-size: 12px; color: #666; }
-    .exp-duration {
-      font-size: 12px;
-      color: #555;
+    .exp-role {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #e4e4e4;
+    }
+    .exp-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #cbff4c;
+      background: rgba(203,255,76,0.08);
+      border: 1px solid rgba(203,255,76,0.3);
+      padding: 2px 9px;
       white-space: nowrap;
-      background: #f5f5f5;
-      padding: 1px 8px;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
-
-    ul { padding-left: 16px; margin-top: 6px; }
-    li { margin-bottom: 3px; color: #444; font-size: 13px; }
-
-    /* Education */
-    .edu-item { margin-bottom: 12px; }
-    .edu-degree { font-weight: 700; font-size: 13.5px; color: #111; }
-    .edu-school { color: #555; font-size: 12.5px; margin-top: 1px; }
-
-    /* Skills */
-    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
-    .skill-row { font-size: 13px; color: #333; }
-    .skill-label { font-weight: 600; color: #111; }
+    .exp-company {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbff4c;
+    }
+    .exp-meta {
+      font-size: 11px;
+      color: #555;
+      margin-top: 1px;
+    }
+    ul.exp-list {
+      padding-left: 0;
+      margin-top: 8px;
+      list-style: none;
+    }
+    ul.exp-list li {
+      font-size: 12px;
+      color: #abb2bf;
+      margin-bottom: 4px;
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.6;
+    }
+    ul.exp-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #cbff4c;
+      font-size: 9px;
+      top: 3px;
+    }
 
     /* Projects */
-    .project-item { margin-bottom: 14px; }
-    .project-header { display: flex; align-items: baseline; gap: 8px; }
-    .project-name { font-weight: 700; font-size: 13.5px; color: #111; }
-    .project-tags { font-size: 11.5px; color: #777; }
-    .project-link { font-size: 12px; color: #555; text-decoration: none; margin-left: auto; white-space: nowrap; }
-    .project-desc { font-size: 13px; color: #444; margin-top: 3px; }
+    .project-subhead {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #abb2bf;
+      margin-bottom: 12px;
+    }
+    .project-org {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(203,255,76,0.6);
+      margin-top: 16px;
+      margin-bottom: 8px;
+      padding-left: 10px;
+      border-left: 2px solid rgba(203,255,76,0.3);
+    }
+    .project-org:first-of-type { margin-top: 0; }
 
-    /* Divider */
-    hr { border: none; border-top: 1px solid #e8e8e8; margin: 6px 0 20px; }
+    .project-item {
+      margin-bottom: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: #252526;
+    }
+    .project-top {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+    .project-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #e4e4e4;
+    }
+    .project-tags {
+      font-size: 10.5px;
+      color: #555;
+      font-weight: 500;
+    }
+    .project-desc {
+      font-size: 11.5px;
+      color: #abb2bf;
+      line-height: 1.65;
+    }
 
     @media print {
-      .print-btn { display: none; }
-      .page { padding: 28px 36px; }
-      body { font-size: 12.5px; }
-      .name { font-size: 26px; }
-      @page { margin: 0.4in 0.5in; }
+      .print-bar { display: none; }
+      body { background: #fff; color: #111; font-size: 11.5px; }
+
+      .page {
+        max-width: 100%;
+        margin: 0;
+        box-shadow: none;
+        background: #fff;
+      }
+
+      header {
+        background: #111;
+        border-top-color: #cbff4c;
+        padding: 24px 32px 20px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .header-left .name { font-size: 26px; }
+      .header-right a,
+      .header-right span { color: #bbb; }
+
+      .sidebar {
+        background: #f7f7f7;
+        border-right: 1px solid #e0e0e0;
+        padding: 24px 18px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .sidebar h2 { color: #5a9900; }
+      .sidebar h2::after { background: rgba(90,153,0,0.2); }
+      .skill-label { color: #111; }
+      .skill-value { color: #555; }
+      .edu-degree { color: #111; }
+      .edu-school { color: #555; }
+      .contact-val, .contact-val a { color: #555; }
+
+      .main { background: #fff; padding: 24px 28px; }
+      .main h2 { color: #5a9900; }
+      .main h2::after { background: #e8e8e8; }
+      .summary-text { color: #444; }
+      .exp-role { color: #111; }
+      .exp-company { color: #5a9900; }
+      .exp-meta { color: #888; }
+      .exp-badge { color: #5a9900; background: #f2ffe0; border-color: rgba(90,153,0,0.35); }
+      .exp-item { border-bottom-color: #eee; }
+      ul.exp-list li { color: #444; }
+      ul.exp-list li::before { color: #5a9900; }
+
+      .project-subhead { color: #666; }
+      .project-org { color: #5a9900; border-left-color: rgba(90,153,0,0.4); }
+      .project-item { background: #f9f9f9; border-color: #e8e8e8; }
+      .project-name { color: #111; }
+      .project-tags { color: #888; }
+      .project-desc { color: #555; }
+
+      @page { margin: 0.35in 0.45in; size: A4; }
     }
   </style>
 </head>
 <body>
+
+  <div class="print-bar">
+    <span>aswin-krishnan · resume</span>
+    <button onclick="window.print()">&#8659;&nbsp; Save as PDF</button>
+  </div>
+
   <div class="page">
 
-    <div class="print-btn">
-      <button onclick="window.print()">⬇ Save as PDF</button>
-    </div>
-
-    <!-- Header -->
+    <!-- ── Header ── -->
     <header>
-      <div class="name">Aswin Krishnan</div>
-      <div class="title">Full Stack Developer &nbsp;·&nbsp; MERN Stack &nbsp;·&nbsp; React Native</div>
-      <div class="contact">
-        <span>Kollam, Kerala, India</span>
-        <a href="tel:+919037978818">+91 90379 78818</a>
-        <a href="mailto:aswinkrishna2k2@gmail.com">aswinkrishna2k2@gmail.com</a>
-        <a href="https://linkedin.com/in/aswyyyn" target="_blank">linkedin.com/in/aswyyyn</a>
-        <a href="https://github.com/aswin2002" target="_blank">github.com/aswin2002</a>
+      <div class="header-left">
+        <div class="name">Aswin Krishnan</div>
+        <div class="role">Full Stack Developer · MERN Stack · React Native</div>
+      </div>
+      <div class="header-right">
+        <span><span class="dot" aria-hidden="true"></span>Kollam, Kerala, India</span>
+        <a href="tel:+919037978818"><span class="dot" aria-hidden="true"></span>+91 90379 78818</a>
+        <a href="mailto:aswinkrishna2k2@gmail.com"><span class="dot" aria-hidden="true"></span>aswinkrishna2k2@gmail.com</a>
+        <a href="https://linkedin.com/in/aswyyyn" target="_blank"><span class="dot" aria-hidden="true"></span>linkedin.com/in/aswyyyn</a>
+        <a href="https://github.com/aswin2002" target="_blank"><span class="dot" aria-hidden="true"></span>github.com/aswin2002</a>
       </div>
     </header>
 
-    <!-- Summary -->
-    <section>
-      <h2>Summary</h2>
-      <p style="color:#444; font-size:13px; line-height:1.7;">
-        Full Stack Developer with 2+ years of experience building web and mobile applications
-        using the MERN stack and React Native. Passionate about clean UI, performant code, and
-        shipping products that solve real problems. Currently building cross-platform products
-        at Codeeaq while pursuing an MBA in Business Analytics.
-      </p>
-    </section>
+    <!-- ── Body ── -->
+    <!-- DOM order: main first for ATS parsing priority; CSS grid-template-areas places sidebar visually left -->
+    <div class="body">
 
-    <hr />
+      <!-- RIGHT: Summary · Experience · Projects (first in DOM = first parsed by ATS) -->
+      <main class="main">
 
-    <!-- Experience -->
-    <section>
-      <h2>Experience</h2>
+        <div class="m-section">
+          <h2>Summary</h2>
+          <p class="summary-text">
+            Full Stack Developer with 2+ years of experience building web and mobile applications
+            using the MERN stack and React Native. Passionate about clean UI, performant code, and
+            shipping products that solve real problems. Currently building cross-platform products
+            at Codeeaq while pursuing an MBA in Business Analytics.
+          </p>
+        </div>
 
-      <div class="exp-item">
-        <div class="exp-header">
-          <div>
-            <span class="exp-role">Full Stack Developer</span>
-            &nbsp;—&nbsp;
-            <span class="exp-company">Codeeaq</span>
-            <div class="exp-meta">Remote &nbsp;·&nbsp; Trivandrum / Dubai</div>
+        <div class="m-section">
+          <h2>Experience</h2>
+
+          <div class="exp-item">
+            <div class="exp-top">
+              <div>
+                <div class="exp-role">Full Stack Developer</div>
+                <div class="exp-company">Codeeaq</div>
+                <div class="exp-meta">Remote · Trivandrum / Dubai</div>
+              </div>
+              <span class="exp-badge">2025 – Present</span>
+            </div>
+            <ul class="exp-list">
+              <li>Architect and develop full-stack web applications for international clients using React.js, Next.js, Node.js, and MongoDB, delivering scalable and maintainable codebases</li>
+              <li>Lead frontend development by establishing component architecture, TypeScript coding standards, and design system implementation with Tailwind CSS</li>
+              <li>Engineer and publish cross-platform mobile applications using React Native and Expo to both iOS App Store and Google Play Store</li>
+              <li>Integrate third-party services including Stripe payment gateway, Firebase, and RESTful APIs across multiple client products</li>
+              <li>Collaborate directly with clients to translate requirements into production-ready features, iterating on UI/UX and delivering on schedule</li>
+            </ul>
           </div>
-          <span class="exp-duration">2025 – Present</span>
-        </div>
-        <ul>
-          <li>Building and maintaining full-stack products for global clients</li>
-          <li>Leading frontend architecture with React, TypeScript, and Tailwind CSS</li>
-          <li>Shipping React Native apps to App Store and Google Play</li>
-        </ul>
-      </div>
 
-      <div class="exp-item">
-        <div class="exp-header">
-          <div>
-            <span class="exp-role">Frontend Developer</span>
-            &nbsp;—&nbsp;
-            <span class="exp-company">Entrix Labs</span>
-            <div class="exp-meta">Hybrid &nbsp;·&nbsp; Technopark, Trivandrum</div>
+          <div class="exp-item">
+            <div class="exp-top">
+              <div>
+                <div class="exp-role">Frontend Developer</div>
+                <div class="exp-company">Entrix Labs</div>
+                <div class="exp-meta">Hybrid · Technopark, Trivandrum</div>
+              </div>
+              <span class="exp-badge">2024 – 2025</span>
+            </div>
+            <ul class="exp-list">
+              <li>Translated Figma design mockups into pixel-perfect, responsive React.js and Next.js interfaces for production client applications</li>
+              <li>Delivered two major client products — Uoto (car rental platform, Dublin Airport) and Meryal Water Park (ticketing and booking, Qatar) — from design handoff to deployment</li>
+              <li>Integrated RESTful APIs and third-party payment gateways, optimising frontend bundle performance and improving page load times</li>
+              <li>Built reusable component libraries and maintained consistent design systems across multiple projects</li>
+              <li>Collaborated cross-functionally with UI/UX designers and backend engineers within an Agile/Scrum workflow</li>
+            </ul>
           </div>
-          <span class="exp-duration">2024 – 2025</span>
-        </div>
-        <ul>
-          <li>Delivered production-ready React UIs from Figma designs</li>
-          <li>Integrated REST APIs and optimised bundle performance</li>
-          <li>Collaborated with design and backend teams in an Agile environment</li>
-        </ul>
-      </div>
 
-      <div class="exp-item">
-        <div class="exp-header">
-          <div>
-            <span class="exp-role">MERN Stack Intern</span>
-            &nbsp;—&nbsp;
-            <span class="exp-company">Stackup</span>
-            <div class="exp-meta">Onsite &nbsp;·&nbsp; Technopark, Trivandrum</div>
+          <div class="exp-item">
+            <div class="exp-top">
+              <div>
+                <div class="exp-role">Full Stack Developer Intern</div>
+                <div class="exp-company">Stackup</div>
+                <div class="exp-meta">Onsite · Technopark, Trivandrum</div>
+              </div>
+              <span class="exp-badge">2023 – 2024</span>
+            </div>
+            <ul class="exp-list">
+              <li>Developed full-stack features using React.js, Node.js, Express.js, and MongoDB across live products serving real users</li>
+              <li>Designed and implemented RESTful APIs and MongoDB data models for user management, authentication, and content modules</li>
+              <li>Built responsive React UI components and integrated them with backend services via REST API</li>
+              <li>Participated in Agile sprints, code reviews, and team stand-ups, gaining hands-on experience in collaborative software development</li>
+            </ul>
           </div>
-          <span class="exp-duration">2023 – 2024</span>
         </div>
-        <ul>
-          <li>Built full-stack features across React, Node.js, and Express</li>
-          <li>Worked with MongoDB for data modelling and REST API development</li>
-          <li>Contributed to live products with real users</li>
-        </ul>
-      </div>
-    </section>
 
-    <hr />
+        <div class="m-section">
+          <h2>Projects</h2>
 
-    <!-- Skills -->
-    <section>
-      <h2>Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-row"><span class="skill-label">Frontend:</span> React.js, Next.js, TypeScript, JavaScript</div>
-        <div class="skill-row"><span class="skill-label">Mobile:</span> React Native, Expo</div>
-        <div class="skill-row"><span class="skill-label">Backend:</span> Node.js, Express.js</div>
-        <div class="skill-row"><span class="skill-label">Databases:</span> MongoDB, MySQL</div>
-        <div class="skill-row"><span class="skill-label">Styling:</span> Tailwind CSS, Bootstrap, CSS3</div>
-        <div class="skill-row"><span class="skill-label">Tools:</span> Git, Figma, REST APIs, VS Code</div>
-        <div class="skill-row"><span class="skill-label">Practices:</span> Agile / Scrum, UI/UX Design</div>
-        <div class="skill-row"><span class="skill-label">Other:</span> WordPress, Responsive Design</div>
-      </div>
-    </section>
+          <!-- Contributed Works -->
+          <div class="project-subhead">Contributed Works</div>
 
-    <hr />
+          <div class="project-org">@ Entrix Labs</div>
 
-    <!-- Projects -->
-    <section>
-      <h2>Projects</h2>
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Uoto</span>
+              <span class="project-tags">Next.js · TypeScript · Tailwind CSS · REST APIs</span>
+            </div>
+            <div class="project-desc">
+              Car rental web application built for Dublin Airport, Ireland. Developed the complete
+              frontend in Next.js — vehicle search with advanced filters (category, transmission,
+              capacity), real-time availability calendar, multi-step booking flow, and third-party
+              payment gateway integration. Implemented server-side rendering for fast page loads and
+              SEO, and built responsive layouts optimised for both desktop booking and mobile browsing.
+            </div>
+          </div>
 
-      <div class="project-item">
-        <div class="project-header">
-          <span class="project-name">ServeSites</span>
-          <span class="project-tags">React · Node.js · MongoDB · Express · Tailwind</span>
-          <a class="project-link" href="https://servesites.com" target="_blank">servesites.com ↗</a>
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Meryal Water Park</span>
+              <span class="project-tags">Next.js · TypeScript · Tailwind CSS · Payment Integration</span>
+            </div>
+            <div class="project-desc">
+              Online ticketing and booking platform for Meryal — the largest water park in Qatar.
+              Engineered a multi-step ticket booking experience with dynamic date selection, visitor
+              type and count management, seasonal pass options, and Stripe payment integration.
+              Built attraction and package showcase pages, promotional offer banners, and a
+              mobile-first responsive design to serve a high-volume international audience.
+            </div>
+          </div>
+
+          <div class="project-org">@ Codeeaq</div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">ServeSites</span>
+              <span class="project-tags">Next.js · Node.js · MongoDB · Stripe · Tailwind CSS</span>
+            </div>
+            <div class="project-desc">
+              SaaS platform that enables nonprofit organisations to create fully customisable
+              donation pages and embeddable giving popups — each branded uniquely per client.
+              Donors can give one-time or set up recurring contributions with configurable amounts.
+              Built dynamic per-client page generation with Next.js, integrated Stripe for secure
+              payment processing, and developed an admin dashboard for campaign and donor management.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">C-Residence</span>
+              <span class="project-tags">React Native · Expo · Node.js · MongoDB</span>
+            </div>
+            <div class="project-desc">
+              Cross-platform mobile application for end-to-end residential property management.
+              Features include tenant onboarding and digital lease management, maintenance request
+              submission and tracking with status updates, rent payment recording and automated
+              reminders, digital notice board, and role-based access for property managers and
+              tenants. Published and live on both iOS App Store and Google Play.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">C-Parish</span>
+              <span class="project-tags">React Native · Expo · Node.js · MongoDB · Firebase</span>
+            </div>
+            <div class="project-desc">
+              Church management system built as a React Native mobile app for iOS and Android.
+              Covers member directory with family groupings, event scheduling and RSVP, mass
+              announcement broadcasting via push notifications, contribution and tithe tracking,
+              and sacrament record management. Implements role-based access control for admins,
+              clergy, and congregation members. Published on iOS App Store and Google Play.
+            </div>
+          </div>
+
+          <!-- Personal Projects -->
+          <div class="project-subhead" style="margin-top: 20px;">Personal Projects</div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Gamified LMS</span>
+              <span class="project-tags">React · Node.js · MongoDB · Socket.io</span>
+            </div>
+            <div class="project-desc">
+              MCQ-based learning platform with XP points, leaderboards, badges, and adaptive
+              difficulty to boost engagement. Real-time score updates via Socket.io and a
+              progress dashboard that tracks streaks and topic mastery.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Employee Management System</span>
+              <span class="project-tags">React · Express · MySQL · JWT</span>
+            </div>
+            <div class="project-desc">
+              Full-stack CRUD application for managing employee records, departments, payroll,
+              and attendance. Features JWT-based role-based access control for admins and
+              managers, attendance reporting, and payroll summary exports.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Website Builder</span>
+              <span class="project-tags">React · TypeScript · DnD Kit · Tailwind</span>
+            </div>
+            <div class="project-desc">
+              Drag-and-drop visual page builder for creating responsive websites without code.
+              Supports component reordering, property editing, live preview, and exports clean
+              HTML/CSS — designed for non-technical users.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Dev Portfolio CMS</span>
+              <span class="project-tags">Next.js · Sanity · TypeScript · Tailwind</span>
+            </div>
+            <div class="project-desc">
+              Headless CMS for managing portfolio content — projects, skills, and experience —
+              with a live-reload preview and one-click Vercel deploy. Sanity Studio powers
+              the backend; Next.js ISR keeps the public site fast and up to date.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Real-time Chat App</span>
+              <span class="project-tags">React · Node.js · Socket.io · Redis</span>
+            </div>
+            <div class="project-desc">
+              End-to-end encrypted messaging app with rooms, typing indicators, read receipts,
+              and media sharing. Uses Socket.io for real-time delivery and Redis pub/sub to
+              scale message broadcasting across server instances.
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-top">
+              <span class="project-name">Expense Tracker</span>
+              <span class="project-tags">React · Express · MongoDB · Chart.js</span>
+            </div>
+            <div class="project-desc">
+              Personal finance tracker with categorised spending, monthly budget goals, CSV
+              import, and visual breakdowns via Chart.js. Supports recurring expense tagging
+              and exportable monthly summaries.
+            </div>
+          </div>
+
         </div>
-        <div class="project-desc">
-          Nonprofit donation platform with branded Generosity Pages and a seamless donor flow built for Codeeaq.
+
+      </main>
+
+      <!-- LEFT: Skills · Education (second in DOM; ATS reads after main content) -->
+      <aside class="sidebar">
+
+        <div class="s-section">
+          <h2>Skills</h2>
+          <div class="skill-block">
+            <div class="skill-label">Frontend</div>
+            <div class="skill-value">React.js, Next.js, TypeScript, JavaScript</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Mobile</div>
+            <div class="skill-value">React Native, Expo</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Backend</div>
+            <div class="skill-value">Node.js, Express.js</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Databases</div>
+            <div class="skill-value">MongoDB, MySQL, Firebase</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Styling</div>
+            <div class="skill-value">Tailwind CSS, Bootstrap, CSS3</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Tools</div>
+            <div class="skill-value">Git, Figma, REST APIs, VS Code</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Practices</div>
+            <div class="skill-value">Agile / Scrum, UI/UX Design</div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Other</div>
+            <div class="skill-value">WordPress, Responsive Design</div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-item">
-        <div class="project-header">
-          <span class="project-name">cResidence</span>
-          <span class="project-tags">React Native · Node.js · MongoDB · Expo</span>
-          <a class="project-link" href="https://apps.apple.com/us/app/cresidence/id6768594817" target="_blank">App Store ↗</a>
+        <div class="s-section">
+          <h2>Education</h2>
+          <div class="edu-block">
+            <div class="edu-degree">MBA in Business Analytics</div>
+            <div class="edu-school">Amrita University</div>
+            <div class="edu-year">2026 – Present</div>
+          </div>
+          <div class="edu-block">
+            <div class="edu-degree">Bachelor of Arts in English</div>
+            <div class="edu-school">Kerala University</div>
+            <div class="edu-year">2020 – 2023</div>
+          </div>
         </div>
-        <div class="project-desc">
-          Mobile residence management system with tenant management, maintenance requests, and payment tracking — live on iOS and Android.
+
+        <div class="s-section">
+          <h2>Contact</h2>
+          <div class="contact-block">
+            <div class="contact-label">Phone</div>
+            <div class="contact-val"><a href="tel:+919037978818">+91 90379 78818</a></div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-label">Email</div>
+            <div class="contact-val"><a href="mailto:aswinkrishna2k2@gmail.com">aswinkrishna2k2@gmail.com</a></div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-val"><a href="https://linkedin.com/in/aswyyyn" target="_blank">linkedin.com/in/aswyyyn</a></div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-label">GitHub</div>
+            <div class="contact-val"><a href="https://github.com/aswin2002" target="_blank">github.com/aswin2002</a></div>
+          </div>
         </div>
-      </div>
 
-      <div class="project-item">
-        <div class="project-header">
-          <span class="project-name">Gamified LMS</span>
-          <span class="project-tags">React · Node.js · MongoDB · Socket.io</span>
-        </div>
-        <div class="project-desc">
-          MCQ-based learning platform with XP points, leaderboards, and adaptive difficulty.
-        </div>
-      </div>
+      </aside>
 
-      <div class="project-item">
-        <div class="project-header">
-          <span class="project-name">Website Builder</span>
-          <span class="project-tags">React · TypeScript · DnD Kit · Tailwind</span>
-        </div>
-        <div class="project-desc">
-          Drag-and-drop visual page builder with live preview and clean HTML/CSS export.
-        </div>
-      </div>
-    </section>
+    </div><!-- /.body -->
+  </div><!-- /.page -->
 
-    <hr />
-
-    <!-- Education -->
-    <section>
-      <h2>Education</h2>
-
-      <div class="edu-item">
-        <div class="edu-degree">MBA in Business Analytics</div>
-        <div class="edu-school">Amrita University &nbsp;·&nbsp; 2026 – Present</div>
-      </div>
-
-      <div class="edu-item">
-        <div class="edu-degree">Bachelor of Arts in English</div>
-        <div class="edu-school">Kerala University &nbsp;·&nbsp; 2020 – 2023</div>
-      </div>
-    </section>
-
-  </div>
 </body>
 </html>
