@@ -89,9 +89,8 @@ export default function Hero() {
                 Contact me!!
               </button>
               <a
-                href="/resume.html"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/resume.pdf"
+                download="Aswin Krishnan — Resume.pdf"
                 className={`btn-accent ${font.button} inline-flex items-center gap-2`}
               >
                 <FiDownload size={15} /> Resume
