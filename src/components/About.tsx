@@ -40,7 +40,7 @@ export default function About() {
               className={`space-y-4 text-muted ${font.aboutBody} leading-relaxed`}
             >
               <p>
-                24-year-old tech enthusiast based in Kollam, Kerala, with 2+ years of experience
+                23-year-old tech enthusiast based in Kollam, Kerala, with 2+ years of experience
                 building fast, clean web and mobile apps using the MERN stack and React Native.
               </p>
               <p>

@@ -107,18 +107,27 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <div className="relative ml-14">
-              <div className="absolute z-20" style={{ left: -60, top: 24 }}>
+              <div className="absolute z-20" style={{ left: -13, top: 76 }}>
                 <LogoDecor size={104} />
               </div>
 
-              <div className="relative z-10 w-72 h-96 md:w-80 md:h-[28rem] border border-accent/30 overflow-hidden">
+              <div className="relative z-10 inline-block">
                 <img
-                  src="/images/aswin_img.jpeg"
+                  src="/images/aswin_img.png"
                   alt="Aswin Krishnan"
-                  className="w-full h-full object-cover object-top"
-                  style={{ filter: "grayscale(100%)" }}
+                  className="w-80 md:w-96 object-contain"
+                  style={{
+                    transform: "scaleX(-1)",
+                    filter: 'drop-shadow(0 0 24px rgba(203,255,76,0.15)) drop-shadow(0 0 48px rgba(203,255,76,0.07))',
+                  }}
                 />
-                <div className="absolute inset-0 bg-accent/5 pointer-events-none" />
+                <div
+                  className={`absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-surface border border-white/10 px-3 py-2 ${font.badge} whitespace-nowrap`}
+                >
+                  <span className="text-green-400">▸ </span>
+                  <span className="text-muted">Currently working at </span>
+                  <span className="text-accent font-semibold">Codeeaq</span>
+                </div>
               </div>
 
               <div
@@ -126,14 +135,6 @@ export default function Hero() {
                 style={{ right: -36, top: "40%" }}
               >
                 <DotGrid rows={5} cols={4} />
-              </div>
-
-              <div
-                className={`absolute -bottom-5 -right-5 z-20 bg-surface border border-white/10 px-3 py-2 ${font.badge} whitespace-nowrap`}
-              >
-                <span className="text-green-400">▸ </span>
-                <span className="text-muted">Currently working at </span>
-                <span className="text-accent font-semibold">Codeeaq</span>
               </div>
             </div>
           </motion.div>
