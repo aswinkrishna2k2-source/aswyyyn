@@ -12,7 +12,7 @@ export default function Footer() {
               <FiCode className="text-accent" size={22} />
             </div>
             <p className={`text-muted ${font.small}`}>aswinkrishna2k2@gmail.com</p>
-            <p className={`text-muted ${font.small} mt-0.5`}>MERN Stack Engineer ·Android/iOS Developer</p>
+            <p className={`text-muted ${font.small} mt-0.5`}>Full Stack / React Native Developer · UI/UX Designer</p>
           </div>
 
           {/* Right */}

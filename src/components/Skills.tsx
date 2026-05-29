@@ -33,12 +33,12 @@ function LogoDecor() {
 }
 
 const categories = [
-  { title: 'Languages',  items: ['HTML', 'CSS', 'JavaScript', 'TypeScript'],                          span: 1 },
-  { title: 'Frameworks', items: ['React.js', 'Next.js', 'Bootstrap', 'Tailwind CSS', 'React Native', 'WordPress'], span: 2 },
-  { title: 'Backend',    items: ['Node.js', 'Express.js'],                                            span: 2 },
-  { title: 'Databases',  items: ['MongoDB', 'MySQL'],                                                 span: 1 },
-  { title: 'Tools',      items: ['Git', 'Figma', 'REST APIs', 'VS Code'],                             span: 1 },
-  { title: 'Other',      items: ['Agile / Scrum', 'UI / UX Design', 'Responsive Design'],             span: 2 },
+  { title: 'Languages',  items: ['HTML', 'CSS', 'JavaScript', 'TypeScript'],                                        span: 1 },
+  { title: 'Frameworks', items: ['React.js', 'Next.js', 'Bootstrap', 'Tailwind CSS', 'React Native', 'WordPress'],  span: 2 },
+  { title: 'Backend',    items: ['Node.js', 'Express.js', 'Firebase'],                                              span: 2 },
+  { title: 'Databases',  items: ['MongoDB', 'MySQL', 'Firestore'],                                                  span: 1 },
+  { title: 'Tools',      items: ['Git', 'Figma', 'REST APIs', 'VS Code', 'Expo'],                                   span: 1 },
+  { title: 'Other',      items: ['Agile / Scrum', 'UI / UX Design', 'Responsive Design'],                          span: 2 },
 ];
 
 export default function Skills() {

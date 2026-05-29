@@ -69,7 +69,7 @@ export default function Hero() {
               variants={slideUp}
               className={`text-muted ${font.heroRole} mb-4 font-medium`}
             >
-              MERN Stack Engineer · Android/iOS Developer
+              Full Stack / React Native Developer · UI/UX Designer 
             </motion.p>
 
             <motion.p
