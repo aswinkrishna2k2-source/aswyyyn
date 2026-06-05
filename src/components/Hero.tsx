@@ -92,6 +92,7 @@ export default function Hero() {
                 href="/resume.pdf"
                 download="Aswin Krishnan — Resume.pdf"
                 className={`btn-accent ${font.button} inline-flex items-center gap-2`}
+                onClick={() => document.dispatchEvent(new CustomEvent('portfolio:resume-download'))}
               >
                 <FiDownload size={15} /> Resume
               </a>

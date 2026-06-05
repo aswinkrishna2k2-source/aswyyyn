@@ -1,86 +1,111 @@
 import { useEffect } from 'react';
-import { UAParser } from 'ua-parser-js';
+import {
+  fetchGeo,
+  getDeviceInfo,
+  getVisitTime,
+  buildEmail,
+  sendAnalyticsEmail,
+} from '../utils/analytics';
 
-const WEB3FORMS_KEY = '1db95c9e-78ff-4c96-bdb1-0fcf91009521';
+const SECTIONS = [
+  { id: 'home',       label: 'Hero'       },
+  { id: 'works',      label: 'Projects'   },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills',     label: 'Skills'     },
+  { id: 'about-me',   label: 'About'      },
+  { id: 'contact',    label: 'Contact'    },
+];
 
 export function useVisitorTracking() {
   useEffect(() => {
     if (sessionStorage.getItem('_vt')) return;
 
-    const parser = new UAParser();
-    const { browser, os, device } = parser.getResult();
+    const visitTime  = getVisitTime();
+    const device     = getDeviceInfo();
+    const startTime  = Date.now();
+    const sectionsVisited: string[] = [];
 
-    const deviceType = device.type
-      ? device.type.charAt(0).toUpperCase() + device.type.slice(1)
-      : 'Desktop';
+    // Return visitor detection
+    const isReturn = !!localStorage.getItem('_lv');
+    localStorage.setItem('_lv', new Date().toISOString());
 
-    const deviceModel =
-      device.vendor && device.model
-        ? `${device.vendor} ${device.model}`
-        : device.vendor || 'Unknown';
+    // Observe sections scrolled into view
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const section = SECTIONS.find(s => s.id === entry.target.id);
+            if (section && !sectionsVisited.includes(section.label)) {
+              sectionsVisited.push(section.label);
+            }
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
 
-    const now = new Date();
-    const visitTime = now.toLocaleString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
+    SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
     });
 
-    const referrer = document.referrer || 'Direct / Bookmark';
+    // Send visit email after 10 s (captures initial scroll + avoids bot spam)
+    const timer = setTimeout(async () => {
+      const geo     = await fetchGeo();
+      const elapsed = Math.round((Date.now() - startTime) / 1000);
+      const timeOnPage =
+        elapsed >= 60
+          ? `${Math.floor(elapsed / 60)}m ${elapsed % 60}s`
+          : `${elapsed}s`;
 
-    // Fetch IP geolocation then send the combined email
-    fetch('https://ipapi.co/json/')
-      .then(r => r.json())
-      .then((geo: Record<string, string>) => {
-        const lines = [
-          `New visitor on aswyyyn.vercel.app`,
-          ``,
-          `Time        : ${visitTime} IST`,
-          ``,
-          `-- Location (IP) --`,
-          `IP          : ${geo.ip ?? 'Unknown'}`,
-          `Country     : ${geo.country_name ?? 'Unknown'}`,
-          `Region      : ${geo.region ?? 'Unknown'}`,
-          `City        : ${geo.city ?? 'Unknown'}`,
-          `ISP         : ${geo.org ?? 'Unknown'}`,
-          `Timezone    : ${geo.timezone ?? 'Unknown'}`,
-          ``,
-          `-- Device --`,
-          `Device Type : ${deviceType}`,
-          `Device Model: ${deviceModel}`,
-          ``,
-          `-- Browser / OS --`,
-          `Browser     : ${browser.name ?? 'Unknown'} ${browser.version ?? ''}`.trim(),
-          `OS          : ${os.name ?? 'Unknown'} ${os.version ?? ''}`.trim(),
-          ``,
-          `-- Display --`,
-          `Screen      : ${window.screen.width} x ${window.screen.height}`,
-          `Viewport    : ${window.innerWidth} x ${window.innerHeight}`,
-          `Language    : ${navigator.language}`,
-          ``,
-          `-- Traffic --`,
-          `Referrer    : ${referrer}`,
-          `URL         : ${window.location.href}`,
-        ];
+      const html = buildEmail({
+        type: 'visit',
+        visitTime,
+        geo,
+        ...device,
+        screen:   `${window.screen.width} × ${window.screen.height}`,
+        viewport: `${window.innerWidth} × ${window.innerHeight}`,
+        language: navigator.language,
+        referrer: document.referrer || 'Direct / Bookmark',
+        url:      window.location.href,
+        isReturn,
+        sectionsVisited: [...sectionsVisited],
+        timeOnPage,
+      });
 
-        return fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            access_key: WEB3FORMS_KEY,
-            subject: `Portfolio Visit — ${geo.city ?? 'Unknown'}, ${geo.country_name ?? 'Unknown'} · ${deviceType} · ${browser.name ?? 'Unknown'}`,
-            from_name: 'Portfolio Analytics',
-            email: 'visitor@portfolio.local',
-            message: lines.join('\n'),
-          }),
-        });
-      })
-      .then(() => sessionStorage.setItem('_vt', '1'))
-      .catch(() => {});
+      const subject = `Portfolio Visit — ${geo.city ?? 'Unknown'}, ${geo.country_name ?? 'Unknown'} · ${device.deviceType} · ${device.browserName}`;
+
+      sendAnalyticsEmail(subject, html)
+        .then(() => sessionStorage.setItem('_vt', '1'))
+        .catch(() => {});
+    }, 10000);
+
+    // Resume download tracking
+    const handleResumeDownload = async () => {
+      const geo = await fetchGeo();
+      const html = buildEmail({
+        type: 'resume',
+        visitTime: getVisitTime(),
+        geo,
+        ...device,
+        screen:   `${window.screen.width} × ${window.screen.height}`,
+        viewport: `${window.innerWidth} × ${window.innerHeight}`,
+        language: navigator.language,
+        referrer: document.referrer || 'Direct / Bookmark',
+        url:      window.location.href,
+        isReturn,
+      });
+
+      const subject = `Resume Downloaded — ${geo.city ?? 'Unknown'}, ${geo.country_name ?? 'Unknown'} · ${device.deviceType} · ${device.browserName}`;
+      sendAnalyticsEmail(subject, html).catch(() => {});
+    };
+
+    document.addEventListener('portfolio:resume-download', handleResumeDownload);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+      document.removeEventListener('portfolio:resume-download', handleResumeDownload);
+    };
   }, []);
 }

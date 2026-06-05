@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { fadeInLeft, fadeInRight, staggerContainer, slideUp, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
-
-// Get your free access key at https://web3forms.com — enter your email and paste the key here
-const WEB3FORMS_KEY = '1db95c9e-78ff-4c96-bdb1-0fcf91009521';
+import { fetchGeo, getDeviceInfo, WEB3FORMS_KEY } from '../utils/analytics';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -22,6 +20,20 @@ export default function Contact() {
     setSending(true);
     setError('');
     try {
+      const [geo, device] = await Promise.all([fetchGeo(), Promise.resolve(getDeviceInfo())]);
+
+      const context = [
+        '',
+        '---',
+        'Visitor Context',
+        `Device   : ${device.deviceType} · ${device.deviceModel}`,
+        `Browser  : ${device.browserName} ${device.browserVersion}`.trim(),
+        `OS       : ${device.osName} ${device.osVersion}`.trim(),
+        `Location : ${geo.city ?? '?'}, ${geo.region ?? '?'}, ${geo.country_name ?? '?'}`,
+        `ISP      : ${geo.org ?? 'Unknown'}`,
+        `Referrer : ${document.referrer || 'Direct / Bookmark'}`,
+      ].join('\n');
+
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -30,6 +42,7 @@ export default function Contact() {
           subject: `Portfolio contact from ${form.name}`,
           from_name: form.name,
           ...form,
+          message: form.message + context,
         }),
       });
       const data = await res.json();
