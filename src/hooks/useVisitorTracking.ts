@@ -5,6 +5,9 @@ import {
   getVisitTime,
   buildEmail,
   sendAnalyticsEmail,
+  EJS_PUBLIC_KEY,
+  EJS_SERVICE_ID,
+  EJS_TEMPLATE_ID,
 } from '../utils/analytics';
 
 const SECTIONS = [
@@ -20,10 +23,15 @@ export function useVisitorTracking() {
   useEffect(() => {
     if (sessionStorage.getItem('_vt')) return;
 
-    const visitTime  = getVisitTime();
-    const device     = getDeviceInfo();
-    const startTime  = Date.now();
+    const visitTime      = getVisitTime();
+    const device         = getDeviceInfo();
+    const startTime      = Date.now();
     const sectionsVisited: string[] = [];
+    let   sent           = false;
+    let   geo: Record<string, string> = {};
+
+    // Pre-fetch geo immediately so it's cached when the user leaves
+    fetchGeo().then(g => { geo = g; });
 
     // Return visitor detection
     const isReturn = !!localStorage.getItem('_lv');
@@ -49,9 +57,8 @@ export function useVisitorTracking() {
       if (el) observer.observe(el);
     });
 
-    // Send visit email after 10 s (captures initial scroll + avoids bot spam)
-    const timer = setTimeout(async () => {
-      const geo     = await fetchGeo();
+    // Build email payload from current state
+    const buildPayload = () => {
       const elapsed = Math.round((Date.now() - startTime) / 1000);
       const timeOnPage =
         elapsed >= 60
@@ -63,30 +70,67 @@ export function useVisitorTracking() {
         visitTime,
         geo,
         ...device,
-        screen:   `${window.screen.width} × ${window.screen.height}`,
-        viewport: `${window.innerWidth} × ${window.innerHeight}`,
-        language: navigator.language,
-        referrer: document.referrer || 'Direct / Bookmark',
-        url:      window.location.href,
+        screen:          `${window.screen.width} × ${window.screen.height}`,
+        viewport:        `${window.innerWidth} × ${window.innerHeight}`,
+        language:        navigator.language,
+        referrer:        document.referrer || 'Direct / Bookmark',
+        url:             window.location.href,
         isReturn,
         sectionsVisited: [...sectionsVisited],
         timeOnPage,
       });
 
       const subject = `Portfolio Visit — ${geo.city ?? 'Unknown'}, ${geo.country_name ?? 'Unknown'} · ${device.deviceType} · ${device.browserName}`;
+      return { subject, html };
+    };
 
+    // Primary: send when tab is hidden (tab switch / minimize / navigate away)
+    // Page is still alive here so async EmailJS SDK works fine
+    const handleVisibilityChange = () => {
+      if (!document.hidden || sent) return;
+      sent = true;
+      const { subject, html } = buildPayload();
       sendAnalyticsEmail(subject, html)
         .then(() => sessionStorage.setItem('_vt', '1'))
         .catch(() => {});
-    }, 10000);
+    };
+
+    // Fallback: direct tab close — use fetch keepalive to EmailJS REST API
+    // (SDK can't keepalive; keepalive fetch survives tab close)
+    const handleBeforeUnload = () => {
+      if (sent) return;
+      sent = true;
+      const { subject, html } = buildPayload();
+      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method:    'POST',
+        headers:   { 'Content-Type': 'application/json' },
+        keepalive: true,
+        body: JSON.stringify({
+          service_id:      EJS_SERVICE_ID,
+          template_id:     EJS_TEMPLATE_ID,
+          user_id:         EJS_PUBLIC_KEY,
+          template_params: { subject, message: html },
+        }),
+      });
+      sessionStorage.setItem('_vt', '1');
+    };
+
+    // Safety net: send after 30 min for visitors who leave the tab open indefinitely
+    const maxTimer = setTimeout(() => {
+      if (sent) return;
+      handleVisibilityChange();
+    }, 30 * 60 * 1000);
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     // Resume download tracking
     const handleResumeDownload = async () => {
-      const geo = await fetchGeo();
+      const latestGeo = await fetchGeo();
       const html = buildEmail({
-        type: 'resume',
+        type:     'resume',
         visitTime: getVisitTime(),
-        geo,
+        geo:      latestGeo,
         ...device,
         screen:   `${window.screen.width} × ${window.screen.height}`,
         viewport: `${window.innerWidth} × ${window.innerHeight}`,
@@ -95,16 +139,17 @@ export function useVisitorTracking() {
         url:      window.location.href,
         isReturn,
       });
-
-      const subject = `Resume Downloaded — ${geo.city ?? 'Unknown'}, ${geo.country_name ?? 'Unknown'} · ${device.deviceType} · ${device.browserName}`;
+      const subject = `Resume Downloaded — ${latestGeo.city ?? 'Unknown'}, ${latestGeo.country_name ?? 'Unknown'} · ${device.deviceType} · ${device.browserName}`;
       sendAnalyticsEmail(subject, html).catch(() => {});
     };
 
     document.addEventListener('portfolio:resume-download', handleResumeDownload);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(maxTimer);
       observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
       document.removeEventListener('portfolio:resume-download', handleResumeDownload);
     };
   }, []);
