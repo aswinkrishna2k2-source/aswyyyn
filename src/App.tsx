@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/react';
 import { motion } from 'framer-motion';
+import { useVisitorTracking } from './hooks/useVisitorTracking';
 import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -68,6 +69,8 @@ function Sidebar() {
 }
 
 export default function App() {
+  useVisitorTracking();
+
   return (
     <div className="min-h-screen bg-[#1b1b1b] font-mono text-fg">
       <Sidebar />
