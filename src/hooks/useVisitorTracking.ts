@@ -33,36 +33,53 @@ export function useVisitorTracking() {
 
     const referrer = document.referrer || 'Direct / Bookmark';
 
-    const lines = [
-      `New visitor on aswyyyn.vercel.app`,
-      ``,
-      `Time        : ${visitTime} IST`,
-      ``,
-      `Device Type : ${deviceType}`,
-      `Device Model: ${deviceModel}`,
-      ``,
-      `Browser     : ${browser.name ?? 'Unknown'} ${browser.version ?? ''}`.trim(),
-      `OS          : ${os.name ?? 'Unknown'} ${os.version ?? ''}`.trim(),
-      ``,
-      `Screen      : ${window.screen.width} x ${window.screen.height}`,
-      `Viewport    : ${window.innerWidth} x ${window.innerHeight}`,
-      `Language    : ${navigator.language}`,
-      ``,
-      `Referrer    : ${referrer}`,
-      `URL         : ${window.location.href}`,
-    ];
+    // Fetch IP geolocation then send the combined email
+    fetch('https://ipapi.co/json/')
+      .then(r => r.json())
+      .then((geo: Record<string, string>) => {
+        const lines = [
+          `New visitor on aswyyyn.vercel.app`,
+          ``,
+          `Time        : ${visitTime} IST`,
+          ``,
+          `-- Location (IP) --`,
+          `IP          : ${geo.ip ?? 'Unknown'}`,
+          `Country     : ${geo.country_name ?? 'Unknown'}`,
+          `Region      : ${geo.region ?? 'Unknown'}`,
+          `City        : ${geo.city ?? 'Unknown'}`,
+          `ISP         : ${geo.org ?? 'Unknown'}`,
+          `Timezone    : ${geo.timezone ?? 'Unknown'}`,
+          ``,
+          `-- Device --`,
+          `Device Type : ${deviceType}`,
+          `Device Model: ${deviceModel}`,
+          ``,
+          `-- Browser / OS --`,
+          `Browser     : ${browser.name ?? 'Unknown'} ${browser.version ?? ''}`.trim(),
+          `OS          : ${os.name ?? 'Unknown'} ${os.version ?? ''}`.trim(),
+          ``,
+          `-- Display --`,
+          `Screen      : ${window.screen.width} x ${window.screen.height}`,
+          `Viewport    : ${window.innerWidth} x ${window.innerHeight}`,
+          `Language    : ${navigator.language}`,
+          ``,
+          `-- Traffic --`,
+          `Referrer    : ${referrer}`,
+          `URL         : ${window.location.href}`,
+        ];
 
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_KEY,
-        subject: `Portfolio Visit — ${deviceType} · ${os.name ?? 'Unknown'} · ${browser.name ?? 'Unknown'}`,
-        from_name: 'Portfolio Analytics',
-        email: 'visitor@portfolio.local',
-        message: lines.join('\n'),
-      }),
-    })
+        return fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `Portfolio Visit — ${geo.city ?? 'Unknown'}, ${geo.country_name ?? 'Unknown'} · ${deviceType} · ${browser.name ?? 'Unknown'}`,
+            from_name: 'Portfolio Analytics',
+            email: 'visitor@portfolio.local',
+            message: lines.join('\n'),
+          }),
+        });
+      })
       .then(() => sessionStorage.setItem('_vt', '1'))
       .catch(() => {});
   }, []);
