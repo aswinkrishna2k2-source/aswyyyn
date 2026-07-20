@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes carousel-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
 :root {
   --accent: 239 174 74; /* #efae4a — single source of truth in palette.ts, mirrored here as fallback */
 }
@@ -132,5 +147,50 @@
   .social-icon:hover {
     border-color: rgb(var(--accent) / 0.4);
     color: rgb(var(--accent));
+  }
+
+  .carousel-timer-track {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .carousel-timer-fill {
+    background: rgb(var(--accent));
+    animation-name: carousel-fill;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  .carousel-timer-fill.paused {
+    animation-play-state: paused;
+  }
+
+  .carousel-nav-btn {
+    background: rgba(27, 27, 27, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e4e4e4;
+    backdrop-filter: blur(2px);
+    transition: border-color 0.2s, color 0.2s, opacity 0.2s;
+  }
+
+  .carousel-nav-btn:hover {
+    border-color: rgb(var(--accent) / 0.5);
+    color: rgb(var(--accent));
+  }
+
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .animate-marquee-left {
+    animation-name: marquee-left;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .animate-marquee-right {
+    animation-name: marquee-right;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 }

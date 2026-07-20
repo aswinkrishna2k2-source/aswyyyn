@@ -1,7 +1,11 @@
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiDownload } from 'react-icons/fi';
 import { staggerContainer, slideUp } from '../utils/animations';
 import { font } from "../utils/fontsize";
+// import TechMarquee from './TechMarquee';
+
+const GREETINGS = ['Hi', 'Hola', 'Bonjour', 'Ciao', 'Hallo', 'Olá', 'Namaste', 'こんにちは', '안녕하세요', '你好', 'Привет', 'Salaam'];
 
 function LogoDecor({ size = 114 }: { size?: number }) {
   return (
@@ -41,10 +45,20 @@ export default function Hero() {
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [greetingIndex, setGreetingIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setGreetingIndex(i => (i + 1) % GREETINGS.length);
+    }, 2200);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <section id="home" className="min-h-screen flex items-center pt-14 px-6 lg:px-16">
+    <section id="home" className="min-h-screen flex flex-col pt-14 px-6 lg:px-16">
+      <div className="flex-1 flex items-center">
       <div className="max-w-6xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center pt-16 lg:py-0 min-h-[calc(100vh-56px)]">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center pt-16 lg:py-0">
 
           {/* Left — stagger text in on mount */}
           <motion.div
@@ -54,9 +68,23 @@ export default function Hero() {
           >
             <motion.p
               variants={slideUp}
-              className={`text-muted ${font.heroGreeting} mb-4 tracking-wide`}
+              className={`text-muted ${font.heroGreeting} mb-4 tracking-wide inline-flex items-baseline`}
             >
-              Hi, I'm —
+              <span className="relative inline-block overflow-hidden align-bottom" style={{ height: '1.3em' }}>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={GREETINGS[greetingIndex]}
+                    className="inline-block"
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -16 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    {GREETINGS[greetingIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+              <span>,&nbsp;I'm —</span>
             </motion.p>
 
             <motion.h1 variants={slideUp} className="font-bold leading-[1.0] mb-6">
@@ -140,6 +168,8 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+      </div>
+      {/* <TechMarquee /> */}
     </section>
   );
 }

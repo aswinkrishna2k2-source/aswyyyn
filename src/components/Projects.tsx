@@ -1,28 +1,27 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiExternalLink, FiGithub, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiChevronDown, FiChevronUp, FiArrowUpRight } from 'react-icons/fi';
 import { SiAppstore, SiGoogleplay } from 'react-icons/si';
 import { featuredProjects, otherProjects, type Project } from '../data/projects';
+import { getProjectGallery } from '../utils/projectGallery';
 import { font } from '../utils/fontsize';
 import { palette } from '../utils/palette';
 import { slideUp, fadeInLeft, staggerContainer, fastStagger, viewport } from '../utils/animations';
 
-function FeaturedCard({ project }: { project: Project }) {
+function ProjectCardBody({ project, badge = false }: { project: Project; badge?: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const accent = palette.accent;
+  const cover = project.logo ?? getProjectGallery(project.slug)[0];
 
   return (
-    <motion.div
-      className="project-card flex flex-col"
-      variants={slideUp}
-      whileHover={{ y: -4, transition: { duration: 0.2, ease: 'easeOut' } }}
-    >
-      <div className="h-48 relative border-b border-white/10 overflow-hidden">
-        {project.logo ? (
+    <>
+      <Link to={`/projects/${project.slug}`} className="h-48 relative border-b border-white/10 overflow-hidden block">
+        {cover ? (
           <img
-            src={project.logo}
+            src={cover}
             alt={project.title}
-            className="absolute inset-0 w-full h-full object-contain p-6"
+            className={`absolute inset-0 w-full h-full ${project.logo ? 'object-contain p-6' : 'object-cover'}`}
           />
         ) : (
           <div
@@ -43,19 +42,38 @@ function FeaturedCard({ project }: { project: Project }) {
             background: `radial-gradient(ellipse at 50% 120%, ${accent}40 0%, transparent 65%)`,
           }}
         />
-        <span
-          className={`absolute top-3 right-3 ${font.small} px-2 py-0.5 border backdrop-blur-sm`}
-          style={{ color: accent, borderColor: `${accent}50`, background: `${accent}15` }}
-        >
-          featured
-        </span>
-      </div>
+        {badge && (
+          <span
+            className={`absolute top-3 right-3 ${font.small} px-2 py-0.5 border backdrop-blur-sm`}
+            style={{ color: accent, borderColor: `${accent}50`, background: `${accent}15` }}
+          >
+            featured
+          </span>
+        )}
+        {project.status && (
+          <span
+            className={`absolute top-3 left-3 ${font.small} px-2 py-0.5 border backdrop-blur-sm inline-flex items-center gap-1.5`}
+            style={{ color: accent, borderColor: `${accent}50`, background: `${accent}15` }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                style={{ background: accent }}
+              />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: accent }} />
+            </span>
+            {project.status}
+          </span>
+        )}
+      </Link>
 
       <div className="p-5 flex flex-col flex-1">
         <p className={`${font.cardTag} text-muted mb-2 leading-relaxed`}>
           {project.tags.join('  ')}
         </p>
-        <h3 className={`text-fg font-bold ${font.cardTitle} mb-2`}>{project.title}</h3>
+        <Link to={`/projects/${project.slug}`}>
+          <h3 className={`text-fg font-bold ${font.cardTitle} mb-2 hover:text-accent transition-colors`}>{project.title}</h3>
+        </Link>
 
         <div className="mb-4 flex-1">
           <p className={`text-muted ${font.cardBody} leading-relaxed ${expanded ? '' : 'line-clamp-2'}`}>
@@ -71,6 +89,9 @@ function FeaturedCard({ project }: { project: Project }) {
         </div>
 
         <div className="flex gap-2 flex-wrap">
+          <Link to={`/projects/${project.slug}`} className={`btn-accent ${font.small} inline-flex items-center gap-1.5`}>
+            <FiArrowUpRight size={13} /> Details
+          </Link>
           {project.githubUrl && project.githubUrl !== '#' && (
             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className={`btn-ghost ${font.small}`}>
               <FiGithub size={13} /> GitHub
@@ -93,35 +114,33 @@ function FeaturedCard({ project }: { project: Project }) {
           )}
         </div>
       </div>
+    </>
+  );
+}
+
+function FeaturedCard({ project }: { project: Project }) {
+  return (
+    <motion.div
+      className="project-card flex flex-col"
+      variants={slideUp}
+      whileHover={{ y: -4, transition: { duration: 0.2, ease: 'easeOut' } }}
+    >
+      <ProjectCardBody project={project} badge />
     </motion.div>
   );
 }
 
 function OtherCard({ project, index }: { project: Project; index: number }) {
-  const accent = palette.accent;
-
   return (
     <motion.div
-      className="flex flex-col p-4 border border-white/8 bg-white/2 hover:bg-white/4 transition-colors"
-      style={{ borderLeftColor: `${accent}50`, borderLeftWidth: '2px' }}
+      className="project-card flex flex-col"
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8, transition: { duration: 0.18 } }}
       transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      whileHover={{ x: 3, transition: { duration: 0.2, ease: 'easeOut' } }}
+      whileHover={{ y: -4, transition: { duration: 0.2, ease: 'easeOut' } }}
     >
-      <div className="flex items-start justify-between gap-2 mb-1">
-        <h4 className={`text-fg font-semibold ${font.cardTitle}`}>{project.title}</h4>
-        {project.githubUrl && project.githubUrl !== '#' && (
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-accent transition-colors flex-shrink-0" aria-label="GitHub">
-            <FiGithub size={14} />
-          </a>
-        )}
-      </div>
-      <p className={`${font.cardTag} text-muted mb-3 leading-relaxed line-clamp-2 flex-1`}>
-        {project.description}
-      </p>
-      <p className={`${font.cardTag} text-muted/60`}>{project.tags.join('  ·  ')}</p>
+      <ProjectCardBody project={project} />
     </motion.div>
   );
 }
@@ -143,7 +162,7 @@ export default function Projects() {
           viewport={viewport}
         >
           <h2 className={`section-title ${font.sectionTitle}`}>
-            <span className="text-accent">#</span>projects
+            <span className="text-accent">#</span>contributed projects
           </h2>
           <div className="section-line" />
         </motion.div>
@@ -177,7 +196,7 @@ export default function Projects() {
 
         {/* Other cards */}
         <motion.div
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
           variants={fastStagger}
           initial="hidden"
           whileInView="visible"
