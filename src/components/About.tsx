@@ -3,7 +3,27 @@ import { staggerContainer, slideUp, fadeInLeft, scaleIn, viewport } from '../uti
 import { font } from '../utils/fontsize';
 import { about } from '../data/about';
 
+const DOB = new Date(2002, 9, 25); // 25/10/2002
+const EXPERIENCE_START_YEAR = 2024;
+
+function getAge(dob: Date) {
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const hasHadBirthdayThisYear =
+    today.getMonth() > dob.getMonth() ||
+    (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+  if (!hasHadBirthdayThisYear) age--;
+  return age;
+}
+
+function getExperienceYears(startYear: number) {
+  return new Date().getFullYear() - startYear;
+}
+
 export default function About() {
+  const age = getAge(DOB);
+  const experienceYears = getExperienceYears(EXPERIENCE_START_YEAR);
+
   return (
     <section id="about-me" className="py-20 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto">
@@ -40,8 +60,8 @@ export default function About() {
               className={`space-y-4 text-muted ${font.aboutBody} leading-relaxed`}
             >
               <p>
-                23-year-old tech enthusiast based in Kollam, Kerala, with 2+ years of experience
-                building fast, clean web and mobile apps using the MERN stack and React Native.
+                {age}-year-old tech enthusiast based in Kollam, Kerala, with {experienceYears}+ years of
+                experience building fast, clean web and mobile apps using the MERN stack and React Native.
               </p>
               <p>
                 I care about details — good UX, readable code, and shipping things

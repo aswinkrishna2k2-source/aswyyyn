@@ -14,7 +14,7 @@ export const experiences: Experience[] = [
     role: 'Full Stack Developer',
     company: 'Codeeaq',
     duration: '2025 – Present',
-    type: 'Remote · Trivandrum / Dubai',
+    type: 'Remote · Trivandrum / UAE',
     color: '#cbff4c',
     contributions: [
       'Building and maintaining full-stack products for clients across regions',

@@ -47,6 +47,33 @@ export const featuredProjects: Project[] = [
     appStoreUrl: 'https://apps.apple.com/us/app/cresidence/id6768594817',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.codeeaq.residence&pli=1',
   },
+  {
+    id: 9,
+    slug: 'meryal-water-park',
+    title: 'Meryal Waterpark',
+    description: 'Qatar\'s largest waterpark — a 6-acre beachfront destination in Lusail with 53 slides across 69 attractions, built for Entrix Labs.',
+    longDescription: 'Website for Meryal Waterpark, the largest waterpark in Qatar, set on Qetaifan Island North in Lusail. The park spans 6 acres with 53 slides and 69 attractions in total, headlined by the 85m Icon Tower ("Rig 1938") — an oil-rig-inspired structure with two Guinness World Record attempts for tallest waterpark tower and most rides on a single tower, home to Vertigo, the world\'s tallest water slide at a 76.3m drop. Other signature rides include Alghazal, a twisting rollercoaster-style water ride, and Rapid Refinery, the Middle East\'s first hybrid water slide combining a Ferris-wheel-style raft ride with sharp twists. The park also has a wave pool, lazy river, dedicated kids\' splash areas, an Italian restaurant, a kids club, and sandy beachfront shores.',
+    status: 'Live',
+    tags: ['Next.js', 'React', 'Tailwind'],
+    gradient: 'from-sky-500/20 to-blue-500/20',
+    liveUrl: 'https://meryalwaterpark.com/',
+    githubUrl: '#',
+    featured: true,
+  },
+  {
+    id: 10,
+    slug: 'cparish',
+    title: 'cParish',
+    description: 'A parish management app built for Codeeaq. Digitizes member directories, family records, and sacrament registers for Catholic parishes with secure phone-OTP sign-in — available on iOS and Android.',
+    longDescription: 'cParish is a parish management app that brings a Catholic parish\'s member directory, family records, and sacrament registers (Baptism, Confirmation, Marriage, and more) into one secure app, in English and Malayalam. Parish members can view their family\'s membership details, sacrament history, BCC (Basic Christian Community) unit info, and parish announcements. Parish administrators get a complete, organized member and family registry, can manage sacrament records, organize members into BCC units, and send announcements directly to the community — all behind role-based access. Accounts are provisioned by the parish administrator and sign-in happens over secure phone OTP, so member data stays private and visible only to verified parish members, replacing the paper records and scattered spreadsheets many parishes rely on.',
+    tags: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
+    gradient: 'from-amber-500/20 to-orange-500/20',
+    liveUrl: '#',
+    githubUrl: '#',
+    featured: true,
+    appStoreUrl: 'https://apps.apple.com/in/app/cparish/id6781975967',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.codeeaq.parish',
+  },
 ];
 
 export const otherProjects: Project[] = [
