@@ -27,6 +27,11 @@ export const font = {
   skillCategory: "text-lg",
   skillItem: "text-base",
 
+  // ── Certifications ────────────────────────────────────────────────────
+  certTitle: "text-lg sm:text-xl",
+  certIssuer: "text-base",
+  certMeta: "text-sm",
+
   // ── Experience ────────────────────────────────────────────────────────
   expRole: "text-2xl",
   expCompany: "text-lg",

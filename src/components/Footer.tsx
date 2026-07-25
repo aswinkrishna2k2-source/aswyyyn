@@ -33,7 +33,7 @@ export default function Footer() {
 
         <div className="border-t border-white/5 mt-6 pt-6 text-center">
           <p className={`text-muted/50 ${font.small}`}>
-            © Copyright {new Date().getFullYear()}. Built with passion by{' '}
+            © Copyright {new Date().getFullYear()}. Built with <span className="text-accent">♥</span> by{' '}
             <span className="text-accent">aswyyyn</span>
           </p>
         </div>

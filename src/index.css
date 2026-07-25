@@ -177,6 +177,33 @@
     color: rgb(var(--accent));
   }
 
+  .cert-frame {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #141414;
+  }
+
+  .cert-thumb {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.45;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+
+  .cert-thumb:hover {
+    opacity: 0.75;
+  }
+
+  .cert-thumb.active {
+    opacity: 1;
+    border-color: rgb(var(--accent) / 0.6);
+  }
+
+  .cert-timer-badge {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(27, 27, 27, 0.7);
+    color: rgb(var(--accent));
+    font-variant-numeric: tabular-nums;
+  }
+
   .marquee-mask {
     -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
     mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
