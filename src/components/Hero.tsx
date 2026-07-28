@@ -2,6 +2,32 @@ import { motion } from "framer-motion";
 import { FiDownload } from "react-icons/fi";
 import { staggerContainer, slideUp } from "../utils/animations";
 import { font } from "../utils/fontsize";
+import { palette } from "../utils/palette";
+
+function OutlineName() {
+  return (
+    <svg
+      viewBox="0 0 340 100"
+      style={{ width: "3.55em", height: "1.05em", overflow: "visible" }}
+      role="img"
+      aria-label="Aswin."
+    >
+      <text
+        x="0"
+        y="78"
+        fontFamily="'Fira Code', monospace"
+        fontWeight="700"
+        fontSize="88"
+        fill="none"
+        stroke={palette.accent}
+        strokeWidth="2.5"
+        vectorEffect="non-scaling-stroke"
+      >
+        Aswin.
+      </text>
+    </svg>
+  );
+}
 
 function LogoDecor({ size = 114 }: { size?: number }) {
   return (
@@ -97,8 +123,8 @@ export default function Hero() {
                 variants={slideUp}
                 className="font-bold leading-[1.0] mb-6"
               >
-                <span className={`block ${font.heroName} text-accent`}>
-                  Aswin.
+                <span className={`block ${font.heroName}`}>
+                  <OutlineName />
                 </span>
               </motion.h1>
 
