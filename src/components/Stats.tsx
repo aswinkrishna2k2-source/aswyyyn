@@ -13,9 +13,15 @@ export default function Stats() {
           whileInView="visible"
           viewport={viewport}
         >
-          <span className="absolute -top-5 left-6 text-5xl text-accent font-serif leading-none select-none">
+          <motion.span
+            className="absolute -top-5 left-6 text-5xl text-accent font-serif leading-none select-none"
+            initial={{ opacity: 0, scale: 0.3, rotate: -30 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+            viewport={viewport}
+            transition={{ type: 'spring', stiffness: 260, damping: 14, delay: 0.25 }}
+          >
             "
-          </span>
+          </motion.span>
 
           <p className={`text-fg ${font.quoteText} text-center leading-relaxed mt-2`}>
             I am always doing what I cannot do yet, in order to learn how to do it.
@@ -26,9 +32,15 @@ export default function Stats() {
             <span className={`text-muted ${font.quoteAuthor}`}>Pablo Picasso</span>
           </div>
 
-          <span className="absolute -bottom-5 right-6 text-5xl text-accent font-serif leading-none select-none rotate-180">
+          <motion.span
+            className="absolute -bottom-5 right-6 text-5xl text-accent font-serif leading-none select-none"
+            initial={{ opacity: 0, scale: 0.3, rotate: 150 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 180 }}
+            viewport={viewport}
+            transition={{ type: 'spring', stiffness: 260, damping: 14, delay: 0.4 }}
+          >
             "
-          </span>
+          </motion.span>
         </motion.div>
       </div>
     </section>

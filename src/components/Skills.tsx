@@ -68,7 +68,14 @@ export default function Skills() {
             viewport={viewport}
           >
             <div className="hidden lg:block"><DotGrid rows={5} cols={5} /></div>
-            <LogoDecor />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.4, rotate: -20 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              viewport={viewport}
+              transition={{ type: 'spring', stiffness: 260, damping: 15, delay: 0.3 }}
+            >
+              <LogoDecor />
+            </motion.div>
             <div className="hidden lg:block"><DotGrid rows={4} cols={4} /></div>
           </motion.div>
 
