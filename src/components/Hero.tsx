@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiMail } from "react-icons/fi";
 import { staggerContainer, slideUp } from "../utils/animations";
 import { font } from "../utils/fontsize";
 import { palette } from "../utils/palette";
@@ -8,7 +8,7 @@ function OutlineName() {
   return (
     <svg
       viewBox="0 0 340 100"
-      style={{ width: "3.55em", height: "1.05em", overflow: "visible" }}
+      style={{ width: "4.6em", height: "1.35em", overflow: "visible" }}
       role="img"
       aria-label="Aswin."
     >
@@ -148,9 +148,9 @@ export default function Hero() {
               >
                 <button
                   onClick={() => scrollTo("#contact")}
-                  className={`btn-accent ${font.button}`}
+                  className={`btn-accent ${font.button} inline-flex items-center gap-2`}
                 >
-                  Start a Project →
+                  Contact <FiMail size={15} />
                 </button>
                 <a
                   href="/resume.pdf"

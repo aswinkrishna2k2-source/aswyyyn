@@ -6,7 +6,7 @@
 export const font = {
   // ── Hero ──────────────────────────────────────────────────────────────
   heroGreeting: "text-xl",
-  heroName: "text-5xl md:text-6xl lg:text-7xl",
+  heroName: "text-6xl md:text-6xl lg:text-7xl",
   heroSurname: "text-5xl md:text-6xl lg:text-7xl",
   heroRole: "text-2xl",
   heroBody: "text-lg",

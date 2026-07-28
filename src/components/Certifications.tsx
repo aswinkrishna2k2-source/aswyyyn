@@ -6,7 +6,7 @@ import { font } from '../utils/fontsize';
 import { certificates } from '../data/certificates';
 
 const AUTOPLAY_SECONDS = 4;
-const TRANSITION_SECONDS = 1;
+const TRANSITION_SECONDS = 0.3;
 
 const slideVariants = {
   enter: (direction: number) => ({ x: direction > 0 ? 60 : -60, opacity: 0 }),
