@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCode } from 'react-icons/fi';
 import { font } from '../utils/fontsize';
 
 const navLinks = [
@@ -17,6 +16,7 @@ export default function Navbar() {
   const [active, setActive] = useState('home');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [logoHover, setLogoHover] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -51,9 +51,22 @@ export default function Navbar() {
           <a
             href="#home"
             onClick={(e) => { e.preventDefault(); handleNav('#home', 'home'); }}
-            className={`text-fg font-bold ${font.navLogo} hover:text-accent transition-colors duration-200`}
+            onMouseEnter={() => setLogoHover(true)}
+            onMouseLeave={() => setLogoHover(false)}
+            className={`relative inline-block overflow-hidden text-fg font-bold ${font.navLogo} hover:text-accent transition-colors duration-200`}
           >
-            <FiCode className="text-accent" size={22} />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={logoHover ? 'hover' : 'default'}
+                initial={{ y: 12, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -12, opacity: 0 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="inline-block"
+              >
+                {logoHover ? '~/aswyyyn' : 'whoami'}
+              </motion.span>
+            </AnimatePresence>
           </a>
 
           <ul className="hidden md:flex items-center gap-7">

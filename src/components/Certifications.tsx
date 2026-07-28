@@ -5,7 +5,7 @@ import { fadeInLeft, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
 import { certificates } from '../data/certificates';
 
-const AUTOPLAY_SECONDS = 2;
+const AUTOPLAY_SECONDS = 4;
 const TRANSITION_SECONDS = 1;
 
 const slideVariants = {

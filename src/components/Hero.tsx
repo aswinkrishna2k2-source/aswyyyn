@@ -1,28 +1,51 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiDownload } from 'react-icons/fi';
-import { staggerContainer, slideUp } from '../utils/animations';
+import { motion } from "framer-motion";
+import { FiDownload } from "react-icons/fi";
+import { staggerContainer, slideUp } from "../utils/animations";
 import { font } from "../utils/fontsize";
-// import TechMarquee from './TechMarquee';
-
-const GREETINGS = ['Hi', 'Hola', 'Bonjour', 'Ciao', 'Hallo', 'Olá', 'Namaste', 'こんにちは', '안녕하세요', '你好', 'Привет', 'Salaam'];
 
 function LogoDecor({ size = 114 }: { size?: number }) {
   return (
     <svg
-      width={size} height={size} viewBox="0 0 114 114"
-      fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ color: 'rgb(var(--accent))' }}
+      width={size}
+      height={size}
+      viewBox="0 0 114 114"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ color: "rgb(var(--accent))" }}
     >
       <mask id="hero-mask-1" fill="white">
-        <path fillRule="evenodd" clipRule="evenodd" d="M57.5 0H85.75H114V28.25V56.5V84.75H85.75H57.5V56.5H85.75V28.25H57.5V0Z"/>
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M57.5 0H85.75H114V28.25V56.5V84.75H85.75H57.5V56.5H85.75V28.25H57.5V0Z"
+        />
       </mask>
-      <path d="M57.5 0V-1H56.5V0H57.5ZM114 0H115V-1H114V0ZM114 84.75V85.75H115V84.75H114ZM57.5 84.75H56.5V85.75H57.5V84.75ZM57.5 56.5V55.5H56.5V56.5H57.5ZM85.75 56.5V57.5H86.75V56.5H85.75ZM85.75 28.25H86.75V27.25H85.75V28.25ZM57.5 28.25H56.5V29.25H57.5V28.25ZM85.75 -1H57.5V1H85.75V-1ZM114 -1H85.75V1H114V-1ZM115 28.25V0H113V28.25H115ZM115 56.5V28.25H113V56.5H115ZM115 84.75V56.5H113V84.75H115ZM85.75 85.75H114V83.75H85.75V85.75ZM85.75 83.75H57.5V85.75H85.75V83.75ZM58.5 84.75V56.5H56.5V84.75H58.5ZM57.5 57.5H85.75V55.5H57.5V57.5ZM84.75 28.25V56.5H86.75V28.25H84.75ZM57.5 29.25H85.75V27.25H57.5V29.25ZM56.5 0V28.25H58.5V0H56.5Z" fill="currentColor" mask="url(#hero-mask-1)"/>
-      <mask id="hero-mask-2" maskUnits="userSpaceOnUse" x="0" y="27.2501" width="59" height="87" fill="black">
-        <rect fill="white" y="27.2501" width="59" height="87"/>
-        <path fillRule="evenodd" clipRule="evenodd" d="M1 28.2501H29.25H57.5V56.5001H29.25V84.7501H57.5V113H29.25H1V84.7501V56.5001V28.2501Z"/>
+      <path
+        d="M57.5 0V-1H56.5V0H57.5ZM114 0H115V-1H114V0ZM114 84.75V85.75H115V84.75H114ZM57.5 84.75H56.5V85.75H57.5V84.75ZM57.5 56.5V55.5H56.5V56.5H57.5ZM85.75 56.5V57.5H86.75V56.5H85.75ZM85.75 28.25H86.75V27.25H85.75V28.25ZM57.5 28.25H56.5V29.25H57.5V28.25ZM85.75 -1H57.5V1H85.75V-1ZM114 -1H85.75V1H114V-1ZM115 28.25V0H113V28.25H115ZM115 56.5V28.25H113V56.5H115ZM115 84.75V56.5H113V84.75H115ZM85.75 85.75H114V83.75H85.75V85.75ZM85.75 83.75H57.5V85.75H85.75V83.75ZM58.5 84.75V56.5H56.5V84.75H58.5ZM57.5 57.5H85.75V55.5H57.5V57.5ZM84.75 28.25V56.5H86.75V28.25H84.75ZM57.5 29.25H85.75V27.25H57.5V29.25ZM56.5 0V28.25H58.5V0H56.5Z"
+        fill="currentColor"
+        mask="url(#hero-mask-1)"
+      />
+      <mask
+        id="hero-mask-2"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="27.2501"
+        width="59"
+        height="87"
+        fill="black"
+      >
+        <rect fill="white" y="27.2501" width="59" height="87" />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M1 28.2501H29.25H57.5V56.5001H29.25V84.7501H57.5V113H29.25H1V84.7501V56.5001V28.2501Z"
+        />
       </mask>
-      <path d="M1 28.2501V27.2501H0V28.2501H1ZM57.5 28.2501H58.5V27.2501H57.5V28.2501ZM57.5 56.5001V57.5001H58.5V56.5001H57.5ZM29.25 56.5001V55.5001H28.25V56.5001H29.25ZM29.25 84.7501H28.25V85.7501H29.25V84.7501ZM57.5 84.7501H58.5V83.7501H57.5V84.7501ZM57.5 113V114H58.5V113H57.5ZM1 113H0V114H1V113ZM29.25 27.2501H1V29.2501H29.25V27.2501ZM57.5 27.2501H29.25V29.2501H57.5V27.2501ZM58.5 56.5001V28.2501H56.5V56.5001H58.5ZM29.25 57.5001H57.5V55.5001H29.25V57.5001ZM30.25 84.7501V56.5001H28.25V84.7501H30.25ZM29.25 85.7501H57.5V83.7501H29.25V85.7501ZM56.5 84.7501V113H58.5V84.7501H56.5ZM57.5 112H29.25V114H57.5V112ZM1 114H29.25V112H1V114ZM0 84.7501V113H2V84.7501H0ZM0 56.5001V84.7501H2V56.5001H0ZM0 28.2501V56.5001H2V28.2501H0Z" fill="currentColor" mask="url(#hero-mask-2)"/>
+      <path
+        d="M1 28.2501V27.2501H0V28.2501H1ZM57.5 28.2501H58.5V27.2501H57.5V28.2501ZM57.5 56.5001V57.5001H58.5V56.5001H57.5ZM29.25 56.5001V55.5001H28.25V56.5001H29.25ZM29.25 84.7501H28.25V85.7501H29.25V84.7501ZM57.5 84.7501H58.5V83.7501H57.5V84.7501ZM57.5 113V114H58.5V113H57.5ZM1 113H0V114H1V113ZM29.25 27.2501H1V29.2501H29.25V27.2501ZM57.5 27.2501H29.25V29.2501H57.5V27.2501ZM58.5 56.5001V28.2501H56.5V56.5001H58.5ZM29.25 57.5001H57.5V55.5001H29.25V57.5001ZM30.25 84.7501V56.5001H28.25V84.7501H30.25ZM29.25 85.7501H57.5V83.7501H29.25V85.7501ZM56.5 84.7501V113H58.5V84.7501H56.5ZM57.5 112H29.25V114H57.5V112ZM1 114H29.25V112H1V114ZM0 84.7501V113H2V84.7501H0ZM0 56.5001V84.7501H2V56.5001H0ZM0 28.2501V56.5001H2V28.2501H0Z"
+        fill="currentColor"
+        mask="url(#hero-mask-2)"
+      />
     </svg>
   );
 }
@@ -45,129 +68,133 @@ export default function Hero() {
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const [greetingIndex, setGreetingIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setGreetingIndex(i => (i + 1) % GREETINGS.length);
-    }, 2200);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <section id="home" className="min-h-screen flex flex-col pt-14 px-6 lg:px-16">
+    <section
+      id="home"
+      className="min-h-screen flex flex-col pt-14 px-6 lg:px-16"
+    >
       <div className="flex-1 flex items-center">
-      <div className="max-w-6xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center pt-16 lg:py-0">
-
-          {/* Left — stagger text in on mount */}
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.p
-              variants={slideUp}
-              className={`text-muted ${font.heroGreeting} mb-4 tracking-wide inline-flex items-baseline`}
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="grid lg:grid-cols-2 gap-4 lg:gap-8 items-center pt-16 lg:py-0">
+            {/* Left — stagger text in on mount */}
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
             >
-              <span className="relative inline-block overflow-hidden align-bottom" style={{ height: '1.3em' }}>
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={GREETINGS[greetingIndex]}
-                    className="inline-block"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  >
-                    {GREETINGS[greetingIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-              <span>,&nbsp;I'm —</span>
-            </motion.p>
-
-            <motion.h1 variants={slideUp} className="font-bold leading-[1.0] mb-6">
-              <span className={`block ${font.heroName} text-accent`}>
-                Aswin.
-              </span>
-            </motion.h1>
-
-            <motion.p
-              variants={slideUp}
-              className={`text-muted ${font.heroRole} mb-4 font-medium`}
-            >
-              Full Stack / React Native Developer · UI/UX Designer 
-            </motion.p>
-
-            <motion.p
-              variants={slideUp}
-              className={`text-muted/70 ${font.heroBody} leading-relaxed mb-10 max-w-md`}
-            >
-              I craft web experiences that feel intentional — powered by
-              thoughtful design systems, polished interactions, and an unhealthy
-              attention to detail.
-            </motion.p>
-
-            <motion.div variants={slideUp} className="flex flex-wrap items-center gap-5">
-              <button
-                onClick={() => scrollTo("#contact")}
-                className={`btn-accent ${font.button}`}
+              <motion.p
+                variants={slideUp}
+                className={`text-muted ${font.heroGreeting} mb-4 tracking-wide inline-flex items-baseline`}
               >
-                Contact me!!
-              </button>
-              <a
-                href="/resume.pdf"
-                download="Aswin Krishnan — Resume.pdf"
-                className={`btn-accent ${font.button} inline-flex items-center gap-2`}
-                onClick={() => document.dispatchEvent(new CustomEvent('portfolio:resume-download'))}
+                <span
+                  className="relative inline-block overflow-hidden align-bottom"
+                  style={{ height: "1.3em" }}
+                ></span>
+                <span>Hi,&nbsp;I'm —</span>
+              </motion.p>
+
+              <motion.h1
+                variants={slideUp}
+                className="font-bold leading-[1.0] mb-6"
               >
-                <FiDownload size={15} /> Resume
-              </a>
-            </motion.div>
-          </motion.div>
+                <span className={`block ${font.heroName} text-accent`}>
+                  Aswin.
+                </span>
+              </motion.h1>
 
-          {/* Right — photo slides in from right on mount */}
-          <motion.div
-            className="flex justify-center lg:justify-end"
-            initial={{ opacity: 0, x: 48 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="relative ml-14">
-              <div className="absolute z-20" style={{ left: -13, top: 76 }}>
-                <LogoDecor size={104} />
-              </div>
+              <motion.p
+                variants={slideUp}
+                className={`text-muted ${font.heroRole} mb-4 font-medium`}
+              >
+                Full Stack / React Native Developer · UI/UX Designer
+              </motion.p>
 
-              <div className="relative z-10 inline-block">
-                <img
-                  src="/images/aswin_img.png"
-                  alt="Aswin Krishnan"
-                  className="w-80 md:w-96 object-contain"
-                  style={{
-                    transform: "scaleX(-1)",
-                    filter: 'drop-shadow(0 0 24px rgba(203,255,76,0.15)) drop-shadow(0 0 48px rgba(203,255,76,0.07))',
-                  }}
-                />
-                <div
-                  className={`absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-surface border border-white/10 px-3 py-2 ${font.badge} whitespace-nowrap`}
+              <motion.p
+                variants={slideUp}
+                className={`text-muted/70 ${font.heroBody} leading-relaxed mb-10 max-w-md`}
+              >
+                Engineering for the AI Era.
+              </motion.p>
+
+              <motion.div
+                variants={slideUp}
+                className="flex flex-wrap items-center gap-5"
+              >
+                <button
+                  onClick={() => scrollTo("#contact")}
+                  className={`btn-accent ${font.button}`}
                 >
-                  <span className="text-green-400">▸ </span>
-                  <span className="text-muted">Currently working at </span>
-                  <span className="text-accent font-semibold">Codeeaq</span>
+                  Start a Project →
+                </button>
+                <a
+                  href="/resume.pdf"
+                  download="Aswin Krishnan — Resume.pdf"
+                  className={`btn-accent ${font.button} inline-flex items-center gap-2`}
+                  onClick={() =>
+                    document.dispatchEvent(
+                      new CustomEvent("portfolio:resume-download"),
+                    )
+                  }
+                >
+                  Resume
+                  <FiDownload size={15} />
+                </a>
+              </motion.div>
+            </motion.div>
+
+            {/* Right — photo slides in from right on mount */}
+            <motion.div
+              className="flex justify-center lg:justify-end"
+              initial={{ opacity: 0, x: 48 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.45,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              <div className="relative ml-14">
+                <div className="absolute z-20" style={{ left: -13, top: 76 }}>
+                  <LogoDecor size={104} />
+                </div>
+
+                <div className="relative z-10 inline-block">
+                  <img
+                    src="/images/aswin_img.png"
+                    alt="Aswin Krishnan"
+                    className="w-80 md:w-96 object-contain"
+                    style={{
+                      transform: "scaleX(-1)",
+                      filter:
+                        "drop-shadow(0 0 24px rgba(203,255,76,0.15)) drop-shadow(0 0 48px rgba(203,255,76,0.07))",
+                    }}
+                  />
+                  <div
+                    className={`absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-surface border border-white/10 px-3 py-2 ${font.badge} whitespace-nowrap`}
+                  >
+                    <span className="text-green-400">▸ </span>
+                    <span className="text-muted">Currently working at </span>
+                    <a
+                      href="https://codeeaq.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent font-semibold hover:underline"
+                    >
+                      Codeeaq
+                    </a>
+                  </div>
+                </div>
+
+                <div
+                  className="absolute z-20 opacity-50"
+                  style={{ right: -36, top: "40%" }}
+                >
+                  <DotGrid rows={5} cols={4} />
                 </div>
               </div>
-
-              <div
-                className="absolute z-20 opacity-50"
-                style={{ right: -36, top: "40%" }}
-              >
-                <DotGrid rows={5} cols={4} />
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
-      </div>
       </div>
       {/* <TechMarquee /> */}
     </section>

@@ -11,6 +11,7 @@ import Projects from './components/Projects';
 import Stats from './components/Stats';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 const sidebarContainer = {
   hidden: {},
@@ -84,6 +85,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <ScrollToTop />
       <Analytics />
     </div>
   );
