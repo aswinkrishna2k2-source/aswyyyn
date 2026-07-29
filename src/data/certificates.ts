@@ -3,6 +3,7 @@ import fullStackBootcamp from '../assets/certificates/Udemy_webdev.png';
 import sslTlsGuide from '../assets/certificates/udemy_ssl.png';
 import entrixInternship from '../assets/certificates/Entrix_certificate.png';
 import stackupInternship from '../assets/certificates/StackUP_.png';
+import streetwiseClaude from '../assets/certificates/Streetwise Official Certificate.png';
 
 export interface Certificate {
   id: number;
@@ -14,25 +15,18 @@ export interface Certificate {
 
 export const certificates: Certificate[] = [
   {
-    id: 1,
-    title: 'Internship Certificate — Node.js Development',
-    issuer: 'Stackup Learning Hub',
-    date: '2023 – 2024',
-    image: stackupInternship,
-  },
-  {
-    id: 2,
-    title: 'Certificate of Internship — Jr. Frontend Developer (React)',
-    issuer: 'Entrix Labs',
-    date: '2024 – 2025',
-    image: entrixInternship,
-  },
-  {
-    id: 3,
-    title: 'The Complete SSL and TLS Guide: HTTP to HTTPS',
+    id: 5,
+    title: 'AI Engineer Core Track: LLM Engineering, RAG, QLoRA, Agents',
     issuer: 'Udemy',
-    date: 'Nov 2025',
-    image: sslTlsGuide,
+    date: 'June 2026',
+    image: aiEngineering,
+  },
+  {
+    id: 6,
+    title: 'Master Of Claude',
+    issuer: 'Aplex.ai — Streetwise',
+    date: 'Jan 2026',
+    image: streetwiseClaude,
   },
   {
     id: 4,
@@ -42,10 +36,24 @@ export const certificates: Certificate[] = [
     image: fullStackBootcamp,
   },
   {
-    id: 5,
-    title: 'AI Engineer Core Track: LLM Engineering, RAG, QLoRA, Agents',
+    id: 3,
+    title: 'The Complete SSL and TLS Guide: HTTP to HTTPS',
     issuer: 'Udemy',
-    date: '2026',
-    image: aiEngineering,
+    date: 'Nov 2025',
+    image: sslTlsGuide,
+  },
+  {
+    id: 2,
+    title: 'Certificate of Internship — Jr. Frontend Developer (React)',
+    issuer: 'Entrix Labs',
+    date: '2024 – 2025',
+    image: entrixInternship,
+  },
+  {
+    id: 1,
+    title: 'Internship Certificate — Node.js Development',
+    issuer: 'Stackup Learning Hub',
+    date: '2023 – 2024',
+    image: stackupInternship,
   },
 ];

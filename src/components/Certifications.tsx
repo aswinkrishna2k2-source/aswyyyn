@@ -167,8 +167,8 @@ export default function Certifications() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Mobile / tablet picker — wrapping grid, no scrollbar */}
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-4 lg:hidden">
+            {/* Tablet picker — wrapping grid, no scrollbar (hidden on phone widths) */}
+            <div className="hidden sm:grid sm:grid-cols-6 gap-2 mt-4 lg:hidden">
               {certificates.map((c, i) => (
                 <button
                   key={c.id}
