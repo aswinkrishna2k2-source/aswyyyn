@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight, FiX, FiAward } from 'react-icons/fi';
 import { fadeInLeft, viewport } from '../utils/animations';
 import { font } from '../utils/fontsize';
@@ -15,13 +15,15 @@ const slideVariants = {
 };
 
 export default function Certifications() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef, { amount: 0.4 });
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(AUTOPLAY_SECONDS);
 
-  const paused = isHovered || lightboxOpen;
+  const paused = isHovered || lightboxOpen || !inView;
   const total = certificates.length;
   const cert = certificates[current];
 
@@ -60,7 +62,7 @@ export default function Certifications() {
   }, [lightboxOpen, current]);
 
   return (
-    <section id="certifications" className="py-20 px-6 lg:px-16">
+    <section id="certifications" ref={sectionRef} className="py-20 px-6 lg:px-16">
       <div className="max-w-6xl mx-auto">
         <motion.div
           className="section-header"
