@@ -230,21 +230,6 @@ export default function ProjectDetail() {
         </article>
       </main>
 
-      <footer className="border-t border-white/[0.06] px-4 py-8 md:px-8">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <Logo
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/');
-            }}
-          />
-          <p className="label text-muted">
-            © {new Date().getFullYear()} {profile.handle}
-          </p>
-        </div>
-      </footer>
-
       <Lightbox
         items={gallery.map((src, i) => ({ src, alt: `${project.title} screenshot ${i + 1}`, caption: `${project.title} · screenshot ${i + 1} of ${gallery.length}` }))}
         index={lightbox}
