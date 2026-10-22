@@ -5,6 +5,8 @@ import { FiArrowLeft, FiArrowRight, FiMaximize2 } from 'react-icons/fi';
 import Reveal from '../components/ui/Reveal';
 import Lightbox from '../components/ui/Lightbox';
 import { PhoneFan } from '../components/ui/ProjectCover';
+import VoiceStage from '../components/ui/VoiceStage';
+import { useVoiceClip } from '../hooks/useVoiceClip';
 import Logo from '../components/ui/Logo';
 import { allProjects, getProjectBySlug } from '../data/projects';
 import { profile } from '../data/profile';
@@ -30,6 +32,7 @@ export default function ProjectDetail() {
   const project = slug ? getProjectBySlug(slug) : undefined;
   const gallery = useMemo(() => (slug ? getProjectGallery(slug) : []), [slug]);
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const voiceClip = useVoiceClip(project?.voice?.intro);
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -125,7 +128,9 @@ export default function ProjectDetail() {
 
           {/* Hero media */}
           <motion.div {...enter(0.3, 32)} className="mt-12 md:mt-16">
-            {project.cover === 'phones' ? (
+            {project.cover === 'voice' && project.voice ? (
+              <VoiceStage variant="hero" voice={project.voice} images={gallery} clip={voiceClip} onOpen={setLightbox} className="h-[min(72svh,640px)] rounded-[2rem]" />
+            ) : project.cover === 'phones' ? (
               <PhoneFan images={gallery.slice(0, 3)} className="h-[min(62svh,560px)] rounded-[2rem]" />
             ) : hero ? (
               <button
@@ -212,7 +217,9 @@ export default function ProjectDetail() {
                     View project <FiArrowRight aria-hidden className="transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
-                {nextCover && (
+                {next.voice ? (
+                  <VoiceStage voice={next.voice} images={getProjectGallery(next.slug)} className="h-56 md:col-span-5 md:h-auto md:min-h-[18rem]" />
+                ) : nextCover && (
                   <div className="h-56 overflow-hidden md:col-span-5 md:h-auto">
                     <img src={nextCover} alt="" loading="lazy" className="h-full w-full object-cover object-left-top transition-transform duration-700 ease-story group-hover:scale-[1.04]" />
                   </div>

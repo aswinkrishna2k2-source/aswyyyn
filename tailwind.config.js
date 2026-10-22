@@ -25,9 +25,17 @@ export default {
       keyframes: {
         'spin-slow': { to: { transform: 'rotate(360deg)' } },
         blink: { '0%, 49%': { opacity: '1' }, '50%, 100%': { opacity: '0' } },
+        nudge: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(5px)' },
+        },
         'scroll-hint': {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(200%)' },
+        },
+        'voice-ring': {
+          '0%': { transform: 'scale(1)', opacity: '0.8' },
+          '100%': { transform: 'scale(1.9)', opacity: '0' },
         },
         pulse_ring: {
           '0%': { transform: 'scale(1)', opacity: '0.7' },
@@ -39,6 +47,8 @@ export default {
         blink: 'blink 1s steps(1) infinite',
         'pulse-ring': 'pulse_ring 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite',
         'scroll-hint': 'scroll-hint 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite',
+        nudge: 'nudge 2.2s ease-in-out infinite',
+        'voice-ring': 'voice-ring 2.1s cubic-bezier(0.22, 1, 0.36, 1) infinite',
       },
     },
   },

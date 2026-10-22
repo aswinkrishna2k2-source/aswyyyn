@@ -1,5 +1,14 @@
 import servesitesLogo from '../assets/logos/servesites.svg';
 import cresidenceLogo from '../assets/logos/cresidence.png';
+import ceeqIntro from '../assets/projects/ceeq-ai-assistant/intro-voice.wav';
+
+/** A voice product's persona and a short spoken intro */
+export interface ProjectVoice {
+  name: string;
+  intro: string;
+  /** Play-button label, e.g. "Hear Ceeq introduce herself" */
+  label: string;
+}
 
 export interface Project {
   id: number;
@@ -14,8 +23,9 @@ export interface Project {
   /** Who it was built for — omitted for personal builds */
   client?: string;
   platform: string;
-  /** 'phones' renders portrait app screenshots as a fanned trio instead of a single cover */
-  cover?: 'phones';
+  /** 'phones': portrait screenshots as a fanned trio. 'voice': the assistant's screens on a live voice stage. */
+  cover?: 'phones' | 'voice';
+  voice?: ProjectVoice;
   liveUrl: string;
   githubUrl?: string;
   featured?: boolean;
@@ -42,6 +52,36 @@ export const featuredProjects: Project[] = [
     logo: servesitesLogo,
   },
   {
+    id: 9,
+    slug: 'meryal-water-park',
+    title: 'Meryal Waterpark',
+    tagline: "The online front door to Qatar's largest waterpark.",
+    client: 'Entrix Labs',
+    platform: 'Website',
+    description: 'Qatar\'s largest waterpark — a 6-acre beachfront destination in Lusail with 53 slides across 69 attractions, built for Entrix Labs.',
+    longDescription: 'Website for Meryal Waterpark, the largest waterpark in Qatar, set on Qetaifan Island North in Lusail. The park spans 6 acres with 53 slides and 69 attractions in total, headlined by the 85m Icon Tower ("Rig 1938") — an oil-rig-inspired structure with two Guinness World Record attempts for tallest waterpark tower and most rides on a single tower, home to Vertigo, the world\'s tallest water slide at a 76.3m drop. Other signature rides include Alghazal, a twisting rollercoaster-style water ride, and Rapid Refinery, the Middle East\'s first hybrid water slide combining a Ferris-wheel-style raft ride with sharp twists. The park also has a wave pool, lazy river, dedicated kids\' splash areas, an Italian restaurant, a kids club, and sandy beachfront shores.',
+    // status: 'Live',
+    tags: ['Next.js', 'React', 'Tailwind'],
+    liveUrl: 'https://meryalwaterpark.com/',
+    githubUrl: '#',
+    featured: true,
+  },
+  {
+    id: 11,
+    slug: 'ceeq-bookings',
+    title: 'Ceeq Bookings',
+    tagline: 'Book any space by the hour, from meeting rooms to poolside party venues.',
+    client: 'Codeeaq',
+    platform: 'Mobile app',
+    cover: 'phones',
+    description: 'An hourly space-booking app built for Codeeaq. Find meeting rooms, workspaces, event halls and party venues nearby, pick a time slot and book in a few taps, with a hosting mode for venue owners. Built with React Native.',
+    longDescription: 'Ceeq Bookings lets people rent a space by the hour instead of the whole day: meeting rooms, workspaces, event halls, party venues, and pools and villas. Guests search by place and party size, sort and filter by price per hour, distance, rating or instant-book availability, and switch between a list and a map. Every listing has a photo gallery, capacity and floor area, amenities, opening hours, house rules, the host\'s profile and a location pin, with the exact address shared only after booking. Booking is a tap-to-select grid of hourly slots that shows what\'s free, selected or already taken, followed by a clear price breakdown (cleaning fee, service fee and GST) and a choice of paying at the venue or by UPI on arrival. Confirmed bookings get a status tracker and a booking code to show at check-in, and any user can switch to hosting to manage their own listings, booking requests and calendar.',
+    tags: ['React Native'],
+    liveUrl: '#',
+    githubUrl: '#',
+    featured: true,
+  },
+  {
     id: 2,
     slug: 'cresidence',
     title: 'cResidence',
@@ -59,35 +99,20 @@ export const featuredProjects: Project[] = [
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.codeeaq.residence&pli=1',
   },
   {
-    id: 9,
-    slug: 'meryal-water-park',
-    title: 'Meryal Waterpark',
-    tagline: "The online front door to Qatar's largest waterpark.",
-    client: 'Entrix Labs',
-    platform: 'Website',
-    description: 'Qatar\'s largest waterpark — a 6-acre beachfront destination in Lusail with 53 slides across 69 attractions, built for Entrix Labs.',
-    longDescription: 'Website for Meryal Waterpark, the largest waterpark in Qatar, set on Qetaifan Island North in Lusail. The park spans 6 acres with 53 slides and 69 attractions in total, headlined by the 85m Icon Tower ("Rig 1938") — an oil-rig-inspired structure with two Guinness World Record attempts for tallest waterpark tower and most rides on a single tower, home to Vertigo, the world\'s tallest water slide at a 76.3m drop. Other signature rides include Alghazal, a twisting rollercoaster-style water ride, and Rapid Refinery, the Middle East\'s first hybrid water slide combining a Ferris-wheel-style raft ride with sharp twists. The park also has a wave pool, lazy river, dedicated kids\' splash areas, an Italian restaurant, a kids club, and sandy beachfront shores.',
-    // status: 'Live',
-    tags: ['Next.js', 'React', 'Tailwind'],
-    liveUrl: 'https://meryalwaterpark.com/',
-    githubUrl: '#',
-    featured: true,
-  },
-  {
-    id: 10,
-    slug: 'cparish',
-    title: 'cParish',
-    tagline: "A parish's records, directory and announcements in one secure app.",
+    id: 12,
+    slug: 'ceeq-ai-assistant',
+    title: 'Ceeq AI Assistant',
+    tagline: 'A voice on any website that answers visitors and turns them into leads.',
     client: 'Codeeaq',
-    platform: 'iOS & Android',
-    description: 'A parish management app built for Codeeaq. Digitizes member directories, family records, and sacrament registers for Catholic parishes with secure phone-OTP sign-in — available on iOS and Android.',
-    longDescription: 'cParish is a parish management app that brings a Catholic parish\'s member directory, family records, and sacrament registers (Baptism, Confirmation, Marriage, and more) into one secure app, in English and Malayalam. Parish members can view their family\'s membership details, sacrament history, BCC (Basic Christian Community) unit info, and parish announcements. Parish administrators get a complete, organized member and family registry, can manage sacrament records, organize members into BCC units, and send announcements directly to the community — all behind role-based access. Accounts are provisioned by the parish administrator and sign-in happens over secure phone OTP, so member data stays private and visible only to verified parish members, replacing the paper records and scattered spreadsheets many parishes rely on.',
-    tags: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
-    liveUrl: '#',
+    platform: 'Website plugin',
+    cover: 'voice',
+    voice: { name: 'Ceeq', intro: ceeqIntro, label: 'Hear Ceeq introduce herself' },
+    description: 'A real-time AI voice assistant built for Codeeaq that plugs into any website. It talks to visitors in their own language, points them to the right page, and captures qualified leads for the team. Live on codeeaq.com.',
+    longDescription: 'Ceeq is a voice assistant that drops into any website as a floating button and voice panel, and you can talk to her live on codeeaq.com. Visitors tap the mic and have a natural, spoken conversation: she answers from the business\'s own knowledge, switches language the moment they do, and stops to listen if they interrupt. Instead of reading out web addresses, she shows clickable cards that take visitors straight to the right page. When someone is interested, she collects their name, email, phone, WhatsApp, preferred callback time and requirement one question at a time, reads the details back, checks the email and phone format, and submits a verified lead to the team. She\'s trained on the business\'s own products, services and tone, and works inside web and mobile apps alike.',
+    tags: ['Gemini Live API', 'React', 'TypeScript', 'Firebase'],
+    liveUrl: 'https://www.codeeaq.com/',
     githubUrl: '#',
     featured: true,
-    appStoreUrl: 'https://apps.apple.com/in/app/cparish/id6781975967',
-    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.codeeaq.parish',
   },
 ];
 

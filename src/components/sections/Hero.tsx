@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useSections } from '../layout/SectionProvider';
 import { profile } from '../../data/profile';
 import { EASE } from '../../lib/motion';
 import { gsap, useScrollScene } from '../../lib/gsap';
@@ -80,8 +81,38 @@ function Greeting({ ready }: { ready: boolean }) {
   );
 }
 
+/**
+ * Tells first-time visitors the page continues. Fades in once the intro has settled, bobs gently,
+ * fades out as soon as scrolling starts, and scrolls down for anyone who taps it instead.
+ */
+function ScrollCue({ ready, onClick }: { ready: boolean; onClick: () => void }) {
+  // z-[45] keeps the cue above the lime fill layer (z-40), which stays hit-testable for the logo colour check
+  return (
+    <div className="p-hint pointer-events-none absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+1.25rem)] z-[45] flex justify-center md:bottom-32">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={ready ? { opacity: 1, y: 0 } : undefined}
+        transition={{ duration: 0.8, ease: EASE, delay: 1.3 }}
+      >
+        <button
+          type="button"
+          onClick={onClick}
+          aria-label="Scroll down to see more"
+          className="pointer-events-auto flex h-10 animate-nudge items-center gap-2.5 rounded-full border border-white/15 bg-ink/75 px-4 backdrop-blur-md transition-colors hover:border-accent"
+        >
+          <span aria-hidden className="relative h-4 w-[2px] overflow-hidden rounded-full bg-white/20">
+            <span className="absolute inset-x-0 top-0 h-1/2 animate-scroll-hint rounded-full bg-accent" />
+          </span>
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-fg">Scroll</span>
+        </button>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
+  const { goTo } = useSections();
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -119,6 +150,7 @@ export default function Hero({ ready }: { ready: boolean }) {
         scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom bottom', scrub: 0.8, invalidateOnRefresh: true },
       })
       .to('.p-hi, .p-sub', { opacity: 0, y: -24, duration: 0.12 }, 0)
+      .to('.p-hint', { opacity: 0, y: 16, duration: 0.05 }, 0)
       .fromTo(
         '.p-photo',
         { yPercent: 0, scale: 1 },
@@ -169,6 +201,7 @@ export default function Hero({ ready }: { ready: boolean }) {
 
         <NameLayer variant="outline" ready={ready} />
         <Greeting ready={ready} />
+        <ScrollCue ready={ready} onClick={() => goTo('about')} />
 
         {!reduce && <div aria-hidden className="p-fill absolute inset-0 z-40 bg-accent opacity-0" />}
       </div>

@@ -114,7 +114,7 @@ export default function Journey() {
                 id="experience"
                 size="compact"
                 title="Where I've *worked.*"
-                intro="Real products, real users. Built onsite, hybrid and fully remote."
+                intro="Real products, real users, and the teams I shipped them with."
               />
               {!reduce && (
                 <p className="label mt-10 flex items-center gap-3 text-muted">

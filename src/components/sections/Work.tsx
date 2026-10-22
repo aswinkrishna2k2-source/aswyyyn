@@ -1,13 +1,14 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
-import { FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowUpRight, FiPause, FiPlay } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading';
 import Reveal from '../ui/Reveal';
 import ProjectCover from '../ui/ProjectCover';
 import { featuredProjects, otherProjects, type Project } from '../../data/projects';
 import { getCover, getProjectLinks } from '../../lib/projects';
 import { EASE, pad2 } from '../../lib/motion';
+import { useVoiceClip } from '../../hooks/useVoiceClip';
 
 interface StackCardProps {
   project: Project;
@@ -29,6 +30,7 @@ function StackCard({ project, i, total, progress, reduce }: StackCardProps) {
   const zoom = useTransform(arrival, [0, 1], [1.35, 1]);
   const lift = useTransform(arrival, [0, 1], [8, 0]);
   const links = getProjectLinks(project);
+  const clip = useVoiceClip(project.voice?.intro);
 
   return (
     <div
@@ -48,7 +50,7 @@ function StackCard({ project, i, total, progress, reduce }: StackCardProps) {
           className="block h-[clamp(150px,28svh,300px)] overflow-hidden md:order-2 md:col-span-7 md:h-[min(460px,62svh)]"
         >
           <motion.div style={{ scale: reduce ? 1 : zoom }} className="h-full w-full">
-            <ProjectCover project={project} className="h-full w-full" />
+            <ProjectCover project={project} clip={clip} className="h-full w-full" />
           </motion.div>
         </Link>
 
@@ -66,6 +68,19 @@ function StackCard({ project, i, total, progress, reduce }: StackCardProps) {
           </h3>
           {project.client && <p className="label mt-2 text-accent">for {project.client}</p>}
           <p className="story-serif mt-3 text-[1.4rem] leading-[1.15] text-fg/90 md:text-[1.7rem]">{project.tagline}</p>
+          {project.voice && (
+            <button
+              type="button"
+              onClick={clip.toggle}
+              aria-pressed={clip.playing}
+              className="mt-4 flex h-11 items-center gap-2.5 self-start rounded-full border border-white/15 pl-1.5 pr-4 text-sm font-semibold transition hover:border-accent hover:text-accent"
+            >
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-ink">
+                {clip.playing ? <FiPause aria-hidden /> : <FiPlay aria-hidden className="translate-x-px" />}
+              </span>
+              {clip.playing ? 'Pause' : project.voice.label}
+            </button>
+          )}
           <ul className="mt-4 hidden flex-wrap gap-1.5 min-[400px]:flex">
             {project.tags.map((t) => (
               <li key={t} className="chip">
@@ -161,7 +176,7 @@ export default function Work() {
         <SectionHeading
           id="work"
           title="Things I've helped *ship*."
-          intro={`${featuredProjects.length} products, live in production right now. Tap any of them for the full breakdown.`}
+          intro="My latest work. Tap any project for the full breakdown."
         />
 
         <div ref={stackRef} className="relative mt-14 md:mt-20">
