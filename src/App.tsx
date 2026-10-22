@@ -27,6 +27,9 @@ export default function App() {
     const id = window.setTimeout(() => {
       ScrollTrigger.refresh();
       scrollToTarget(el, true);
+      // Drop the #hash once we're there (keeping the router's history state): iOS Safari otherwise
+      // re-anchors to the fragment on every layout shift and drags the page back while scrolling.
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
     }, 80);
     return () => clearTimeout(id);
   }, [hash]);

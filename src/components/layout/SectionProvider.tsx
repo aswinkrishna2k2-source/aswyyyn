@@ -45,9 +45,9 @@ export function SectionProvider({ children }: { children: ReactNode }) {
   const goTo = useCallback((id: SectionId) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const isHome = id === sections[0].id;
-    scrollToTarget(isHome ? 0 : el);
-    history.replaceState(null, '', isHome ? window.location.pathname : `#${id}`);
+    // No #hash in the URL: iOS Safari keeps re-anchoring to a URL fragment whenever the layout
+    // shifts (images loading, scenes resizing), which yanks the page back while people scroll.
+    scrollToTarget(id === sections[0].id ? 0 : el);
   }, []);
 
   const value = useMemo(() => ({ active, goTo }), [active, goTo]);

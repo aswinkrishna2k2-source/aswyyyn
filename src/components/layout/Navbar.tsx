@@ -96,8 +96,11 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
         </nav>
 
         <motion.div {...rise(navSections.length)} className="mt-auto w-full pt-10">
-          <a href={`mailto:${profile.email}`} className="block break-all text-lg font-semibold underline decoration-white/20 underline-offset-4 hover:decoration-accent">
-            {profile.email}
+          <a href={`mailto:${profile.email}`} aria-label="Email Aswin" className="group inline-flex items-center gap-2.5 text-xl font-bold tracking-tight">
+            <span className="underline decoration-white/20 underline-offset-4 transition group-hover:decoration-accent">aswin.mail</span>
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-ink transition-transform duration-300 ease-story group-hover:rotate-45">
+              <FiArrowUpRight aria-hidden />
+            </span>
           </a>
           <div className="mt-5 flex flex-wrap items-center gap-2">
             <ResumeLink className="btn btn-primary">

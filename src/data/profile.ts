@@ -3,7 +3,6 @@ export const profile = {
   handle: 'aswyyyn',
   role: 'Full-stack & React Native developer',
   location: 'Kollam, Kerala',
-  timeZone: 'Asia/Kolkata',
   email: 'aswinkrishna2k2@gmail.com',
   resume: { href: '/resume.pdf', fileName: 'Aswin Krishnan — Resume.pdf' },
   company: { name: 'Codeeaq', url: 'https://codeeaq.com/' },

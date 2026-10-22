@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { FiCheck, FiSend } from 'react-icons/fi';
+import { FiArrowUpRight, FiCheck, FiSend } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading';
 import Reveal from '../ui/Reveal';
 import { SOCIAL_ICONS } from '../ui/Links';
@@ -193,9 +193,15 @@ function DirectLines({ className = '' }: { className?: string }) {
       <p className="label text-ink/60">Or skip the form</p>
       <a
         href={`mailto:${profile.email}`}
-        className="mt-3 block break-all text-[clamp(1.25rem,5vw,1.6rem)] font-semibold tracking-tight underline decoration-ink/30 decoration-2 underline-offset-[6px] transition hover:decoration-ink"
+        aria-label="Email Aswin"
+        className="group mt-3 inline-flex items-center gap-3 text-[clamp(1.6rem,6vw,2.2rem)] font-bold tracking-tight"
       >
-        {profile.email}
+        <span className="underline decoration-ink/30 decoration-2 underline-offset-[6px] transition group-hover:decoration-ink">
+          aswin.mail
+        </span>
+        <span className="grid h-10 w-10 place-items-center rounded-full bg-ink text-accent transition-transform duration-300 ease-story group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:rotate-45">
+          <FiArrowUpRight size={20} aria-hidden />
+        </span>
       </a>
       <div className="mt-5 flex gap-2">
         {socials.map((s) => {
@@ -218,6 +224,19 @@ function DirectLines({ className = '' }: { className?: string }) {
   );
 }
 
+function LetsTalk({ className }: { className: string }) {
+  return (
+    <p className={`e-line display relative text-center text-[clamp(4.5rem,25vw,15rem)] !leading-[0.86] ${className}`}>
+      <span className="block overflow-hidden pb-[0.08em]">
+        <span className="e-word inline-block">Let's</span>
+      </span>
+      <span className="block overflow-hidden pb-[0.12em]">
+        <span className="e-word story-serif inline-block font-normal">talk.</span>
+      </span>
+    </p>
+  );
+}
+
 export default function Contact() {
   const ref = useRef<HTMLElement>(null);
   const burstRef = useRef<HTMLDivElement>(null);
@@ -232,7 +251,6 @@ export default function Contact() {
       })
       .fromTo('.e-burst', { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(75% at 50% 50%)', duration: 1, ease: 'power2.in' }, 0)
       .fromTo('.e-line', { scale: 0.55 }, { scale: 1, duration: 1 }, 0)
-      .fromTo('.e-line', { color: '#e4e4e4' }, { color: '#1b1b1b', duration: 0.2 }, 0.32)
       .to({}, { duration: 0.25 });
 
     // The words rise while the stage is still sliding in, so there's no empty beat before the burst
@@ -249,16 +267,14 @@ export default function Contact() {
     <section id="contact" ref={ref} aria-labelledby="contact-title" className="relative">
       {!reduce && (
         <div ref={burstRef} aria-hidden className="relative h-[200svh]">
+          {/* The words are drawn twice in the same spot: light on the dark stage, and ink inside the
+              lime circle (clipped to it). Whatever part of the circle has reached them reads ink on lime,
+              the rest light on dark, so "Let's talk." stays readable at every point of the scroll. */}
           <div className="sticky top-0 grid h-[100svh] place-items-center overflow-hidden">
-            <div className="e-burst absolute inset-0 bg-accent" />
-            <p className="e-line display relative text-center text-[clamp(4.5rem,25vw,15rem)] !leading-[0.86]">
-              <span className="block overflow-hidden pb-[0.08em]">
-                <span className="e-word inline-block">Let's</span>
-              </span>
-              <span className="block overflow-hidden pb-[0.12em]">
-                <span className="e-word story-serif inline-block font-normal">talk.</span>
-              </span>
-            </p>
+            <LetsTalk className="text-fg" />
+            <div className="e-burst absolute inset-0 grid place-items-center bg-accent">
+              <LetsTalk className="text-ink" />
+            </div>
           </div>
         </div>
       )}
