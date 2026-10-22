@@ -1,11 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { MotionConfig } from 'framer-motion'
+import { Analytics } from '@vercel/analytics/react'
 import App from './App.tsx'
 import ProjectDetail from './pages/ProjectDetail.tsx'
 import { useVisitorTracking } from './hooks/useVisitorTracking'
+import { startSmoothScroll } from './lib/smoothScroll'
 import './index.css'
-import './utils/palette'
+
+startSmoothScroll()
 
 function AppRoutes() {
   useVisitorTracking();
@@ -21,7 +25,11 @@ function AppRoutes() {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AppRoutes />
+      {/* Honour the OS "reduce motion" setting for every framer-motion animation */}
+      <MotionConfig reducedMotion="user">
+        <AppRoutes />
+      </MotionConfig>
+      <Analytics />
     </BrowserRouter>
   </React.StrictMode>,
 )

@@ -9,15 +9,9 @@ import {
   EJS_SERVICE_ID,
   EJS_TEMPLATE_ID,
 } from '../utils/analytics';
+import { sections } from '../data/sections';
 
-const SECTIONS = [
-  { id: 'home',       label: 'Hero'       },
-  { id: 'works',      label: 'Projects'   },
-  { id: 'experience', label: 'Experience' },
-  { id: 'skills',     label: 'Skills'     },
-  { id: 'about-me',   label: 'About'      },
-  { id: 'contact',    label: 'Contact'    },
-];
+const SECTIONS = sections.map(({ id, label }) => ({ id, label }));
 
 export function useVisitorTracking() {
   useEffect(() => {
@@ -111,7 +105,7 @@ export function useVisitorTracking() {
           user_id:         EJS_PUBLIC_KEY,
           template_params: { subject, message: html },
         }),
-      });
+      }).catch(() => {});
       sessionStorage.setItem('_vt', '1');
     };
 

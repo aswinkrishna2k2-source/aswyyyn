@@ -5,7 +5,6 @@ export interface Experience {
   duration: string;
   type: string;
   contributions: string[];
-  color: string;
 }
 
 export const experiences: Experience[] = [
@@ -15,7 +14,6 @@ export const experiences: Experience[] = [
     company: 'Codeeaq',
     duration: '2025 – Present',
     type: 'Remote · Trivandrum / UAE',
-    color: '#cbff4c',
     contributions: [
       'Building and maintaining full-stack products for clients across regions',
       'Leading frontend architecture with React, TypeScript, and Tailwind',
@@ -28,7 +26,6 @@ export const experiences: Experience[] = [
     company: 'Entrix Labs',
     duration: '2024 – 2025',
     type: 'Hybrid · Technopark, Trivandrum',
-    color: '#cbff4c',
     contributions: [
       'Delivered production-ready React UIs from Figma designs',
       'Integrated REST APIs and optimised bundle performance',
@@ -41,7 +38,6 @@ export const experiences: Experience[] = [
     company: 'Stackup',
     duration: '2023 – 2024',
     type: 'Onsite · Technopark, Trivandrum',
-    color: '#cbff4c',
     contributions: [
       'Built full-stack features across React front-end and Node/Express back-end',
       'Worked with MongoDB for data modelling and API development',

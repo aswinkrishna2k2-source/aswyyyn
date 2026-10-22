@@ -2,231 +2,270 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes carousel-fill {
-  from { width: 0%; }
-  to { width: 100%; }
-}
-
-@keyframes marquee-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes marquee-right {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
-}
-
-@keyframes terminal-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
 :root {
-  --accent: 239 174 74; /* #efae4a — single source of truth in palette.ts, mirrored here as fallback */
+  --accent: 203 255 76; /* #cbff4c */
+  color-scheme: dark;
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
   }
+
+  /* Lenis smooth scroll */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-stopped { overflow: clip; }
+  .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
 
   body {
     background-color: #1b1b1b;
     color: #e4e4e4;
-    font-family: 'Fira Code', monospace;
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-optical-sizing: auto;
     font-size: 17px;
-    overflow-x: hidden;
+    line-height: 1.6;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
-    cursor: url('/cursor.svg') 8 2, default;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  a, button, label, select, [role="button"],
-  input[type="submit"], input[type="button"],
-  input[type="checkbox"], input[type="radio"] {
-    cursor: url('/cursor.svg') 8 2, pointer;
+  /* Film-grain over the whole page — gives the flat dark a printed, editorial feel */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   ::selection {
-    background: rgb(var(--accent) / 0.25);
-    color: #e4e4e4;
-  }
-
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #1b1b1b; }
-  ::-webkit-scrollbar-thumb { background: rgb(var(--accent)); }
-
-  /* Accent colour — driven by --accent CSS variable set in palette.ts */
-  .text-accent   { color: rgb(var(--accent)) !important; }
-  .bg-accent     { background-color: rgb(var(--accent)) !important; }
-  .border-accent { border-color: rgb(var(--accent)) !important; }
-  .text-fg       { color: #e4e4e4; }
-  .text-muted    { color: #abb2bf; }
-  .bg-surface    { background-color: #252526; }
-}
-
-@layer components {
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
-
-  /* font-size is set per-component via fontsize.ts */
-  .section-title {
-    font-weight: 700;
-    white-space: nowrap;
-    color: #e4e4e4;
-  }
-
-  .section-line {
-    /* flex: ; */
-    width: 50%;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-color: #cbff4c;
-     /* background-color: rgba(255, 255, 255, 0.1); */
-  }
-
-  .btn-accent {
-    border: 1px solid rgb(var(--accent));
-    color: rgb(var(--accent));
-    font-size: 0.875rem;
-    padding: 0.5rem 1.25rem;
-    cursor: url('/cursor.svg') 8 2, pointer;
-    display: inline-block;
-    transition: background 0.2s, color 0.2s;
-    font-family: 'Fira Code', monospace;
-    background: transparent;
-  }
-
-  .btn-accent:hover {
     background: rgb(var(--accent));
     color: #1b1b1b;
   }
 
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+  }
+
+  .on-accent :focus-visible {
+    outline-color: #1b1b1b;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: rgb(var(--accent));
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgb(255 255 255 / 0.15); border-radius: 999px; }
+}
+
+@layer components {
+  /* Tiny uppercase mono label used for chapter numbers, meta and captions */
+  .label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .display {
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+  }
+
+  .story-serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--accent));
+  }
+
+  /* Faint white outline for inactive headings (Stack index) */
+  .text-outline-soft {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.22);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.375rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms, border-color 200ms, color 200ms;
+  }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: rgb(var(--accent));
+    color: #1b1b1b;
+  }
+  .btn-primary:hover { background: #d8ff7a; }
+
   .btn-ghost {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #abb2bf;
-    font-size: 0.75rem;
-    padding: 0.375rem 0.75rem;
-    cursor: url('/cursor.svg') 8 2, pointer;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    color: #e4e4e4;
+  }
+  .btn-ghost:hover { border-color: rgb(255 255 255 / 0.4); background: rgb(255 255 255 / 0.03); }
+
+  .btn-ink {
+    background: #1b1b1b;
+    color: rgb(var(--accent));
+  }
+  .btn-ink:hover { background: #000; }
+
+  .chip {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
-    transition: border-color 0.2s, color 0.2s;
-    font-family: 'Fira Code', monospace;
-    background: transparent;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    padding: 0.25rem 0.75rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: #abb2bf;
+    white-space: nowrap;
   }
 
-  .btn-ghost:hover {
-    border-color: rgba(255, 255, 255, 0.35);
-    color: #e4e4e4;
+  .card {
+    border-radius: 1.75rem;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    background: #202021;
   }
 
-  .skill-box {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1rem;
+  /*
+   * Prologue stage: just "Hi, I'm", the name and the portrait. They're positioned from the same few
+   * variables so they stay locked together at every screen size: --pw/--pt size and place the
+   * portrait, and the name's top is derived from them so it always crosses the same part of the photo.
+   * "ASWIN." sets ~3.03em wide at weight 800, so the font size below fills the stage width.
+   *
+   * Phones: "Hi, I'm / ASWIN." sits at the top under the navbar, and the bust stands large and flush
+   * on the bottom edge (~132vw wide). On short phones the bust shrinks so it never reaches the name.
+   */
+  .hero-stage {
+    container-type: inline-size;
+    --gutter: 1rem;
+    --head-x: 0.53;
+    --name-fs: min(calc((100cqw - 2 * var(--gutter)) / 3.08), 46svh);
+    --top0: calc(env(safe-area-inset-top) + 7.75rem + 40px);
+    --name-top: calc(var(--top0) + 2.25rem);
+    --pw: min(132vw, calc((100svh - var(--name-top) - 0.8 * var(--name-fs) - 4.25rem) * 1.0714));
+    --pt: calc(100svh - 0.9334 * var(--pw));
   }
 
-  .project-card {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: border-color 0.2s;
+  @media (min-width: 768px) {
+    .hero-stage {
+      --gutter: 2rem;
+      --pw: min(60vw, 86svh);
+      --pt: 6svh;
+      --head-x: 0.57;
+      --name-top: calc(var(--pt) + 0.42 * var(--pw));
+    }
   }
 
-  .project-card:hover {
-    border-color: rgb(var(--accent) / 0.35);
+  .hero-name {
+    position: absolute;
+    inset-inline: 0;
+    top: var(--name-top);
+    padding-inline: var(--gutter);
+    text-align: center;
+    white-space: nowrap;
+    font-size: var(--name-fs);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.045em;
   }
 
-  .dot-grid {
-    display: grid;
-    gap: 8px;
+  .hero-portrait {
+    position: absolute;
+    top: var(--pt);
+    left: 50%;
+    /* the cutout is 1040px wide: 900px of portrait plus 140px of extended right shoulder.
+       --pw stays the width of the portrait part so every other measurement is unchanged. */
+    width: calc(var(--pw) * 1040 / 900);
+    margin-left: calc(var(--pw) * var(--head-x) * -1); /* the head sits ~55% across the portrait */
   }
 
-  .contact-input:focus {
-    border-color: rgb(var(--accent) / 0.6);
-    outline: none;
+  @media (min-width: 768px) {
+    /* the whole portrait is on screen here, so fade both the bottom and the extended shoulder's end */
+    .hero-portrait {
+      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 98%), linear-gradient(to left, transparent 1%, #000 16%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(to bottom, #000 72%, transparent 98%), linear-gradient(to left, transparent 1%, #000 16%);
+      mask-composite: intersect;
+    }
   }
 
-  .social-icon:hover {
-    border-color: rgb(var(--accent) / 0.4);
-    color: rgb(var(--accent));
+  /* Floating glass chip used by the navbar pieces and the dock */
+  .glass-chip {
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(20 20 20 / 0.8);
+    box-shadow: 0 12px 40px -16px rgb(0 0 0 / 0.8);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
   }
 
-  .carousel-timer-track {
-    background: rgba(255, 255, 255, 0.12);
+  /*
+   * Section dock: 7 round icons, the active one stretched into a pill. --dot scales with the
+   * screen so all seven always fit (≈40px on a 360px phone, 48px on desktop).
+   */
+  .dock {
+    --dock-gap: 4px;
+    --dock-pad: 5px;
+    --dock-stretch: 1.75;
+    --dot: clamp(36px, calc((100vw - 16px - 2 * var(--dock-pad) - 6 * var(--dock-gap)) / 7.75), 48px);
   }
 
-  .carousel-timer-fill {
+  @media (min-width: 768px) {
+    .dock {
+      --dock-gap: 6px;
+      --dock-pad: 6px;
+      --dock-stretch: 2.6;
+    }
+  }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: -4rem;
+    z-index: 200;
+    border-radius: 999px;
     background: rgb(var(--accent));
-    animation-name: carousel-fill;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
+    color: #1b1b1b;
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    transition: top 200ms;
   }
+  .skip-link:focus { top: 1rem; }
+}
 
-  .carousel-timer-fill.paused {
-    animation-play-state: paused;
-  }
-
-  .carousel-nav-btn {
-    background: rgba(27, 27, 27, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #e4e4e4;
-    backdrop-filter: blur(2px);
-    transition: border-color 0.2s, color 0.2s, opacity 0.2s;
-  }
-
-  .carousel-nav-btn:hover {
-    border-color: rgb(var(--accent) / 0.5);
-    color: rgb(var(--accent));
-  }
-
-  .cert-frame {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #141414;
-  }
-
-  .cert-thumb {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 0.45;
-    transition: opacity 0.2s, border-color 0.2s;
-  }
-
-  .cert-thumb:hover {
-    opacity: 0.75;
-  }
-
-  .cert-thumb.active {
-    opacity: 1;
-    border-color: rgb(var(--accent) / 0.6);
-  }
-
-  .cert-timer-badge {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(27, 27, 27, 0.7);
-    color: rgb(var(--accent));
-    font-variant-numeric: tabular-nums;
-  }
-
-  .marquee-mask {
-    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-  }
-
-  .animate-marquee-left {
-    animation-name: marquee-left;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-
-  .animate-marquee-right {
-    animation-name: marquee-right;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
-
-  .terminal-caret {
-    animation: terminal-blink 1s steps(1) infinite;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,53 +1,27 @@
-export interface Skill {
-  name: string;
-  level: number;
-  icon?: string;
-}
-
 export interface SkillCategory {
   category: string;
-  color: string;
-  skills: Skill[];
+  skills: string[];
 }
 
 export const skills: SkillCategory[] = [
   {
     category: 'Frontend',
-    color: '#0ea5e9',
-    skills: [
-      { name: 'React.js', level: 92 },
-      { name: 'Next.js', level: 82 },
-      { name: 'JavaScript', level: 90 },
-      { name: 'TypeScript', level: 78 },
-      { name: 'Tailwind CSS', level: 90 },
-      { name: 'HTML5', level: 95 },
-      { name: 'CSS3', level: 92 },
-      { name: 'Bootstrap', level: 85 },
-    ],
+    skills: ['React.js', 'Next.js', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'HTML5', 'CSS3', 'Bootstrap'],
+  },
+  {
+    category: 'Mobile',
+    skills: ['React Native', 'Expo'],
   },
   {
     category: 'Backend',
-    color: '#8b5cf6',
-    skills: [
-      { name: 'Node.js', level: 80 },
-      { name: 'Express.js', level: 78 },
-    ],
+    skills: ['Node.js', 'Express.js', 'Socket.io'],
   },
   {
     category: 'Database',
-    color: '#06b6d4',
-    skills: [
-      { name: 'MongoDB', level: 78 },
-      { name: 'MySQL', level: 72 },
-    ],
+    skills: ['MongoDB', 'MySQL'],
   },
   {
     category: 'Tools',
-    color: '#f59e0b',
-    skills: [
-      { name: 'Git', level: 85 },
-      { name: 'Figma', level: 75 },
-      { name: 'REST APIs', level: 85 },
-    ],
+    skills: ['Git', 'Figma', 'REST APIs'],
   },
 ];

@@ -1,94 +1,71 @@
-import { Analytics } from '@vercel/analytics/react';
-import { motion } from 'framer-motion';
-import { FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Certifications from './components/Certifications';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Stats from './components/Stats';
-import Terminal from './components/Terminal';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
-
-const sidebarContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 1.0 } },
-};
-
-const sidebarItem = {
-  hidden: { opacity: 0, x: -12 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
-};
-
-function Sidebar() {
-  return (
-    <motion.aside
-      variants={sidebarContainer}
-      initial="hidden"
-      animate="visible"
-      className="fixed left-0 top-0 bottom-0 w-12 hidden lg:flex flex-col items-center justify-center gap-5 z-40"
-    >
-      <motion.a
-        variants={sidebarItem}
-        href="https://github.com/aswin2002"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-muted hover:text-accent transition-colors duration-200"
-        whileHover={{ y: -2, transition: { duration: 0.15 } }}
-      >
-        <FiGithub size={17} />
-      </motion.a>
-      <motion.a
-        variants={sidebarItem}
-        href="https://www.linkedin.com/in/aswyyyn/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-muted hover:text-accent transition-colors duration-200"
-        whileHover={{ y: -2, transition: { duration: 0.15 } }}
-      >
-        <FiLinkedin size={17} />
-      </motion.a>
-      <motion.a
-        variants={sidebarItem}
-        href="https://www.instagram.com/aswyyyn/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-muted hover:text-accent transition-colors duration-200"
-        whileHover={{ y: -2, transition: { duration: 0.15 } }}
-      >
-        <FiInstagram size={17} />
-      </motion.a>
-      <motion.div
-        variants={sidebarItem}
-        className="w-px h-16 bg-white/15 mt-2"
-      />
-    </motion.aside>
-  );
-}
+import { useCallback, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { SectionProvider } from './components/layout/SectionProvider';
+import Intro from './components/layout/Intro';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import Hero from './components/sections/Hero';
+import About from './components/sections/About';
+import Experience from './components/sections/Experience';
+import Work from './components/sections/Work';
+import Stack from './components/sections/Stack';
+import Education from './components/sections/Education';
+import Contact from './components/sections/Contact';
+import { ScrollTrigger } from './lib/gsap';
+import { scrollToTarget } from './lib/smoothScroll';
 
 export default function App() {
+  const [ready, setReady] = useState(false);
+  const reveal = useCallback(() => setReady(true), []);
+  const { hash } = useLocation();
+
+  // Deep links like /#work (e.g. "All projects" from a project page) land on their section
+  useEffect(() => {
+    if (!hash) return;
+    const el = document.getElementById(hash.slice(1));
+    if (!el) return;
+    const id = window.setTimeout(() => {
+      ScrollTrigger.refresh();
+      scrollToTarget(el, true);
+    }, 80);
+    return () => clearTimeout(id);
+  }, [hash]);
+
+  // Scroll scenes measure positions once; re-measure whenever fonts, images or content change page height
+  useEffect(() => {
+    let timer = 0;
+    const refresh = () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+    };
+    document.fonts?.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    const observer = new ResizeObserver(refresh);
+    observer.observe(document.querySelector('main')!);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('load', refresh);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#1b1b1b] font-mono text-fg">
-      <Sidebar />
+    <SectionProvider>
+      <Intro onReveal={reveal} />
+      <a href="#about" className="skip-link">
+        Skip to content
+      </a>
       <Navbar />
-      <main className="lg:ml-12">
-        <Hero />
-        <Stats />
-        <Projects />
-        <Experience />
-        <Skills />
-        <Certifications />
+      <main>
+        <Hero ready={ready} />
         <About />
-        <Terminal />
+        <Experience />
+        <Work />
+        <Stack />
+        <Education />
         <Contact />
       </main>
       <Footer />
-      <ScrollToTop />
-      <Analytics />
-    </div>
+    </SectionProvider>
   );
 }
