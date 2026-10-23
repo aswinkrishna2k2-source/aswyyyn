@@ -32,15 +32,21 @@
   }
 
   /*
-   * Speckle grain over the whole page — gives the flat dark a printed, risograph feel.
+   * Speckle grain on the page background — gives the flat dark a printed, risograph feel.
    * Fine noise plus a little low-frequency noise is thresholded into sparse 1px specks that
    * bunch up in soft clumps; the tile jumps to a new offset once a second so the grain re-seeds.
+   * It sits behind all content, so images, cards and text stay clean. Elements that paint their
+   * own page-coloured background (intro, footer…) add `.grain` to get it under their content.
    */
-  body::after {
+  .grain { isolation: isolate; }
+  body::after { position: fixed; }
+  .grain::before { position: absolute; }
+
+  body::after,
+  .grain::before {
     content: '';
-    position: fixed;
     inset: 0;
-    z-index: 160; /* above the intro curtain (150), below the skip link (200) */
+    z-index: -1;
     pointer-events: none;
     opacity: 0.08;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 1' result='fine'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 1'/%3E%3CfeComposite in='fine' operator='arithmetic' k2='1' k3='0.25' k4='-0.125'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='4' intercept='-2.4'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");

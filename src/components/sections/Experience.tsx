@@ -105,7 +105,7 @@ export default function Journey() {
   });
 
   return (
-    <section id="experience" ref={ref} aria-labelledby="experience-title" className="relative bg-ink">
+    <section id="experience" ref={ref} aria-labelledby="experience-title" className="grain relative bg-ink">
       <div ref={sceneRef} className="relative">
         <div className={reduce ? 'px-4 py-20 md:px-8' : 'sticky top-0 h-[100svh] overflow-hidden'}>
           <div ref={trackRef} className={reduce ? 'mx-auto flex max-w-6xl flex-col gap-16' : 'flex h-full w-max items-stretch pb-16 pt-24 md:pb-36'}>

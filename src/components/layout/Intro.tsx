@@ -63,7 +63,7 @@ export default function Intro({ onReveal }: { onReveal: () => void }) {
           initial={{ clipPath: 'inset(0% 0% 0% 0%)' }}
           exit={{ clipPath: 'inset(0% 0% 100% 0%)' }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[150] flex flex-col justify-between bg-ink-deep px-5 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] pt-[calc(env(safe-area-inset-top)+1.5rem)] md:px-10 md:pb-10 md:pt-10"
+          className="grain fixed inset-0 z-[150] flex flex-col justify-between bg-ink-deep px-5 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] pt-[calc(env(safe-area-inset-top)+1.5rem)] md:px-10 md:pb-10 md:pt-10"
         >
           <div className="label flex justify-between text-muted">
             <span>Aswin Krishnan</span>

@@ -29,7 +29,7 @@ export default function Footer() {
   });
 
   return (
-    <footer ref={ref} className="relative bg-ink-deep px-4 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-20 md:px-8 md:pb-32 md:pt-28">
+    <footer ref={ref} className="grain relative bg-ink-deep px-4 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-20 md:px-8 md:pb-32 md:pt-28">
       <div className="mx-auto max-w-6xl">
         {/* sign-off */}
         <div className="flex items-end justify-between gap-6">

@@ -100,7 +100,7 @@ export default function About() {
                 ))}
               </div>
             </div>
-            <div aria-hidden className="m-curtain absolute inset-0 z-20 bg-ink" style={{ clipPath: 'circle(0% at 50% 110%)' }} />
+            <div aria-hidden className="m-curtain grain absolute inset-0 z-20 bg-ink" style={{ clipPath: 'circle(0% at 50% 110%)' }} />
           </>
         )}
       </div>
