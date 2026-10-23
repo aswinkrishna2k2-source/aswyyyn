@@ -1,13 +1,17 @@
 import { useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import type { IconType } from 'react-icons';
+import { FaAws } from 'react-icons/fa';
 import {
+  SiAndroidstudio,
   SiBootstrap,
   SiCss,
   SiExpo,
   SiExpress,
   SiFigma,
+  SiFirebase,
   SiGit,
+  SiHostinger,
   SiHtml5,
   SiJavascript,
   SiMongodb,
@@ -16,10 +20,13 @@ import {
   SiNodedotjs,
   SiReact,
   SiSocketdotio,
+  SiSupabase,
   SiTailwindcss,
   SiTypescript,
+  SiVercel,
+  SiWordpress,
 } from 'react-icons/si';
-import { TbApi } from 'react-icons/tb';
+import { TbApi, TbBrandAdobePremier } from 'react-icons/tb';
 import SectionHeading from '../ui/SectionHeading';
 import { skills, type SkillCategory } from '../../data/skills';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -38,19 +45,29 @@ const LOGOS: Record<string, IconType> = {
   Bootstrap: SiBootstrap,
   'React Native': SiReact,
   Expo: SiExpo,
+  'Android Studio': SiAndroidstudio,
   'Node.js': SiNodedotjs,
   'Express.js': SiExpress,
   'Socket.io': SiSocketdotio,
+  'REST APIs': TbApi,
   MongoDB: SiMongodb,
   MySQL: SiMysql,
-  Git: SiGit,
+  Supabase: SiSupabase,
+  Firebase: SiFirebase,
+  WordPress: SiWordpress,
+  AWS: FaAws,
+  Hostinger: SiHostinger,
+  Vercel: SiVercel,
   Figma: SiFigma,
-  'REST APIs': TbApi,
+  'Adobe Premiere Pro': TbBrandAdobePremier,
+  Git: SiGit,
 };
 
 const total = skills.length;
 const TITLE = 'My *stack.*';
 const INTRO = 'The tools I use to design, build and ship.';
+
+const toolCount = (n: number) => `${n} tool${n === 1 ? '' : 's'}`;
 
 const tileClass =
   'group relative flex aspect-[5/4] flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-3 transition-colors duration-300 hover:border-accent/50 md:aspect-[4/3] md:rounded-3xl md:p-5';
@@ -160,7 +177,7 @@ function PinnedScene() {
                       >
                         <span className={`label w-6 transition-colors duration-300 ${on ? 'text-accent' : 'text-muted/50'}`}>{pad2(i + 1)}</span>
                         <span
-                          className={`display text-[clamp(2.5rem,4.6vw,4.25rem)] transition-all duration-500 ease-story ${
+                          className={`display text-[clamp(2.5rem,min(4.6vw,7svh),4.25rem)] transition-all duration-500 ease-story ${
                             on ? 'translate-x-2 text-accent' : 'text-outline-soft group-hover:text-white/40'
                           }`}
                         >
@@ -176,7 +193,7 @@ function PinnedScene() {
             <div className="col-span-7 self-start pt-3">
               <div className="mb-4 flex items-center justify-between">
                 <p className="label text-muted">
-                  {cat.category} · <span className="text-fg">{cat.skills.length} tools</span>
+                  {cat.category} · <span className="text-fg">{toolCount(cat.skills.length)}</span>
                 </p>
                 <p className="label text-muted">
                   <span className="text-fg">{pad2(active + 1)}</span> / {pad2(total)}
@@ -191,60 +208,50 @@ function PinnedScene() {
   );
 }
 
-// ── Phones (and reduced motion): every category in flow, each one assembling as it scrolls in ──
+// ── Phones (and reduced motion): a compact list, each category's tools as logo pills ──
 
-function FlowLayout({ animate }: { animate: boolean }) {
-  const ref = useRef<HTMLElement>(null);
+const pill = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
 
-  useScrollScene(ref, () => {
-    gsap.utils.toArray<HTMLElement>('.f-cat').forEach((block) => {
-      gsap
-        .timeline({
-          defaults: { ease: 'power3.out' },
-          scrollTrigger: { trigger: block, start: 'top 92%', end: 'top 40%', scrub: 0.6, invalidateOnRefresh: true },
-        })
-        .fromTo(block.querySelector('.f-name'), { xPercent: -30, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.5 }, 0)
-        .fromTo(block.querySelector('.f-count'), { scale: 0, rotate: -90 }, { scale: 1, rotate: 0, duration: 0.4, ease: 'back.out(2)' }, 0.15)
-        .fromTo(block.querySelector('.f-line'), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: 'none' }, 0.05)
-        .fromTo(
-          block.querySelectorAll('.f-tile'),
-          {
-            y: 90,
-            rotate: (i: number) => (i % 3 === 0 ? -10 : i % 3 === 1 ? 4 : 12),
-            scale: 0.82,
-            opacity: 0,
-          },
-          { y: 0, rotate: 0, scale: 1, opacity: 1, duration: 0.6, stagger: 0.06 },
-          0.12,
-        );
-    });
-  }, [animate]);
-
+function CompactList() {
   return (
-    <section id="stack" ref={ref} aria-labelledby="stack-title" className="px-4 pb-16 pt-20 md:px-8 md:pb-24 md:pt-28">
+    <section id="stack" aria-labelledby="stack-title" className="px-4 pb-16 pt-20 md:px-8 md:pb-24 md:pt-28">
       <div className="mx-auto max-w-6xl">
         <SectionHeading id="stack" title={TITLE} intro={INTRO} />
 
-        <div className="mt-12 space-y-10 md:space-y-14">
+        <div className="mt-10 border-t border-white/10 md:mt-14">
           {skills.map((c, ci) => (
-            <div key={c.category} className="f-cat">
-              <div className="flex items-end justify-between gap-4 pb-3">
-                <h3 className="f-name flex items-baseline gap-3">
+            <div key={c.category} className="border-b border-white/10 py-5 md:grid md:grid-cols-12 md:gap-6 md:py-7">
+              <div className="mb-3.5 flex items-baseline justify-between gap-4 md:col-span-3 md:mb-0 md:block">
+                <h3 className="flex items-baseline gap-2.5">
                   <span className="label text-accent">{pad2(ci + 1)}</span>
-                  <span className="display text-[2.4rem] md:text-5xl">{c.category}</span>
+                  <span className="text-lg font-semibold tracking-tight">{c.category}</span>
                 </h3>
-                <span className="f-count mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent font-mono text-xs font-semibold text-ink">
-                  {pad2(c.skills.length)}
-                </span>
+                <p className="label text-muted/60 md:mt-1.5 md:pl-[2.1rem]">{toolCount(c.skills.length)}</p>
               </div>
-              <span aria-hidden className="f-line block h-px origin-left bg-white/15" />
-              <ul className="mt-4 grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-3">
-                {c.skills.map((s, i) => (
-                  <li key={s} className={`f-tile ${tileClass}`}>
-                    <TileContent name={s} i={i} />
-                  </li>
-                ))}
-              </ul>
+              <motion.ul
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+                transition={{ staggerChildren: 0.04 }}
+                className="flex flex-wrap gap-2 md:col-span-9"
+              >
+                {c.skills.map((s) => {
+                  const Logo = LOGOS[s];
+                  return (
+                    <motion.li
+                      key={s}
+                      variants={pill}
+                      className="inline-flex h-9 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] pl-3 pr-3.5 text-sm font-medium tracking-tight"
+                    >
+                      {Logo && <Logo aria-hidden className="h-4 w-4 shrink-0 text-muted" />}
+                      {s}
+                    </motion.li>
+                  );
+                })}
+              </motion.ul>
             </div>
           ))}
         </div>
@@ -256,5 +263,5 @@ function FlowLayout({ animate }: { animate: boolean }) {
 export default function Stack() {
   const reduce = useReducedMotion();
   const wide = useMediaQuery('(min-width: 768px)');
-  return wide && !reduce ? <PinnedScene /> : <FlowLayout animate={!reduce} />;
+  return wide && !reduce ? <PinnedScene /> : <CompactList />;
 }

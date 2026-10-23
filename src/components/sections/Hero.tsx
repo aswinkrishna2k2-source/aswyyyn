@@ -71,7 +71,7 @@ function Greeting({ ready }: { ready: boolean }) {
             <span className="block text-[clamp(1rem,4.4vw,1.5rem)] font-semibold leading-[1.25] tracking-[-0.02em] text-fg">
               Full Stack Developer<span className="text-accent">.</span> UI/UX Designer<span className="text-accent">.</span>
             </span>
-            <span className="story-serif mt-1 block text-[clamp(1.5rem,6.6vw,2.25rem)] leading-[1.05] text-fg">
+            <span className="story-serif mt-1 block text-[clamp(1.125rem,4.8vw,1.625rem)] leading-[1.05] text-fg">
               Engineering for the <span className="text-accent">AI Era.</span>
             </span>
           </motion.span>
