@@ -140,7 +140,7 @@ export function buildEmail(d: EmailData): string {
   const title    = isResume ? '&#128196; Resume Downloaded' : '&#128065; New Portfolio Visit';
   const subtitle = isResume
     ? 'Someone downloaded your resume — strong interest signal.'
-    : 'aswyyyn.vercel.app';
+    : 'aswin.work';
 
   const locationBody = `
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -254,7 +254,7 @@ export function buildEmail(d: EmailData): string {
         <tr>
           <td style="border-top:1px solid ${C.border};padding-top:12px;text-align:center;">
             <span style="font-family:Arial,Helvetica,sans-serif;font-size:10px;color:${C.dim} !important;">
-              aswyyyn.vercel.app &nbsp;&bull;&nbsp; Portfolio Analytics &nbsp;&bull;&nbsp; Auto-generated
+              aswin.work &nbsp;&bull;&nbsp; Portfolio Analytics &nbsp;&bull;&nbsp; Auto-generated
             </span>
           </td>
         </tr>
