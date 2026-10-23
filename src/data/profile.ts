@@ -3,6 +3,9 @@ export const profile = {
   handle: 'aswyyyn',
   role: 'Full-stack & React Native developer',
   location: 'Kollam, Kerala',
+  born: '2002-10-25',
+  /** First role (the Stackup internship) — drives the "N+ years of experience" count */
+  careerStart: '2023-12-01',
   email: 'aswinkrishna2k2@gmail.com',
   resume: { href: '/resume.pdf', fileName: 'Aswin Krishnan — Resume.pdf' },
   company: { name: 'Codeeaq', url: 'https://codeeaq.com/' },
@@ -21,6 +24,15 @@ export const education = [
   { degree: 'Internship in Full Stack Development', school: 'Stackup', period: '2023 – 2024' },
   { degree: 'Bachelor of Arts in English', school: 'Kerala University', period: '2020 – 2023' },
 ];
+
+/** Whole years from an ISO date (YYYY-MM-DD) until today, so age and experience stay current */
+export function yearsSince(iso: string) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const passed = month > m || (month === m && now.getDate() >= d);
+  return now.getFullYear() - y - (passed ? 0 : 1);
+}
 
 export function trackResumeDownload() {
   document.dispatchEvent(new CustomEvent('portfolio:resume-download'));

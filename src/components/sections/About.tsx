@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { profile, yearsSince } from '../../data/profile';
 import { getSection } from '../../data/sections';
 import { parseMarked } from '../../lib/text';
 import { gsap, useScrollScene } from '../../lib/gsap';
@@ -7,7 +8,8 @@ import { gsap, useScrollScene } from '../../lib/gsap';
 // Each entry starts on its own line; *wrapped* words get the ink highlight
 const MANIFESTO = [
   'I *design* it. I *build* it. I *ship* it.',
-  'Modern *web* and *mobile* experiences designed for *people* and built for *performance.*',
+  'Modern *web* and *mobile* experiences designed for people and built for *performance.*',
+  'Driven by pure *passion.*',
 ];
 
 const ROLES = ['Full-stack developer', 'React Native', 'UI/UX designer', 'MERN stack'];
@@ -60,12 +62,22 @@ export default function About() {
     >
       <div className={reduce ? '' : 'sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden px-4 md:px-8'}>
         <div className="m-copy relative z-10 mx-auto w-full max-w-6xl origin-top">
-          <p className="label flex items-center gap-3 text-ink/70">
-            <span className="rounded-full bg-ink px-2.5 py-1 text-accent">{section.no}</span>
-            <span aria-hidden className="h-px w-8 bg-ink/30" />
-            What I do
-          </p>
-          <h2 id="about-title" className="mt-6 text-[clamp(1.9rem,8.2vw,5.4rem)] font-bold leading-[1.04] tracking-[-0.035em]">
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
+            <p className="label flex items-center gap-3 text-ink/70">
+              <span className="rounded-full bg-ink px-2.5 py-1 text-accent">{section.no}</span>
+              <span aria-hidden className="h-px w-8 bg-ink/30" />
+              Who I am &amp; what I do
+            </p>
+            <p className="label text-balance text-ink/70">
+              {yearsSince(profile.born)}-year-old tech enthusiast based in {profile.location}, with{' '}
+              {yearsSince(profile.careerStart)}+ years of experience
+            </p>
+          </div>
+          {/* The size also tracks the viewport height, so short screens keep the statement clear of the roles marquee */}
+          <h2
+            id="about-title"
+            className="mt-6 text-[length:clamp(1.6rem,min(8.2vw,(100svh_-_24rem)/6.24),5.4rem)] font-bold leading-[1.04] tracking-[-0.035em] md:text-[length:clamp(1.9rem,min(8.2vw,(100svh_-_25rem)/5.2),5.4rem)]"
+          >
             {lines.map((words, l) => (
               <span key={l} className="block">
                 {words.map((w, i) => (
