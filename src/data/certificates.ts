@@ -1,8 +1,8 @@
-import aiEngineering from '../assets/certificates/AI Engineering Udemy.png';
-import fullStackBootcamp from '../assets/certificates/Udemy_webdev.png';
-import sslTlsGuide from '../assets/certificates/udemy_ssl.png';
-import entrixInternship from '../assets/certificates/Entrix_certificate.png';
-import stackupInternship from '../assets/certificates/StackUP_.png';
+import aiEngineering from '../assets/certificates/AI Engineering Udemy.webp';
+import fullStackBootcamp from '../assets/certificates/Udemy_webdev.webp';
+import sslTlsGuide from '../assets/certificates/udemy_ssl.webp';
+import entrixInternship from '../assets/certificates/Entrix_certificate.webp';
+import stackupInternship from '../assets/certificates/StackUP_.webp';
 
 export interface Certificate {
   id: number;

@@ -1,5 +1,5 @@
 import servesitesLogo from '../assets/logos/servesites.svg';
-import cresidenceLogo from '../assets/logos/cresidence.png';
+import cresidenceLogo from '../assets/logos/cresidence.webp';
 import ceeqIntro from '../assets/projects/ceeq-ai-assistant/intro-voice.wav';
 
 /** A voice product's persona and a short spoken intro */
@@ -113,6 +113,23 @@ export const featuredProjects: Project[] = [
     liveUrl: 'https://www.codeeaq.com/',
     githubUrl: '#',
     featured: true,
+  },
+  {
+    id: 10,
+    slug: 'cparish',
+    title: 'cParish',
+    tagline: "A parish's records, directory and announcements in one secure app.",
+    client: 'Codeeaq',
+    platform: 'iOS & Android',
+    cover: 'phones',
+    description: 'A parish management app built for Codeeaq. Digitizes member directories, family records, and sacrament registers for Catholic parishes with secure phone-OTP sign-in — available on iOS and Android.',
+    longDescription: 'cParish is a parish management app that brings a Catholic parish\'s member directory, family records, and sacrament registers (Baptism, Confirmation, Marriage, and more) into one secure app, in English and Malayalam. Parish members can view their family\'s membership details, sacrament history, BCC (Basic Christian Community) unit info, and parish announcements. Parish administrators get a complete, organized member and family registry, can manage sacrament records, organize members into BCC units, and send announcements directly to the community — all behind role-based access. Accounts are provisioned by the parish administrator and sign-in happens over secure phone OTP, so member data stays private and visible only to verified parish members, replacing the paper records and scattered spreadsheets many parishes rely on.',
+    tags: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
+    liveUrl: '#',
+    githubUrl: '#',
+    featured: true,
+    appStoreUrl: 'https://apps.apple.com/in/app/cparish/id6781975967',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.codeeaq.parish',
   },
 ];
 
