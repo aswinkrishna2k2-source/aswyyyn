@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading';
+import Testimonials from './Testimonials';
 import { experiences, type Experience } from '../../data/experience';
 import { pad2 } from '../../lib/motion';
 import { gsap, ScrollTrigger, useScrollScene } from '../../lib/gsap';
@@ -138,6 +139,8 @@ export default function Journey() {
           )}
         </div>
       </div>
+
+      <Testimonials />
     </section>
   );
 }
