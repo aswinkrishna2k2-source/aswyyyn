@@ -5,7 +5,7 @@ import SectionHeading from '../ui/SectionHeading';
 import Reveal from '../ui/Reveal';
 import { SOCIAL_ICONS } from '../ui/Links';
 import { profile, socials } from '../../data/profile';
-import { fetchGeo, getDeviceInfo, WEB3FORMS_KEY } from '../../utils/analytics';
+import { fetchGeo, getDeviceInfo, rememberContact, WEB3FORMS_KEY } from '../../utils/analytics';
 import { EASE } from '../../lib/motion';
 import { gsap, useScrollScene } from '../../lib/gsap';
 
@@ -83,6 +83,7 @@ function MessageForm() {
       });
       const data = await res.json();
       if (!data.success) throw new Error('rejected');
+      rememberContact(form.name, form.email);
       setSentTo(form.name.split(' ')[0]);
       setForm({ name: '', email: '', topic: TOPICS[0], message: '' });
       setStatus('sent');
