@@ -5,7 +5,6 @@ import SectionHeading from '../ui/SectionHeading';
 import Reveal from '../ui/Reveal';
 import { SOCIAL_ICONS } from '../ui/Links';
 import { profile, socials } from '../../data/profile';
-import { fetchGeo, getDeviceInfo, rememberContact, WEB3FORMS_KEY } from '../../utils/analytics';
 import { EASE } from '../../lib/motion';
 import { gsap, useScrollScene } from '../../lib/gsap';
 
@@ -56,6 +55,8 @@ function MessageForm() {
     e.preventDefault();
     setStatus('sending');
     try {
+      // Loaded on demand with the visit tracking (it's usually here by the time anyone hits send)
+      const { fetchGeo, getDeviceInfo, rememberContact, WEB3FORMS_KEY } = await import('../../utils/analytics');
       const [geo, device] = await Promise.all([fetchGeo(), Promise.resolve(getDeviceInfo())]);
       const context = [
         '',

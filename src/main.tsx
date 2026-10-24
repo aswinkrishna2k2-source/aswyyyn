@@ -5,6 +5,7 @@ import { MotionConfig } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import App from './App.tsx'
 import ProjectDetail from './pages/ProjectDetail.tsx'
+import NotFound from './pages/NotFound.tsx'
 import { useVisitorTracking } from './hooks/useVisitorTracking'
 import { startSmoothScroll } from './lib/smoothScroll'
 import './index.css'
@@ -18,6 +19,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/projects/:slug" element={<ProjectDetail />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

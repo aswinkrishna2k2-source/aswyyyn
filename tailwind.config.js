@@ -7,7 +7,6 @@ export default {
         sans: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-        hero: ['Sora', 'system-ui', 'sans-serif'],
       },
       colors: {
         ink: {

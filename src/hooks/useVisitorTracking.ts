@@ -1,26 +1,32 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-  fetchGeo,
-  getDeviceInfo,
-  refineDeviceInfo,
-  getConnection,
-  getVisitTime,
-  getTrafficSource,
-  getLinkTag,
-  clearLinkTag,
-  getKnownContact,
-  buildEmail,
-  emailSubject,
-  sendAnalyticsEmail,
-  type EmailData,
-} from '../utils/analytics';
+import type { EmailData, Geo } from '../utils/analytics';
 import { readStorage, writeStorage } from '../lib/storage';
 import { sections } from '../data/sections';
 import { getProjectBySlug } from '../data/projects';
 
-// Read once at load, before anything tidies the address bar
-const LINK_TAG = getLinkTag();
+type Analytics = typeof import('../utils/analytics');
+type Device = ReturnType<Analytics['getDeviceInfo']>;
+
+const TAG_PARAMS = ['ref', 'utm_source', 'utm_medium', 'utm_campaign'];
+
+/**
+ * The tag on a personal link (aswin.work/?ref=rahul, or a utm_source), so a visit can be traced to the
+ * person or place the link was given to. Instagram never says which account tapped a link, so this is
+ * how you tell your bio link from a DM or a story. Read once at load, before the address bar is tidied.
+ */
+const LINK_TAG = (() => {
+  const params = new URLSearchParams(window.location.search);
+  return (params.get('ref') ?? params.get('utm_source') ?? '').trim().slice(0, 60);
+})();
+
+/** Drops the tag from the address bar, so a link they copy and pass on doesn't carry it */
+function clearLinkTag() {
+  const url = new URL(window.location.href);
+  if (!TAG_PARAMS.some((p) => url.searchParams.has(p))) return;
+  TAG_PARAMS.forEach((p) => url.searchParams.delete(p));
+  window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+}
 
 /** What the visitor did on this page load */
 interface Activity {
@@ -54,18 +60,20 @@ export function useVisitorTracking() {
     clearLinkTag();
     if (readStorage('session', '_vt')) return;
 
-    const a          = activity.current;
-    const visitTime  = getVisitTime();
-    const device     = getDeviceInfo();
-    const source     = getTrafficSource();
-    const connection = getConnection();
-    let   sent       = false; // delivered
-    let   sending    = false; // a request is in flight
-    let   geo: Record<string, string> = {};
+    const a         = activity.current;
+    const startedAt = new Date();
+    let   sent      = false; // delivered
+    let   sending   = false; // a request is in flight
+    let   geo: Geo  = {};
 
-    // Pre-fetch geo and the exact device model so they're ready when the user leaves
-    fetchGeo().then(g => { geo = g; });
-    refineDeviceInfo(device);
+    // The tracking code (user-agent parsing, the email builder) loads once the page is up instead of
+    // holding up the first render; geo and the exact device model are fetched as soon as it arrives
+    const ready = import('../utils/analytics').then((m) => {
+      const device = m.getDeviceInfo();
+      m.fetchGeo().then(g => { geo = g; });
+      m.refineDeviceInfo(device);
+      return { m, device };
+    });
 
     // Return visitor detection: a stable ID, how many visits from this browser, and when the last one was
     let visitorId = readStorage('local', '_vid');
@@ -99,26 +107,26 @@ export function useVisitorTracking() {
       a.scrollDepth = Math.max(a.scrollDepth, Math.min(100, Math.round(depth)));
     }, 1000);
 
-    const collect = (type: EmailData['type']): EmailData => ({
+    const collect = (m: Analytics, device: Device, type: EmailData['type']): EmailData => ({
       type,
-      visitTime:    type === 'resume' ? getVisitTime() : visitTime,
+      visitTime:      m.getVisitTime(type === 'resume' ? new Date() : startedAt),
       geo,
       ...device,
-      screen:       `${window.screen.width} × ${window.screen.height}`,
-      viewport:     `${window.innerWidth} × ${window.innerHeight}`,
-      language:     navigator.language,
-      connection,
-      source,
+      screen:         `${window.screen.width} × ${window.screen.height}`,
+      viewport:       `${window.innerWidth} × ${window.innerHeight}`,
+      language:       navigator.language,
+      connection:     m.getConnection(),
+      source:         m.getTrafficSource(),
       linkTag:        linkTag || undefined,
       linkTagEarlier: !LINK_TAG && !!earlierTag,
-      contact:      getKnownContact(),
+      contact:        m.getKnownContact(),
       visitorId,
       visitCount,
       lastVisit,
-      timeOnSite:   secondsSince(a.start),
-      sectionTimes: sections.map(({ label }) => ({ label, seconds: a.seconds[label] ?? 0 })),
-      scrollDepth:  a.scrollDepth,
-      journey:      [...a.journey],
+      timeOnSite:     secondsSince(a.start),
+      sectionTimes:   sections.map(({ label }) => ({ label, seconds: a.seconds[label] ?? 0 })),
+      scrollDepth:    a.scrollDepth,
+      journey:        [...a.journey],
     });
 
     // One visit email per session. It only counts once EmailJS accepts it: a failed send (network blip,
@@ -126,8 +134,11 @@ export function useVisitorTracking() {
     const sendVisit = () => {
       if (sent || sending) return;
       sending = true;
-      const data = collect('visit');
-      sendAnalyticsEmail(emailSubject(data), buildEmail(data))
+      ready
+        .then(({ m, device }) => {
+          const data = collect(m, device, 'visit');
+          return m.sendAnalyticsEmail(m.emailSubject(data), m.buildEmail(data));
+        })
         .then(() => {
           sent = true;
           writeStorage('session', '_vt', '1');
@@ -149,11 +160,15 @@ export function useVisitorTracking() {
     window.addEventListener('pagehide', sendVisit);
 
     // Resume download tracking: its own email, and a step in the visit's journey
-    const handleResumeDownload = async () => {
+    const handleResumeDownload = () => {
       a.journey.push({ at: secondsSince(a.start), label: 'Downloaded resume' });
-      geo = await fetchGeo();
-      const data = collect('resume');
-      sendAnalyticsEmail(emailSubject(data), buildEmail(data)).catch(() => {});
+      ready
+        .then(async ({ m, device }) => {
+          geo = await m.fetchGeo();
+          const data = collect(m, device, 'resume');
+          await m.sendAnalyticsEmail(m.emailSubject(data), m.buildEmail(data));
+        })
+        .catch(() => {});
     };
 
     document.addEventListener('portfolio:resume-download', handleResumeDownload);

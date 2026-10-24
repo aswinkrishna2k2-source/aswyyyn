@@ -114,8 +114,7 @@ export function getConnection(): string {
 }
 
 // ── Formatted visit time (IST) ───────────────────────────────────────────────
-export function getVisitTime(): string {
-  const now = new Date();
+export function getVisitTime(now = new Date()): string {
   const timeZone = 'Asia/Kolkata';
   const date = now.toLocaleDateString('en-GB', { timeZone, weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
   const time = now.toLocaleTimeString('en-IN', { timeZone, hour: 'numeric', minute: '2-digit' });
@@ -134,26 +133,6 @@ const REFERRERS: [RegExp, string][] = [
   [/(^|\.)bing\.com$/, 'Bing'],
   [/(^|\.)duckduckgo\.com$/, 'DuckDuckGo'],
 ];
-
-const TAG_PARAMS = ['ref', 'utm_source', 'utm_medium', 'utm_campaign'];
-
-/**
- * The tag on a personal link (aswin.work/?ref=rahul, or a utm_source), so a visit can be traced to the
- * person or place the link was given to. Instagram never says which account tapped a link, so this is
- * how you tell your bio link from a DM or a story.
- */
-export function getLinkTag(): string {
-  const params = new URLSearchParams(window.location.search);
-  return (params.get('ref') ?? params.get('utm_source') ?? '').trim().slice(0, 60);
-}
-
-/** Drops the tag from the address bar, so a link they copy and pass on doesn't carry it */
-export function clearLinkTag() {
-  const url = new URL(window.location.href);
-  if (!TAG_PARAMS.some((p) => url.searchParams.has(p))) return;
-  TAG_PARAMS.forEach((p) => url.searchParams.delete(p));
-  window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
-}
 
 /** Where the visitor came from: an in-app browser, or the referring site */
 export function getTrafficSource(): string {
