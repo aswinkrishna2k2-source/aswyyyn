@@ -131,6 +131,20 @@ export const featuredProjects: Project[] = [
     appStoreUrl: 'https://apps.apple.com/in/app/cparish/id6781975967',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=com.codeeaq.parish',
   },
+  {
+    id: 13,
+    slug: 'school-bus-allocation',
+    title: 'School Bus Auto Allocation',
+    tagline: 'Every student seated on the right bus automatically, and every bus tracked live.',
+    client: 'Codeeaq',
+    platform: 'Open-source module',
+    description: 'An open-source school bus allocation feature built for Codeeaq that plugs into any school management system. Parents request a seat from the parent app, and each student is automatically placed on the bus whose route passes closest to home, with a pickup stop and time, or waitlisted with a clear reason. Live bus tracking shows every bus moving along its route on the map.',
+    longDescription: 'School Bus Auto Allocation is an open-source transport feature built for Codeeaq, designed to be integrated into any school management system rather than tied to one. Parents request a bus seat from the parent app, and the system seats each student on the bus whose road route passes closest to their home, with a pickup point near a familiar landmark, a pickup time, and a walk that stays inside an 800 m limit (200 m on average). When the nearby buses are full or a home sits outside every route, the student is waitlisted with the exact reason, such as "Bus 04 full: add seats or a bus" or "No route within 800 m (closest 7.1 km)", and the waitlist is ordered by who has waited longest. Admins see the whole fleet at a glance: each bus with its registration, driver, seats filled, stops, route distance and arrival window, on a route map where every student\'s home is a dot coloured by the bus they ride and any route can be edited with a click. Adding seats or a bus seats waitlisted students immediately, and their parents see it in the parent app. The same map doubles as live bus tracking: each bus is a numbered bus marker that moves along its route line in real time, so it\'s always clear where every bus is. A searchable student table filters by assigned, waitlisted or bus, and any automatic assignment can be overridden by hand.',
+    tags: ['React', 'Leaflet', 'OpenStreetMap'],
+    liveUrl: '#',
+    githubUrl: '#',
+    featured: true,
+  },
 ];
 
 export const otherProjects: Project[] = [
