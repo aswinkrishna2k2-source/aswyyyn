@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { FiMaximize2 } from 'react-icons/fi';
+import { FiDownload, FiMaximize2 } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading';
 import Lightbox from '../ui/Lightbox';
+import { ResumeLink } from '../ui/Links';
+import Reveal from '../ui/Reveal';
 import { certificates } from '../../data/certificates';
 import { education } from '../../data/profile';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -224,6 +226,12 @@ export default function Education() {
               </motion.li>
             ))}
           </ol>
+
+          <Reveal className="mt-8">
+            <ResumeLink className="btn btn-primary">
+              <FiDownload aria-hidden /> Download resume
+            </ResumeLink>
+          </Reveal>
 
           <div className="mt-16 flex items-end justify-between gap-4 md:mt-24">
             <h3 className="text-3xl font-bold tracking-tight md:text-5xl">

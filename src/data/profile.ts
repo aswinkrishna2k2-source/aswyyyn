@@ -7,7 +7,7 @@ export const profile = {
   /** First role (the Stackup internship) — drives the "N+ years of experience" count */
   careerStart: '2023-12-01',
   email: 'aswinkrishna2k2@gmail.com',
-  resume: { href: '/resume.pdf', fileName: 'Aswin Krishnan — Resume.pdf' },
+  resume: { href: '/resume.pdf', fileName: 'Aswin_Krishnan_Resume.pdf' },
   company: { name: 'Codeeaq', url: 'https://codeeaq.com/' },
 };
 
