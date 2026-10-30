@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { FiArrowUpRight, FiPause, FiPlay } from 'react-icons/fi';
@@ -16,17 +16,28 @@ interface StackCardProps {
   total: number;
   progress: MotionValue<number>;
   reduce: boolean;
+  /** Which card is on top of the pile right now */
+  front: number;
 }
 
 /** Cards pin under the header and pile up; earlier ones shrink back as new ones land on top. */
-function StackCard({ project, i, total, progress, reduce }: StackCardProps) {
+function StackCard({ project, i, total, progress, reduce, front }: StackCardProps) {
   const buried = total - 1 - i; // how many cards will land on top of this one
   const range = [i / total, 1];
   const scale = useTransform(progress, range, [1, 1 - buried * 0.05]);
-  const rotateX = useTransform(progress, range, [0, buried * 5]);
+  // stays flat until another card has landed on it: browsers blur anything drifting inside a 3D-tilted card
+  const landedOn = i < front;
+  const tiltFrom = useRef<number | null>(null);
+  if (!landedOn) tiltFrom.current = null;
+  else if (tiltFrom.current === null) tiltFrom.current = progress.get();
+  const rotateX = useTransform(progress, (p) => {
+    const from = tiltFrom.current;
+    return from === null || from >= 1 ? 0 : (Math.max(0, p - from) / (1 - from)) * buried * 5;
+  });
   const dim = useTransform(progress, range, [0, buried * 0.2]);
   const holderRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: arrival } = useScroll({ target: holderRef, offset: ['start end', 'start start'] });
+  // settled once it reaches where it pins (the sticky top below), not the top of the screen, so it comes to rest straight
+  const { scrollYProgress: arrival } = useScroll({ target: holderRef, offset: ['start end', `start ${88 + i * 14}px`] });
   const zoom = useTransform(arrival, [0, 1], [1.35, 1]);
   const lift = useTransform(arrival, [0, 1], [8, 0]);
   const links = getProjectLinks(project);
@@ -50,7 +61,7 @@ function StackCard({ project, i, total, progress, reduce }: StackCardProps) {
           className="block h-[clamp(150px,28svh,300px)] overflow-hidden md:order-2 md:col-span-7 md:h-[min(460px,62svh)]"
         >
           <motion.div style={{ scale: reduce ? 1 : zoom }} className="h-full w-full">
-            <ProjectCover project={project} clip={clip} className="h-full w-full" />
+            <ProjectCover project={project} moving={i === front} className="h-full w-full" />
           </motion.div>
         </Link>
 
@@ -169,6 +180,26 @@ export default function Work() {
   const stackRef = useRef<HTMLDivElement>(null);
   const reduce = !!useReducedMotion();
   const { scrollYProgress } = useScroll({ target: stackRef, offset: ['start start', 'end end'] });
+  const [front, setFront] = useState(0);
+
+  // the top card is the last one to have reached a line across the screen; cards stay on the line once pinned
+  useEffect(() => {
+    const cards = [...(stackRef.current?.children ?? [])];
+    const reached = new Set<number>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const i = cards.indexOf(entry.target);
+          if (entry.isIntersecting) reached.add(i);
+          else reached.delete(i);
+        });
+        setFront(Math.max(0, ...reached));
+      },
+      { rootMargin: '-40% 0px -60% 0px' },
+    );
+    cards.forEach((card) => io.observe(card));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section id="work" aria-labelledby="work-title" className="px-4 pb-16 pt-20 md:px-8 md:pb-20 md:pt-28">
@@ -188,6 +219,7 @@ export default function Work() {
               total={featuredProjects.length}
               progress={scrollYProgress}
               reduce={reduce}
+              front={front}
             />
           ))}
         </div>

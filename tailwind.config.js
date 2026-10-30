@@ -40,6 +40,10 @@ export default {
           '0%': { transform: 'scale(1)', opacity: '0.7' },
           '100%': { transform: 'scale(2.6)', opacity: '0' },
         },
+        'wall-drift': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-50%)' },
+        },
       },
       animation: {
         'spin-slow': 'spin-slow 18s linear infinite',
@@ -48,6 +52,7 @@ export default {
         'scroll-hint': 'scroll-hint 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite',
         nudge: 'nudge 2.2s ease-in-out infinite',
         'voice-ring': 'voice-ring 2.1s cubic-bezier(0.22, 1, 0.36, 1) infinite',
+        'wall-drift': 'wall-drift 60s linear infinite',
       },
     },
   },

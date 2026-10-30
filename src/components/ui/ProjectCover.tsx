@@ -1,8 +1,8 @@
+import { useRef } from 'react';
+import { useInView } from 'framer-motion';
 import type { Project } from '../../data/projects';
-import { getProjectGallery } from '../../utils/projectGallery';
+import { getProjectThumbs } from '../../utils/projectGallery';
 import { getCover } from '../../lib/projects';
-import type { VoiceClip } from '../../hooks/useVoiceClip';
-import VoiceStage from './VoiceStage';
 
 /** Three portrait app screenshots fanned out like cards in a hand. */
 export function PhoneFan({ images, className = '' }: { images: string[]; className?: string }) {
@@ -18,14 +18,75 @@ export function PhoneFan({ images, className = '' }: { images: string[]; classNa
   );
 }
 
-/** The visual for a project: fanned phones, a screenshot, a logo, or a monogram fallback. */
-export default function ProjectCover({ project, className = '', clip }: { project: Project; className?: string; clip?: VoiceClip }) {
-  if (project.cover === 'voice' && project.voice) {
-    return <VoiceStage voice={project.voice} images={getProjectGallery(project.slug)} clip={clip} className={className} />;
-  }
+/** Narrower screens fit more columns. `perScreen` is seconds per screenshot, which keeps the drift the same speed; `fill` is the fewest a column can hold and still loop without a gap. */
+function wallLayout(ratio: number) {
+  if (ratio < 0.7) return { columns: 4, perScreen: 16, fill: 3 };
+  if (ratio < 1.2) return { columns: 3, perScreen: 13, fill: 3 };
+  return { columns: 2, perScreen: 8, fill: 6 };
+}
 
-  if (project.cover === 'phones') {
-    return <PhoneFan images={getProjectGallery(project.slug).slice(0, 3)} className={className} />;
+/** Deals the screenshots out into columns, topping up short ones with the images that come next. */
+function dealColumns(images: string[], columns: number, fill: number) {
+  return Array.from({ length: columns }, (_, c) => {
+    const column = images.filter((_, i) => i % columns === c);
+    let next = images.indexOf(column[column.length - 1]) + 1;
+    while (column.length < fill) column.push(images[next++ % images.length]);
+    return column;
+  });
+}
+
+/**
+ * Every screenshot of a project on a slowly drifting, slightly tilted wall. Neighbouring columns run in
+ * opposite directions. It stops under the mouse, and while `moving` is off or the wall is off screen.
+ */
+function ScreenWall({ images, ratio, moving, className = '' }: { images: string[]; ratio: number; moving: boolean; className?: string }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const onScreen = useInView(rootRef);
+  const { columns, perScreen, fill } = wallLayout(ratio);
+  const fit = ratio < 1 ? 'object-top' : 'object-left-top';
+
+  return (
+    <div ref={rootRef} className={`group/wall relative overflow-hidden bg-ink-deep ${className}`}>
+      <div className="absolute -inset-x-[8%] -inset-y-[20%] flex -rotate-6 gap-2 md:gap-3">
+        {dealColumns(images, Math.min(columns, images.length), fill).map((column, c) => (
+          <div
+            key={c}
+            className="min-w-0 flex-1 animate-wall-drift self-start group-hover/wall:[animation-play-state:paused] motion-reduce:animate-none"
+            style={{
+              animationDuration: `${column.length * perScreen * (1 + c * 0.12)}s`,
+              animationDelay: `${-c * 2.5}s`,
+              animationDirection: c % 2 ? 'reverse' : 'normal',
+              animationPlayState: moving && onScreen ? undefined : 'paused',
+            }}
+          >
+            {/* two copies, so the column can loop on itself at -50% */}
+            {[...column, ...column].map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+                className={`mb-2 w-full rounded-lg border border-white/10 object-cover md:mb-3 md:rounded-xl ${fit}`}
+                style={{ aspectRatio: String(ratio) }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      {/* a pixel past the edges, so a bright screenshot can't show as a thin line once the card is scaled */}
+      <span aria-hidden className="pointer-events-none absolute -inset-x-px -top-px h-[14%] bg-gradient-to-b from-ink-deep to-transparent" />
+      <span aria-hidden className="pointer-events-none absolute -inset-x-px -bottom-px h-[14%] bg-gradient-to-t from-ink-deep to-transparent" />
+    </div>
+  );
+}
+
+/** The visual for a project: a wall of its screenshots, a logo, or a monogram fallback. */
+export default function ProjectCover({ project, className = '', moving = true }: { project: Project; className?: string; moving?: boolean }) {
+  const screens = getProjectThumbs(project.slug);
+  if (screens.length > 1) {
+    return <ScreenWall images={screens} ratio={project.screenRatio ?? (project.cover === 'phones' ? 0.46 : 1.9)} moving={moving} className={className} />;
   }
 
   const cover = getCover(project);

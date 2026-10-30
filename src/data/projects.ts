@@ -23,8 +23,10 @@ export interface Project {
   /** Who it was built for — omitted for personal builds */
   client?: string;
   platform: string;
-  /** 'phones': portrait screenshots as a fanned trio. 'voice': the assistant's screens on a live voice stage. */
+  /** 'phones': portrait app screenshots. 'voice': the assistant's screens on a live voice stage on its project page. */
   cover?: 'phones' | 'voice';
+  /** Width over height of the screenshots, when it isn't the usual tall phone or wide desktop shape */
+  screenRatio?: number;
   voice?: ProjectVoice;
   liveUrl: string;
   githubUrl?: string;
@@ -106,6 +108,7 @@ export const featuredProjects: Project[] = [
     client: 'Codeeaq',
     platform: 'Website plugin',
     cover: 'voice',
+    screenRatio: 0.9,
     voice: { name: 'Ceeq', intro: ceeqIntro, label: 'Hear Ceeq introduce herself' },
     description: 'A real-time AI voice assistant built for Codeeaq that plugs into any website. It talks to visitors in their own language, points them to the right page, and captures qualified leads for the team. Live on codeeaq.com.',
     longDescription: 'Ceeq is a voice assistant that drops into any website as a floating button and voice panel, and you can talk to her live on codeeaq.com. Visitors tap the mic and have a natural, spoken conversation: she answers from the business\'s own knowledge, switches language the moment they do, and stops to listen if they interrupt. Instead of reading out web addresses, she shows clickable cards that take visitors straight to the right page. When someone is interested, she collects their name, email, phone, WhatsApp, preferred callback time and requirement one question at a time, reads the details back, checks the email and phone format, and submits a verified lead to the team. She\'s trained on the business\'s own products, services and tone, and works inside web and mobile apps alike.',
@@ -122,6 +125,7 @@ export const featuredProjects: Project[] = [
     client: 'Codeeaq',
     platform: 'iOS & Android',
     cover: 'phones',
+    screenRatio: 0.8,
     description: 'A parish management app built for Codeeaq. Digitizes member directories, family records, and sacrament registers for Catholic parishes with secure phone-OTP sign-in — available on iOS and Android.',
     longDescription: 'cParish is a parish management app that brings a Catholic parish\'s member directory, family records, and sacrament registers (Baptism, Confirmation, Marriage, and more) into one secure app, in English and Malayalam. Parish members can view their family\'s membership details, sacrament history, BCC (Basic Christian Community) unit info, and parish announcements. Parish administrators get a complete, organized member and family registry, can manage sacrament records, organize members into BCC units, and send announcements directly to the community — all behind role-based access. Accounts are provisioned by the parish administrator and sign-in happens over secure phone OTP, so member data stays private and visible only to verified parish members, replacing the paper records and scattered spreadsheets many parishes rely on.',
     tags: ['React Native', 'Node.js', 'MongoDB', 'Expo'],
